@@ -65,6 +65,34 @@ window.firebaseAuth = {
 
 // Check if user is already signed in
 firebaseAuth.onAuthStateChanged((user) => {
+  // Protect Firebase elements from Next.js overwrites
+  const protectFirebaseElements = () => {
+    // Re-attach event listeners if elements were overwritten
+    const forms = document.querySelectorAll('[data-firebase-form="true"]');
+    const inputs = document.querySelectorAll('[data-firebase-input="true"]');
+    const buttons = document.querySelectorAll('[data-firebase-button="true"]');
+    const logoutBtn = document.querySelector('[data-firebase-logout="true"]');
+    
+    // Ensure elements have proper IDs and event listeners
+    if (forms.length > 0) {
+      forms.forEach(form => {
+        if (!form.hasAttribute('data-firebase-protected')) {
+          form.setAttribute('data-firebase-protected', 'true');
+        }
+      });
+    }
+    
+    if (logoutBtn && !logoutBtn.hasAttribute('data-firebase-protected')) {
+      logoutBtn.setAttribute('data-firebase-protected', 'true');
+    }
+  };
+  
+  // Run protection immediately
+  protectFirebaseElements();
+  
+  // Run protection again after a short delay to catch any late overwrites
+  setTimeout(protectFirebaseElements, 100);
+  
   if (user) {
     // User is signed in, redirect to dashboard
     if (window.location.pathname.includes('signin.html') || window.location.pathname.includes('signup.html')) {

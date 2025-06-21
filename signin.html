@@ -32,13 +32,14 @@
             <h2 class="text-center text-3xl sm:text-4xl font-semibold">Sign In</h2><!--$-->
             <div class="mt-6">
                 <div class="py-8">
-                    <form id="signinForm">
+                    <!-- Firebase Form - Protected from Next.js overwrite -->
+                    <form id="signinForm" data-firebase-form="true" data-nextjs-protected="true">
                         <span class="text-sm text-secondary">Email</span>
                         <div class="mt-2.5 mb-3 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
                             <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                 <div
                                     class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-                                    <input type="email" id="email" placeholder="Enter email" class="w-full" required></div>
+                                    <input type="email" id="email" data-firebase-input="true" placeholder="Enter email" class="w-full" required></div>
                             </div>
                         </div>
                         <span class="text-sm text-secondary">Password</span>
@@ -46,11 +47,11 @@
                             <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                 <div
                                     class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-                                    <input type="password" id="password" placeholder="Enter password" class="w-full" required></div>
+                                    <input type="password" id="password" data-firebase-input="true" placeholder="Enter password" class="w-full" required></div>
                             </div>
                         </div>
-                        <div id="errorMessage" class="text-pink-500 text-sm mt-2 hidden"></div>
-                        <button type="submit"
+                        <div id="errorMessage" data-firebase-error="true" class="text-pink-500 text-sm mt-2 hidden"></div>
+                        <button type="submit" data-firebase-button="true"
                             class="bg-gradient-to-br from-[#FF0040] to-[#6C001B] p-px shadow-main w-full h-[50px] mt-9 active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                             <div class="inline"><span
                                     class="bg-gd-red text-[22px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Login</span>
@@ -122,50 +123,66 @@
     <!-- Firebase Authentication Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const signinForm = document.getElementById('signinForm');
-            const errorMessage = document.getElementById('errorMessage');
+            // Function to get protected elements
+            const getProtectedElement = (selector) => {
+                return document.querySelector(`[data-firebase-form="true"] ${selector}`) || 
+                       document.querySelector(selector);
+            };
             
-            signinForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                
-                // Show loading state
-                const submitButton = signinForm.querySelector('button[type="submit"]');
-                const originalText = submitButton.querySelector('span').textContent;
-                submitButton.querySelector('span').textContent = 'Signing in...';
-                submitButton.disabled = true;
-                
-                // Hide previous error message
-                errorMessage.classList.add('hidden');
-                
-                try {
-                    // Wait for Firebase to be loaded
-                    while (!window.firebaseAuth) {
-                        await new Promise(resolve => setTimeout(resolve, 100));
+            const signinForm = getProtectedElement('#signinForm');
+            const errorMessage = getProtectedElement('#errorMessage');
+            
+            if (signinForm) {
+                signinForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const email = getProtectedElement('#email').value;
+                    const password = getProtectedElement('#password').value;
+                    
+                    // Show loading state
+                    const submitButton = signinForm.querySelector('button[type="submit"]');
+                    const originalText = submitButton.querySelector('span').textContent;
+                    submitButton.querySelector('span').textContent = 'Signing in...';
+                    submitButton.disabled = true;
+                    
+                    // Hide previous error message
+                    if (errorMessage) {
+                        errorMessage.classList.add('hidden');
                     }
                     
-                    const result = await window.firebaseAuth.signIn(email, password);
-                    
-                    if (result.success) {
-                        // Success - redirect will be handled by auth state listener
-                        console.log('Sign in successful:', result.user.email);
-                    } else {
-                        // Show error message
-                        errorMessage.textContent = result.error;
-                        errorMessage.classList.remove('hidden');
+                    try {
+                        // Wait for Firebase to be loaded
+                        while (!window.firebaseAuth) {
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                        }
+                        
+                        const result = await window.firebaseAuth.signIn(email, password);
+                        
+                        if (result.success) {
+                            // Success - redirect will be handled by auth state listener
+                            console.log('Sign in successful:', result.user.email);
+                        } else {
+                            // Show error message
+                            if (errorMessage) {
+                                errorMessage.textContent = result.error;
+                                errorMessage.classList.remove('hidden');
+                            }
+                        }
+                    } catch (error) {
+                        if (errorMessage) {
+                            errorMessage.textContent = 'An unexpected error occurred. Please try again.';
+                            errorMessage.classList.remove('hidden');
+                        }
+                        console.error('Sign in error:', error);
+                    } finally {
+                        // Reset button state
+                        if (submitButton) {
+                            submitButton.querySelector('span').textContent = originalText;
+                            submitButton.disabled = false;
+                        }
                     }
-                } catch (error) {
-                    errorMessage.textContent = 'An unexpected error occurred. Please try again.';
-                    errorMessage.classList.remove('hidden');
-                    console.error('Sign in error:', error);
-                } finally {
-                    // Reset button state
-                    submitButton.querySelector('span').textContent = originalText;
-                    submitButton.disabled = false;
-                }
-            });
+                });
+            }
         });
     </script>
 </body>

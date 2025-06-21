@@ -1283,72 +1283,7 @@
               }
             }
           };
-        return (0, a.jsxs)("aside", {
-          className: "min-w-[140px] bg-gd-main shadow-main",
-          children: [
-            (0, a.jsx)(l.default, {
-              href: "/",
-              children: (0, a.jsx)(s.f, {
-                src: c,
-                alt: "logo",
-                className: "mx-auto mt-4 w-[98px]",
-              }),
-            }),
-            (0, a.jsx)("div", {
-              className: "mt-4 h-px bg-gd-divider opacity-[32%]",
-            }),
-            (0, a.jsx)("p", {
-              className:
-                "ml-4 mt-5 text-[11px] leading-none tracking-wider text-[#ffffff51]",
-              children: "MAIN",
-            }),
-            (0, a.jsxs)("nav", {
-              className:
-                "item-center mt-6 flex flex-col items-center justify-center gap-7",
-              children: [
-                o.A8.slice(0, 5).map((e, t) =>
-                  (0, a.jsxs)(
-                    r.Fragment,
-                    {
-                      children: [
-                        (0, a.jsx)(h, { ...e }),
-                        3 === t &&
-                          (0, a.jsx)("div", {
-                            className:
-                              "mb-3 mt-5 h-px w-full bg-gd-divider opacity-[32%]",
-                          }),
-                      ],
-                    },
-                    e.href
-                  )
-                ),
-                (0, a.jsxs)(
-                  l.default,
-                  {
-                    href: "signin.html",
-                    className: "mt-[120px] flex flex-col items-center gap-4",
-                    children: [
-                      (0, a.jsx)(p.op, {
-                        variant: "inside-red",
-                        classNameWrapper: "w-[50px] h-[50px]",
-                        children: (0, a.jsx)(i.LogOut, {
-                          onClick: d,
-                          className: "min-h-6 min-w-6 opacity-100",
-                        }),
-                      }),
-                      (0, a.jsx)("p", {
-                        className:
-                          "text-center text-[11px] leading-none tracking-wider opacity-55",
-                        children: "Log Out",
-                      }),
-                    ],
-                  },
-                  "Log Out"
-                ),
-              ],
-            }),
-          ],
-        });
+        
       };
     },
     9326: function (e, t, n) {

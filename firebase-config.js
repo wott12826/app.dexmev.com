@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -46,6 +46,46 @@ window.firebaseAuth = {
   signOut: async () => {
     try {
       await signOut(auth);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Update email
+  updateEmail: async (newEmail, currentPassword) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        return { success: false, error: "No user is currently signed in" };
+      }
+
+      // Re-authenticate user before updating email
+      const credential = EmailAuthProvider.credential(user.email, currentPassword);
+      await reauthenticateWithCredential(user, credential);
+      
+      // Update email
+      await updateEmail(user, newEmail);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Update password
+  updatePassword: async (newPassword, currentPassword) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        return { success: false, error: "No user is currently signed in" };
+      }
+
+      // Re-authenticate user before updating password
+      const credential = EmailAuthProvider.credential(user.email, currentPassword);
+      await reauthenticateWithCredential(user, credential);
+      
+      // Update password
+      await updatePassword(user, newPassword);
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };

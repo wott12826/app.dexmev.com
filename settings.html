@@ -173,7 +173,7 @@
                                     width="1em" height="1em" fill="none" viewbox="0 0 11 13"
                                     class="ml-3 min-h-4 min-w-4">
                                     <path fill="#fff"
-                                        d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.134.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
+                                        d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
                                     </path>
                                 </svg>
                             </div>
@@ -193,30 +193,117 @@
                                 <div class="mt-2.5 h-[50px] w-[70%] neumorphism-border-1 rounded-md p-px overflow-hidden">
                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                         <div class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-                                            <input id="userEmail" class="w-full" type="email" value="" readonly>
+                                            <input id="userEmail" class="w-full bg-transparent text-white" type="email" value="" readonly>
                                         </div>
                                     </div>
                                 </div>
-                                <button disabled class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[30%] mt-2.5 h-[50px] active:!scale-[99%] disabled:cursor-not-allowed relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                <button id="changeEmailBtn" class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[30%] mt-2.5 h-[50px] active:!scale-[99%] disabled:cursor-not-allowed relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                     <div class="inline">
                                         <span class="bg-dark text-[16px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Change email</span>
                                     </div>
                                 </button>
                             </div>
+                            
+                            <!-- Email change modal -->
+                            <div id="emailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+                                <div class="bg-gd-main rounded-[18px] p-[1px] shadow-main border border-gd-border-main max-w-md w-full mx-4">
+                                    <div class="rounded-[17px] bg-gd-main p-6">
+                                        <h3 class="text-xl font-semibold mb-4">Change Email</h3>
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label class="text-sm text-secondary">New Email</label>
+                                                <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                    <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                        <input id="newEmailInput" type="email" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="text-sm text-secondary">Current Password</label>
+                                                <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                    <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                        <input id="emailPasswordInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-3 mt-6">
+                                            <button id="saveEmailBtn" class="bg-gradient-to-br from-[#14F195] to-[#005330ca] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                <div class="inline">
+                                                    <span class="bg-gd-main text-green flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Save</span>
+                                                </div>
+                                            </button>
+                                            <button id="cancelEmailBtn" class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                <div class="inline">
+                                                    <span class="bg-dark text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Cancel</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <span class="text-sm text-secondary">Password</span>
                             <div class="flex flex-row gap-5">
                                 <div class="mt-2.5 h-[50px] w-[70%] neumorphism-border-1 rounded-md p-px overflow-hidden">
                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                         <div class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-                                            <input id="userPassword" class="w-full" type="text" value="********" readonly>
+                                            <input id="userPassword" class="w-full bg-transparent text-white" type="text" value="********" readonly>
                                         </div>
                                     </div>
                                 </div>
-                                <button disabled class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[30%] mt-2.5 h-[50px] active:!scale-[99%] disabled:cursor-not-allowed relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                <button id="changePasswordBtn" class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[30%] mt-2.5 h-[50px] active:!scale-[99%] disabled:cursor-not-allowed relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                     <div class="inline">
                                         <span class="bg-dark text-[16px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Change password</span>
                                     </div>
                                 </button>
+                            </div>
+                            
+                            <!-- Password change modal -->
+                            <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+                                <div class="bg-gd-main rounded-[18px] p-[1px] shadow-main border border-gd-border-main max-w-md w-full mx-4">
+                                    <div class="rounded-[17px] bg-gd-main p-6">
+                                        <h3 class="text-xl font-semibold mb-4">Change Password</h3>
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label class="text-sm text-secondary">New Password</label>
+                                                <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                    <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                        <input id="newPasswordInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="text-sm text-secondary">Confirm New Password</label>
+                                                <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                    <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                        <input id="confirmPasswordInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="text-sm text-secondary">Current Password</label>
+                                                <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                    <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                        <input id="passwordCurrentInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-3 mt-6">
+                                            <button id="savePasswordBtn" class="bg-gradient-to-br from-[#14F195] to-[#005330ca] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                <div class="inline">
+                                                    <span class="bg-gd-main text-green flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Save</span>
+                                                </div>
+                                            </button>
+                                            <button id="cancelPasswordBtn" class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                <div class="inline">
+                                                    <span class="bg-dark text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Cancel</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <span class="text-sm text-secondary">Invate code</span>
@@ -229,7 +316,7 @@
                                                 width="1em" height="1em" fill="none" viewbox="0 0 11 13"
                                                 class="ml-auto h-[11px] w-[13px]">
                                                 <path fill="#fff"
-                                                    d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.134.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
+                                                    d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
                                                 </path>
                                             </svg>
                                         </div>
@@ -341,6 +428,186 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             const auth = getAuth();
+            
+            // Modal elements
+            const emailModal = document.getElementById('emailModal');
+            const passwordModal = document.getElementById('passwordModal');
+            const changeEmailBtn = document.getElementById('changeEmailBtn');
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const saveEmailBtn = document.getElementById('saveEmailBtn');
+            const savePasswordBtn = document.getElementById('savePasswordBtn');
+            const cancelEmailBtn = document.getElementById('cancelEmailBtn');
+            const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+            
+            // Input elements
+            const newEmailInput = document.getElementById('newEmailInput');
+            const emailPasswordInput = document.getElementById('emailPasswordInput');
+            const newPasswordInput = document.getElementById('newPasswordInput');
+            const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+            const passwordCurrentInput = document.getElementById('passwordCurrentInput');
+            
+            // Show email modal
+            changeEmailBtn.addEventListener('click', () => {
+                emailModal.classList.remove('hidden');
+                emailModal.classList.add('flex');
+                newEmailInput.focus();
+            });
+            
+            // Show password modal
+            changePasswordBtn.addEventListener('click', () => {
+                passwordModal.classList.remove('hidden');
+                passwordModal.classList.add('flex');
+                newPasswordInput.focus();
+            });
+            
+            // Hide email modal
+            cancelEmailBtn.addEventListener('click', () => {
+                emailModal.classList.add('hidden');
+                emailModal.classList.remove('flex');
+                newEmailInput.value = '';
+                emailPasswordInput.value = '';
+            });
+            
+            // Hide password modal
+            cancelPasswordBtn.addEventListener('click', () => {
+                passwordModal.classList.add('hidden');
+                passwordModal.classList.remove('flex');
+                newPasswordInput.value = '';
+                confirmPasswordInput.value = '';
+                passwordCurrentInput.value = '';
+            });
+            
+            // Close modals when clicking outside
+            emailModal.addEventListener('click', (e) => {
+                if (e.target === emailModal) {
+                    emailModal.classList.add('hidden');
+                    emailModal.classList.remove('flex');
+                    newEmailInput.value = '';
+                    emailPasswordInput.value = '';
+                }
+            });
+            
+            passwordModal.addEventListener('click', (e) => {
+                if (e.target === passwordModal) {
+                    passwordModal.classList.add('hidden');
+                    passwordModal.classList.remove('flex');
+                    newPasswordInput.value = '';
+                    confirmPasswordInput.value = '';
+                    passwordCurrentInput.value = '';
+                }
+            });
+            
+            // Save email changes
+            saveEmailBtn.addEventListener('click', async () => {
+                const newEmail = newEmailInput.value.trim();
+                const currentPassword = emailPasswordInput.value;
+                
+                if (!newEmail || !currentPassword) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                if (!isValidEmail(newEmail)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                
+                try {
+                    saveEmailBtn.disabled = true;
+                    saveEmailBtn.style.opacity = '0.5';
+                    
+                    // Wait for Firebase to be loaded
+                    let attempts = 0;
+                    while (!window.firebaseAuth && attempts < 50) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        attempts++;
+                    }
+                    
+                    if (!window.firebaseAuth) {
+                        throw new Error('Firebase not loaded after 5 seconds');
+                    }
+                    
+                    const result = await window.firebaseAuth.updateEmail(newEmail, currentPassword);
+                    
+                    if (result.success) {
+                        alert('Email updated successfully!');
+                        document.getElementById('userEmail').value = newEmail;
+                        emailModal.classList.add('hidden');
+                        emailModal.classList.remove('flex');
+                        newEmailInput.value = '';
+                        emailPasswordInput.value = '';
+                    } else {
+                        alert('Error updating email: ' + result.error);
+                    }
+                } catch (error) {
+                    alert('An error occurred: ' + error.message);
+                } finally {
+                    saveEmailBtn.disabled = false;
+                    saveEmailBtn.style.opacity = '0.9';
+                }
+            });
+            
+            // Save password changes
+            savePasswordBtn.addEventListener('click', async () => {
+                const newPassword = newPasswordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                const currentPassword = passwordCurrentInput.value;
+                
+                if (!newPassword || !confirmPassword || !currentPassword) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match');
+                    return;
+                }
+                
+                if (newPassword.length < 6) {
+                    alert('Password must be at least 6 characters long');
+                    return;
+                }
+                
+                try {
+                    savePasswordBtn.disabled = true;
+                    savePasswordBtn.style.opacity = '0.5';
+                    
+                    // Wait for Firebase to be loaded
+                    let attempts = 0;
+                    while (!window.firebaseAuth && attempts < 50) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        attempts++;
+                    }
+                    
+                    if (!window.firebaseAuth) {
+                        throw new Error('Firebase not loaded after 5 seconds');
+                    }
+                    
+                    const result = await window.firebaseAuth.updatePassword(newPassword, currentPassword);
+                    
+                    if (result.success) {
+                        alert('Password updated successfully!');
+                        passwordModal.classList.add('hidden');
+                        passwordModal.classList.remove('flex');
+                        newPasswordInput.value = '';
+                        confirmPasswordInput.value = '';
+                        passwordCurrentInput.value = '';
+                    } else {
+                        alert('Error updating password: ' + result.error);
+                    }
+                } catch (error) {
+                    alert('An error occurred: ' + error.message);
+                } finally {
+                    savePasswordBtn.disabled = false;
+                    savePasswordBtn.style.opacity = '0.9';
+                }
+            });
+            
+            // Email validation function
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
             
             onAuthStateChanged(auth, (user) => {
                 if (user) {

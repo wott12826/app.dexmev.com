@@ -24,6 +24,8 @@
     <title>DM Dashboard</title>
     <meta name="description" content="DM Dashboard description">
     <script src="_next/static/chunks/polyfills-42372ed130431b0a.js" nomodule=""></script>
+    <!-- Firebase Configuration -->
+    <script type="module" src="firebase-config.js"></script>
 </head>
 
 <body class="antialiased">
@@ -31,27 +33,32 @@
         <div class="!p-8 h-full w-full rounded-[17px] bg-gd-main p-5">
             <h2 class="text-center text-3xl sm:text-4xl font-semibold">Sign In</h2><!--$-->
             <div class="mt-6">
-                <div class="py-8"><span class="text-sm text-secondary">Login</span>
-                    <div class="mt-2.5 mb-3 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
-                        <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                            <div
-                                class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-                                <input type="text" placeholder="Enter login" class="w-full" value=""></div>
+                <div class="py-8">
+                    <form id="signinForm">
+                        <span class="text-sm text-secondary">Email</span>
+                        <div class="mt-2.5 mb-3 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                            <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                <div
+                                    class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
+                                    <input type="email" id="email" placeholder="Enter email" class="w-full" required></div>
+                            </div>
                         </div>
-                    </div><span class="text-sm text-secondary">Password</span>
-                    <div class="mt-2.5 mb-2 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
-                        <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                            <div
-                                class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-                                <input type="password" placeholder="Enter password" class="w-full" value=""></div>
+                        <span class="text-sm text-secondary">Password</span>
+                        <div class="mt-2.5 mb-2 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                            <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                <div
+                                    class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
+                                    <input type="password" id="password" placeholder="Enter password" class="w-full" required></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-pink-500"></div><button
-                        class="bg-gradient-to-br from-[#FF0040] to-[#6C001B] p-px shadow-main w-full h-[50px] mt-9 active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                        <div class="inline"><span
-                                class="bg-gd-red text-[22px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Login</span>
-                        </div>
-                    </button>
+                        <div id="errorMessage" class="text-pink-500 text-sm mt-2 hidden"></div>
+                        <button type="submit"
+                            class="bg-gradient-to-br from-[#FF0040] to-[#6C001B] p-px shadow-main w-full h-[50px] mt-9 active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                            <div class="inline"><span
+                                    class="bg-gd-red text-[22px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Login</span>
+                            </div>
+                        </button>
+                    </form>
                     <div class="flex flex-row w-full justify-between"><label class="mt-5 flex items-center"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none"
                                 viewbox="0 0 21 21">
@@ -110,6 +117,56 @@
     <script>self.__next_f.push([1, "2:I[2846,[],\"\"]\n4:I[9107,[],\"ClientPageRoot\"]\n5:I[4425,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"641\",\"static/chunks/641-1113f5f89b03afad.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"281\",\"static/chunks/app/signin/page-dca0ca586697b2ed.js\"],\"default\",1]\n6:I[4707,[],\"\"]\n7:I[6423,[],\"\"]\n8:I[3408,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"63\",\"static/chunks/63-edabb0564f32b29a.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"185\",\"static/chunks/app/layout-69e37278711243f1.js\"],\"default\",1]\n9:I[2972,[\"972\",\"static/chunks/972-be09035380864e2e.js\",\"160\",\"static/chunks/app/not-found-b1955826259ffaed.js\"],\"\"]\nc:I[1060,[],\"\"]\na:{}\nd:[]\n0:[\"$\",\"$L2\",null,{\"buildId\":\"cBLe5wMNn_jJiYrdUbgQc\",\"assetPrefix\":\"\",\"urlParts\":[\"\",\"signin\"],\"initialTree\":[\"\",{\"children\":[\"signin\",{\"children\":[\"__PAGE__\",{}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"signin\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$5\"}],null],null],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"signin\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ea903d5c6198cacb.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$"])</script>
     <script>self.__next_f.push([1, "undefined\",\"notFound\":[\"$\",\"div\",null,{\"className\":\"mt-[-120px] flex h-screen w-[1240px] flex-col items-center justify-center\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"\",\"children\":\"Not found – 404!\"}],[\"$\",\"div\",null,{\"className\":\"mt-2\",\"children\":[\"$\",\"$L9\",null,{\"href\":\"/\",\"className\":\"text-blue-500 text-magenta\",\"children\":\"Go back to Home\"}]}]]}],\"notFoundStyles\":[]}],\"params\":\"$a\"}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$Lb\"],\"globalErrorComponent\":\"$c\",\"missingSlots\":\"$Wd\"}]\n"])</script>
     <script>self.__next_f.push([1, "b:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}]]\n3:null\n"])</script>
+    
+    <!-- Firebase Authentication Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signinForm = document.getElementById('signinForm');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            signinForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Show loading state
+                const submitButton = signinForm.querySelector('button[type="submit"]');
+                const originalText = submitButton.querySelector('span').textContent;
+                submitButton.querySelector('span').textContent = 'Signing in...';
+                submitButton.disabled = true;
+                
+                // Hide previous error message
+                errorMessage.classList.add('hidden');
+                
+                try {
+                    // Wait for Firebase to be loaded
+                    while (!window.firebaseAuth) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                    
+                    const result = await window.firebaseAuth.signIn(email, password);
+                    
+                    if (result.success) {
+                        // Success - redirect will be handled by auth state listener
+                        console.log('Sign in successful:', result.user.email);
+                    } else {
+                        // Show error message
+                        errorMessage.textContent = result.error;
+                        errorMessage.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    errorMessage.textContent = 'An unexpected error occurred. Please try again.';
+                    errorMessage.classList.remove('hidden');
+                    console.error('Sign in error:', error);
+                } finally {
+                    // Reset button state
+                    submitButton.querySelector('span').textContent = originalText;
+                    submitButton.disabled = false;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

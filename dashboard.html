@@ -24,6 +24,8 @@
     <title>DM Dashboard</title>
     <meta name="description" content="DM Dashboard description">
     <script src="_next/static/chunks/polyfills-42372ed130431b0a.js" nomodule=""></script>
+    <!-- Firebase Configuration -->
+    <script type="module" src="firebase-config.js"></script>
 </head>
 
 <body class="antialiased">
@@ -119,7 +121,7 @@
                                 </svg></span></div>
                     </button>
                     <p class="text-center text-[11px] leading-none tracking-wider text-[#ffffff51]">Settings</p>
-                </a><a class="mt-[120px] flex flex-col items-center gap-4" href="signin.html"><button
+                </a><button id="logoutBtn" class="mt-[120px] flex flex-col items-center gap-4"><button
                         class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[50px] h-[50px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                         <div class="inline"><span
                                 class="bg-gd-inside-red flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
@@ -137,7 +139,7 @@
                                 </svg></span></div>
                     </button>
                     <p class="text-center text-[11px] leading-none tracking-wider opacity-55">Log Out</p>
-                </a>
+                </button>
             </nav>
         </aside>
         <div class="flex-1 overflow-y-auto">
@@ -867,6 +869,35 @@
     <script>self.__next_f.push([1, "2:I[2846,[],\"\"]\n4:I[9107,[],\"ClientPageRoot\"]\n5:I[1720,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"11\",\"static/chunks/11-740fd8c49e11b861.js\",\"702\",\"static/chunks/app/dashboard/page-f414fecf6c33cb76.js\"],\"default\",1]\n6:I[4707,[],\"\"]\n7:I[6423,[],\"\"]\n8:I[3408,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"63\",\"static/chunks/63-edabb0564f32b29a.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"185\",\"static/chunks/app/layout-69e37278711243f1.js\"],\"default\",1]\n9:I[2972,[\"972\",\"static/chunks/972-be09035380864e2e.js\",\"160\",\"static/chunks/app/not-found-b1955826259ffaed.js\"],\"\"]\nc:I[1060,[],\"\"]\na:{}\nd:[]\n0:[\"$\",\"$L2\",null,{\"buildId\":\"cBLe5wMNn_jJiYrdUbgQc\",\"assetPrefix\":\"\",\"urlParts\":[\"\",\"dashboard\"],\"initialTree\":[\"\",{\"children\":[\"dashboard\",{\"children\":[\"__PAGE__\",{}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"dashboard\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$5\"}],null],null],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"dashboard\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ea903d5c6198cacb.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templa"])</script>
     <script>self.__next_f.push([1, "teScripts\":\"$undefined\",\"notFound\":[\"$\",\"div\",null,{\"className\":\"mt-[-120px] flex h-screen w-[1240px] flex-col items-center justify-center\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"\",\"children\":\"Not found – 404!\"}],[\"$\",\"div\",null,{\"className\":\"mt-2\",\"children\":[\"$\",\"$L9\",null,{\"href\":\"/\",\"className\":\"text-blue-500 text-magenta\",\"children\":\"Go back to Home\"}]}]]}],\"notFoundStyles\":[]}],\"params\":\"$a\"}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$Lb\"],\"globalErrorComponent\":\"$c\",\"missingSlots\":\"$Wd\"}]\n"])</script>
     <script>self.__next_f.push([1, "b:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}]]\n3:null\n"])</script>
+    
+    <!-- Firebase Authentication Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            logoutBtn.addEventListener('click', async function() {
+                try {
+                    // Wait for Firebase to be loaded
+                    while (!window.firebaseAuth) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                    
+                    const result = await window.firebaseAuth.signOut();
+                    
+                    if (result.success) {
+                        // Success - redirect will be handled by auth state listener
+                        console.log('Sign out successful');
+                    } else {
+                        console.error('Sign out error:', result.error);
+                        alert('Error signing out. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Sign out error:', error);
+                    alert('An unexpected error occurred. Please try again.');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

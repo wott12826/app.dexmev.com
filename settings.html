@@ -413,6 +413,94 @@
             </main>
         </div>
     </div>
+    
+    <!-- Modals -->
+    <!-- Email change modal -->
+    <div id="emailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-gd-main rounded-[18px] p-[1px] shadow-main border border-gd-border-main max-w-md w-full mx-4">
+            <div class="rounded-[17px] bg-gd-main p-6">
+                <h3 class="text-xl font-semibold mb-4">Change Email</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-sm text-secondary">New Email</label>
+                        <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                            <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                <input id="newEmailInput" type="email" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm text-secondary">Current Password</label>
+                        <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                            <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                <input id="emailPasswordInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button id="saveEmailBtn" class="bg-gradient-to-br from-[#14F195] to-[#005330ca] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                        <div class="inline">
+                            <span class="bg-gd-main text-green flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Save</span>
+                        </div>
+                    </button>
+                    <button id="cancelEmailBtn" class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                        <div class="inline">
+                            <span class="bg-dark text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Cancel</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Password change modal -->
+    <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-gd-main rounded-[18px] p-[1px] shadow-main border border-gd-border-main max-w-md w-full mx-4">
+            <div class="rounded-[17px] bg-gd-main p-6">
+                <h3 class="text-xl font-semibold mb-4">Change Password</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-sm text-secondary">New Password</label>
+                        <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                            <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                <input id="newPasswordInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm text-secondary">Confirm New Password</label>
+                        <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                            <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                <input id="confirmPasswordInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-sm text-secondary">Current Password</label>
+                        <div class="mt-2 h-[40px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                            <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                <input id="passwordCurrentInput" type="password" class="py-[3px] px-4 h-full w-full rounded-[8px] bg-dark text-white">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button id="savePasswordBtn" class="bg-gradient-to-br from-[#14F195] to-[#005330ca] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                        <div class="inline">
+                            <span class="bg-gd-main text-green flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Save</span>
+                        </div>
+                    </button>
+                    <button id="cancelPasswordBtn" class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-px shadow-main flex-1 h-[40px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                        <div class="inline">
+                            <span class="bg-dark text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Cancel</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events:none">
         <ol tabindex="-1"
             class="fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]">

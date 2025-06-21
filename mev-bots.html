@@ -104,16 +104,21 @@
                                 </svg></span></div>
                     </button>
                     <p class="text-center text-[11px] leading-none tracking-wider text-[#ffffff51]">Settings</p>
-                </a><button id="logoutBtn" data-firebase-logout="true" data-nextjs-protected="true" class="mt-[120px] bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[50px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                    <div class="bg-gd-inside-red flex h-full w-full flex-col items-center justify-center gap-2 rounded-[9px] py-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewbox="0 0 24 24" class="min-h-6 min-w-6 opacity-100">
-                            <path fill="#fff" d="M15.24 22.27h-.13c-4.44 0-6.58-1.75-6.95-5.67-.04-.41.26-.78.68-.82.4-.04.78.27.82.68.29 3.14 1.77 4.31 5.46 4.31h.13c4.07 0 5.51-1.44 5.51-5.51V8.74c0-4.07-1.44-5.51-5.51-5.51h-.13c-3.71 0-5.19 1.19-5.46 4.39-.05.41-.4.72-.82.68a.75.75 0 0 1-.69-.81c.34-3.98 2.49-5.76 6.96-5.76h.13c4.91 0 7.01 2.1 7.01 7.01v6.52c0 4.91-2.1 7.01-7.01 7.01"></path>
-                            <path fill="#fff" d="M15 12.75H3.62c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H15c.41 0 .75.34.75.75s-.34.75-.75.75"></path>
-                            <path fill="#fff" d="M5.85 16.1c-.19 0-.38-.07-.53-.22l-3.35-3.35a.754.754 0 0 1 0-1.06l3.35-3.35c.29-.29.77-.29 1.06 0s.29.77 0 1.06L3.56 12l2.82 2.82c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22"></path>
-                        </svg>
-                        <p class="text-center text-[11px] leading-none tracking-wider opacity-55">Log Out</p>
-                    </div>
-                </button>
+                </a>
+                <div class="mt-[120px] flex flex-col items-center gap-4">
+                    <button id="logoutBtn" data-firebase-logout="true" data-nextjs-protected="true" class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[50px] h-[50px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                        <div class="inline">
+                            <span class="bg-gd-inside-red flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewbox="0 0 24 24" class="min-h-6 min-w-6 opacity-100">
+                                    <path fill="#fff" d="M15.24 22.27h-.13c-4.44 0-6.58-1.75-6.95-5.67-.04-.41.26-.78.68-.82.4-.04.78.27.82.68.29 3.14 1.77 4.31 5.46 4.31h.13c4.07 0 5.51-1.44 5.51-5.51V8.74c0-4.07-1.44-5.51-5.51-5.51h-.13c-3.71 0-5.19 1.19-5.46 4.39-.05.41-.4.72-.82.68a.75.75 0 0 1-.69-.81c.34-3.98 2.49-5.76 6.96-5.76h.13c4.91 0 7.01 2.1 7.01 7.01v6.52c0 4.91-2.1 7.01-7.01 7.01"></path>
+                                    <path fill="#fff" d="M15 12.75H3.62c-.41 0-.75-.34-.75-.75s.34-.75.75-.75H15c.41 0 .75.34.75.75s-.34.75-.75.75"></path>
+                                    <path fill="#fff" d="M5.85 16.1c-.19 0-.38-.07-.53-.22l-3.35-3.35a.754.754 0 0 1 0-1.06l3.35-3.35c.29-.29.77-.29 1.06 0s.29.77 0 1.06L3.56 12l2.82 2.82c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </button>
+                    <p class="text-center text-[11px] leading-none tracking-wider opacity-55">Log Out</p>
+                </div>
             </nav>
         </aside>
         <div class="flex-1 overflow-y-auto">

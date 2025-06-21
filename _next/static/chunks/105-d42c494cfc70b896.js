@@ -825,64 +825,7 @@
           className: "flex items-center justify-between gap-12 px-[30px] pt-7",
           children: [
             (0, a.jsx)(c, {}),
-            (0, a.jsxs)("div", {
-              className: "flex items-center gap-5",
-              children: [
-                (0, a.jsx)("button", {
-                  className: "hover:animate-pulse active:scale-[97%]",
-                  children: (0, a.jsx)(r.kk, {
-                    classNameWrapper: "!rounded-sm",
-                    classNameChild: "!p-[9px] !rounded-[7px]",
-                    children: (0, a.jsx)(l.NotificationActive, {
-                      className: "min-h-6 min-w-6",
-                    }),
-                  }),
-                }),
-                (0, a.jsxs)(r.kk, {
-                  classNameChild:
-                    "flex items-center gap-2 !p-[9px] !rounded-[7px]",
-                  classNameWrapper: "!rounded-sm",
-                  children: [
-                    (0, a.jsx)(l.Wallet, {
-                      className: "min-h-6 min-w-6 opacity-55",
-                    }),
-                    (0, a.jsxs)("p", {
-                      className: "text-sm text-secondary",
-                      children: [
-                        "Balance:",
-                        (0, a.jsxs)("span", {
-                          className: "ml-2.5 font-bold text-green",
-                          children: [null == e ? void 0 : e.balance, " SOL"],
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                (0, a.jsx)(s.CopyWrapper, {
-                  copyValue: null == e ? void 0 : e.wallet,
-                  children: (0, a.jsxs)(r.kk, {
-                    classNameWrapper: "!rounded-sm",
-                    classNameChild: "flex items-center !p-[9px] !rounded-[7px]",
-                    children: [
-                      (0, a.jsx)(l.Clip, {
-                        className: "min-h-6 min-w-6 opacity-55",
-                      }),
-                      (0, a.jsxs)("p", {
-                        className: "ml-2.5 text-sm text-secondary",
-                        children: [
-                          "Wallet Solana:",
-                          (0, a.jsx)("span", {
-                            className: "ml-2.5 text-blue",
-                            children: null == e ? void 0 : e.wallet,
-                          }),
-                        ],
-                      }),
-                      (0, a.jsx)(l.Copy, { className: "ml-3 min-h-4 min-w-4" }),
-                    ],
-                  }),
-                }),
-              ],
-            }),
+
           ],
         });
       };

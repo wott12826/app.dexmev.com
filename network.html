@@ -104,7 +104,7 @@
                                 </svg></span></div>
                     </button>
                     <p class="text-center text-[11px] leading-none tracking-wider text-[#ffffff51]">Settings</p>
-                </a><a class="mt-[120px] flex flex-col items-center gap-4" href="signin.html"><button
+                </a><button id="logoutBtn" data-firebase-logout="true" data-nextjs-protected="true" class="mt-[120px] flex flex-col items-center gap-4"><button
                         class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[50px] h-[50px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                         <div class="inline"><span
                                 class="bg-gd-inside-red flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
@@ -122,7 +122,7 @@
                                 </svg></span></div>
                     </button>
                     <p class="text-center text-[11px] leading-none tracking-wider opacity-55">Log Out</p>
-                </a>
+                </button>
             </nav>
         </aside>
         <div class="flex-1 overflow-y-auto">
@@ -569,6 +569,43 @@
     
     <!-- Firebase Configuration -->
     <script type="module" src="firebase-config.js"></script>
+    
+    <!-- Firebase Authentication Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to get protected logout button
+            const getProtectedLogoutBtn = () => {
+                return document.querySelector('[data-firebase-logout="true"]') || 
+                       document.getElementById('logoutBtn');
+            };
+            
+            const logoutBtn = getProtectedLogoutBtn();
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async function() {
+                    try {
+                        // Wait for Firebase to be loaded
+                        while (!window.firebaseAuth) {
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                        }
+                        
+                        const result = await window.firebaseAuth.signOut();
+                        
+                        if (result.success) {
+                            // Success - redirect will be handled by auth state listener
+                            console.log('Sign out successful');
+                        } else {
+                            console.error('Sign out error:', result.error);
+                            alert('Error signing out. Please try again.');
+                        }
+                    } catch (error) {
+                        console.error('Sign out error:', error);
+                        alert('An unexpected error occurred. Please try again.');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

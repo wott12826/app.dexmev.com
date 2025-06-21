@@ -73,7 +73,7 @@
                         },
                       })
                       .then(() => {
-                        window.location.href = "/signin.html";
+                        window.location.href = "signin.html";
                       }),
                     t(!0))
                   : (t(!1),
@@ -205,7 +205,7 @@
                     encodeURIComponent(x.Z.encode(W.publicKey)),
                     "&redirect_link="
                   )
-                  .concat(encodeURIComponent(e + "/signup"), "&cluster=")
+                  .concat(encodeURIComponent(e + "signup.html"), "&cluster=")
                   .concat(encodeURIComponent("mainnet-beta"));
               window.location.href = t;
             };
@@ -531,7 +531,7 @@
                 className: "flex justify-center mt-4",
                 children: (0, n.jsx)(m.default, {
                   className: "text-sm text-pink-hot",
-                  href: "/signin.html",
+                  href: "signin.html",
                   children: "Already have an account?",
                 }),
               }),

@@ -1325,7 +1325,7 @@
                 (0, a.jsxs)(
                   l.default,
                   {
-                    href: "/signin.html",
+                    href: "signin.html",
                     className: "mt-[120px] flex flex-col items-center gap-4",
                     children: [
                       (0, a.jsx)(p.op, {
@@ -4992,7 +4992,7 @@
           { label: "Mev Bots", href: "/mev-bots.html", icon: a.MevBots },
           { label: "Network", href: "/network.html", icon: a.Network },
           { label: "Settings", href: "/settings.html", icon: a.Settings },
-          { label: "Log Out", href: "/signin.html", icon: a.LogOut },
+          { label: "Log Out", href: "signin.html", icon: a.LogOut },
         ],
         l = {
           "/dashboard": "Dashboard",

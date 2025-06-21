@@ -47,7 +47,7 @@
         let { children: t } = e,
           r = (0, d.usePathname)(),
           n = (0, d.useRouter)(),
-          a = !!r && ["/signin.html", "/signup.html"].includes(r);
+          a = !!r && ["signin.html", "signup.html"].includes(r);
         return (
           (0, i.useEffect)(() => {
             document.cookie.split(";").reduce((e, t) => {
@@ -55,7 +55,7 @@
               return (e[r] = decodeURIComponent(s)), e;
             }, {}).auth_token ||
               a ||
-              n.push("/signin.html");
+              n.push("signin.html");
           }, [r, a, n]),
           (0, s.jsxs)("html", {
             lang: "en",

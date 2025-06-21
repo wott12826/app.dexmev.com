@@ -46,7 +46,7 @@
                   encodeURIComponent(h.Z.encode(N.publicKey)),
                   "&redirect_link="
                 )
-                .concat(encodeURIComponent(e + "/signin.html"), "&cluster=")
+                .concat(encodeURIComponent(e + "signin.html"), "&cluster=")
                 .concat(encodeURIComponent("mainnet-beta"));
             window.location.href = t;
           };
@@ -255,7 +255,7 @@
                 className: "flex justify-center mt-4",
                 children: (0, o.jsx)(r.default, {
                   className: "text-sm text-pink-hot",
-                  href: "/signup",
+                  href: "signup.html",
                   children: "Create an account",
                 }),
               }),

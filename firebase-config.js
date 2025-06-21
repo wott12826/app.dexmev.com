@@ -72,7 +72,12 @@ firebaseAuth.onAuthStateChanged((user) => {
     }
   } else {
     // User is signed out, redirect to signin if on protected pages
-    if (window.location.pathname.includes('dashboard.html') || window.location.pathname.includes('wallet.html') || window.location.pathname.includes('settings.html')) {
+    // But don't redirect if user is on signup page
+    if (window.location.pathname.includes('dashboard.html') || 
+        window.location.pathname.includes('wallet.html') || 
+        window.location.pathname.includes('settings.html') ||
+        window.location.pathname.includes('mev-bots.html') ||
+        window.location.pathname.includes('network.html')) {
       window.location.href = 'signin.html';
     }
   }

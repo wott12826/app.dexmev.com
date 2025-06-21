@@ -4865,11 +4865,11 @@
       });
       var a = n(9326);
       let r = [
-          { label: "Dashboard", href: "/dashboard.html", icon: a.Dashboard },
-          { label: "Wallet", href: "/wallet.html", icon: a.Wallet },
-          { label: "Mev Bots", href: "/mev-bots.html", icon: a.MevBots },
-          { label: "Network", href: "/network.html", icon: a.Network },
-          { label: "Settings", href: "/settings.html", icon: a.Settings },
+          { label: "Dashboard", href: "dashboard.html", icon: a.Dashboard },
+          { label: "Wallet", href: "wallet.html", icon: a.Wallet },
+          { label: "Mev Bots", href: "mev-bots.html", icon: a.MevBots },
+          { label: "Network", href: "network.html", icon: a.Network },
+          { label: "Settings", href: "settings.html", icon: a.Settings },
           { label: "Log Out", href: "signin.html", icon: a.LogOut },
         ],
         l = {
@@ -5504,7 +5504,7 @@
                 (document.cookie =
                   "user_data=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"),
                 setTimeout(() => {
-                  t(!1), (window.location.href = "/signin");
+                  t(!1), (window.location.href = "signin.html");
                 }, 2500);
             },
             loading: n,

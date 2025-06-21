@@ -1,0 +1,440 @@
+Uri: https://app.dexmev.com/
+File Name: C:\Downloaded Web Sites\app.dexmev.com\index.htm
+Content Type: text/html
+
+Uri: https://app.dexmev.com/bg-image/shadow-line-custom.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\bg-image\shadow-line-custom.svg
+Content Type: image/svg+xml
+
+Uri: https://app.dexmev.com/bg-image/shadow-line-md.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\bg-image\shadow-line-md.svg
+Content Type: image/svg+xml
+
+Uri: https://app.dexmev.com/dashboard
+File Name: C:\Downloaded Web Sites\app.dexmev.com\dashboard.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/favicon-logo.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\favicon-logo.svg
+Content Type: image/svg+xml
+
+Uri: https://app.dexmev.com/mev-bots
+File Name: C:\Downloaded Web Sites\app.dexmev.com\mev-bots.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/mev-bots/deploy
+File Name: C:\Downloaded Web Sites\app.dexmev.com\mev-bots\deploy.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/mev-bots/deploy/custom-rdc
+File Name: C:\Downloaded Web Sites\app.dexmev.com\mev-bots\deploy\custom-rdc.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/mev-bots/deploy/mev-rdc
+File Name: C:\Downloaded Web Sites\app.dexmev.com\mev-bots\deploy\mev-rdc.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/network
+File Name: C:\Downloaded Web Sites\app.dexmev.com\network.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/settings
+File Name: C:\Downloaded Web Sites\app.dexmev.com\settings.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/signin
+File Name: C:\Downloaded Web Sites\app.dexmev.com\signin.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/signup
+File Name: C:\Downloaded Web Sites\app.dexmev.com\signup.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/wallet
+File Name: C:\Downloaded Web Sites\app.dexmev.com\wallet.html
+Content Type: text/html
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=1080&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc-4.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=1200&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc-5.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=1920&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc-6.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=2048&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc-7.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=3840&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=640&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=750&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc-2.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fbg-promo-rdc.png&w=828&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bg-promo-rdc-3.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=1080&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc-4.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=1200&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc-5.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=1920&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc-6.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=2048&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc-7.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=3840&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=640&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=750&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc-2.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-custom-rdc.png&w=828&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-custom-rdc-3.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=1080&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc-4.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=1200&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc-5.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=1920&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc-6.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=2048&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc-7.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=3840&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=640&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=750&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc-2.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fbg-image%2Fpromo-md-rdc.png&w=828&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\promo-md-rdc-3.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Faero-sol.png&w=32&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\aero-sol-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Faero-sol.png&w=48&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\aero-sol.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fbn-sol.png&w=32&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bn-sol-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fbn-sol.png&w=48&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\bn-sol.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fjito-sol.png&w=32&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\jito-sol-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fjito-sol.png&w=48&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\jito-sol.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fjup-sol.png&w=32&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\jup-sol-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fjup-sol.png&w=48&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\jup-sol.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fm-sol.png&w=32&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\m-sol-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2Fcrypto-icons%2Fm-sol.png&w=48&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\m-sol.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo-box.611e482d.png&w=256&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\logo-box-1.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo-box.611e482d.png&w=640&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\logo-box.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.fbe4ee21.png&w=3840&q=100
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\logo.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/static/chunks/105-d42c494cfc70b896.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\105-d42c494cfc70b896.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/11-740fd8c49e11b861.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\11-740fd8c49e11b861.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/117-fe2f1351faaa62a6.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\117-fe2f1351faaa62a6.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/3a91511d-a10389a76e09598a.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\3a91511d-a10389a76e09598a.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/4-ae7b5d97a93e19d4.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\4-ae7b5d97a93e19d4.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/40-0bafcf2ac0e40dc8.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\40-0bafcf2ac0e40dc8.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\41ade5dc-7a9f5b0ebe7bd75f.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/506-affd5021f41a28c3.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\506-affd5021f41a28c3.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/52271efe-2af44b81dc49968b.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\52271efe-2af44b81dc49968b.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/63-edabb0564f32b29a.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\63-edabb0564f32b29a.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/641-1113f5f89b03afad.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\641-1113f5f89b03afad.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/724-292f2651a6555735.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\724-292f2651a6555735.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/972-be09035380864e2e.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\972-be09035380864e2e.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/997-618530499ea35f17.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\997-618530499ea35f17.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/dashboard/page-f414fecf6c33cb76.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\dashboard\page-f414fecf6c33cb76.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/layout-69e37278711243f1.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\layout-69e37278711243f1.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/mev-bots/deploy/custom-rdc/page-f2aa7f0448873dfb.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\mev-bots\deploy\custom-rdc\page-f2aa7f0448873dfb.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/mev-bots/deploy/mev-rdc/page-0bcf527d10ab433b.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\mev-bots\deploy\mev-rdc\page-0bcf527d10ab433b.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/mev-bots/deploy/page-54abc9148775d4e2.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\mev-bots\deploy\page-54abc9148775d4e2.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/mev-bots/page-f9ca9d3a05a461e8.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\mev-bots\page-f9ca9d3a05a461e8.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/network/page-44fa84c4c1201263.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\network\page-44fa84c4c1201263.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/not-found-b1955826259ffaed.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\not-found-b1955826259ffaed.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/page-1e5c037a9c2d008b.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\page-1e5c037a9c2d008b.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/settings/page-84f4972800797481.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\settings\page-84f4972800797481.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/signin/page-dca0ca586697b2ed.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\signin\page-dca0ca586697b2ed.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/signup/page-257968f4a1ceed78.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\signup\page-257968f4a1ceed78.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/app/wallet/page-824b243417fefe2a.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\app\wallet\page-824b243417fefe2a.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/fd9d1056-346a4d4db4c146e1.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\fd9d1056-346a4d4db4c146e1.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/main-app-ef1a0f1e15b73298.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\main-app-ef1a0f1e15b73298.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/polyfills-42372ed130431b0a.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\polyfills-42372ed130431b0a.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/chunks/webpack-3953d5ea54e4bed2.js
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\chunks\webpack-3953d5ea54e4bed2.js
+Content Type: application/javascript
+
+Uri: https://app.dexmev.com/_next/static/css/ea903d5c6198cacb.css
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\css\ea903d5c6198cacb.css
+Content Type: text/css
+
+Uri: https://app.dexmev.com/_next/static/media/flash-loan.8eef0918.png
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\media\flash-loan.8eef0918.png
+Content Type: image/png
+
+Uri: https://app.dexmev.com/_next/static/media/jito.068d9587.png
+File Name: C:\Downloaded Web Sites\app.dexmev.com\_next\static\media\jito.068d9587.png
+Content Type: image/png
+
+Uri: https://flagcdn.com/dk.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\dk.svg
+Content Type: image/svg+xml
+
+Uri: https://flagcdn.com/nl.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\nl.svg
+Content Type: image/svg+xml
+
+Uri: https://flagcdn.com/se.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\se.svg
+Content Type: image/svg+xml
+
+Uri: https://flagcdn.com/sg.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\sg.svg
+Content Type: image/svg+xml
+
+Uri: https://flagcdn.com/us.svg
+File Name: C:\Downloaded Web Sites\app.dexmev.com\us.svg
+Content Type: image/svg+xml
+
+Uri: https://fonts.googleapis.com/css2?family=Poppins&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap
+File Name: C:\Downloaded Web Sites\app.dexmev.com\css2
+Content Type: text/css
+
+Uri: https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrFJA.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\poppins\v23\pxiEyp8kv8JHgFVrFJA.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqD-R4fFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqD-R4fFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDFRkfFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDFRkfFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDLBkfFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDLBkfFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDlR4fFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDlR4fFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDSx4fFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDSx4fFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDSxkfFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDSxkfFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDYhkfFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDYhkfFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDyx4fFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDyx4fFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xjDF02iFML4hGCyOCpRdycFsGxSrqDyx8fFg.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xjDF02iFML4hGCyOCpRdycFsGxSrqDyx8fFg.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA10pUpmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA10pUpmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA10QUpmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA10QUpmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA113Upmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA113Upmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA113VZmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA113VZmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA11eUpmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA11eUpmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA12pVZmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA12pVZmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA133VJmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA133VJmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA133VZmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA133VZmv.ttf
+Content Type: font/ttf
+
+Uri: https://fonts.gstatic.com/s/urbanist/v17/L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA13FVZmv.ttf
+File Name: C:\Downloaded Web Sites\app.dexmev.com\s\urbanist\v17\L0xtDF02iFML4hGCyMqgdyNEf6or5L2WA13FVZmv.ttf
+Content Type: font/ttf
+

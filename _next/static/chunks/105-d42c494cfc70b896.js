@@ -4987,12 +4987,12 @@
       });
       var a = n(9326);
       let r = [
-          { label: "Dashboard", href: "/dashboard", icon: a.Dashboard },
-          { label: "Wallet", href: "/wallet", icon: a.Wallet },
-          { label: "Mev Bots", href: "/mev-bots", icon: a.MevBots },
-          { label: "Network", href: "/network", icon: a.Network },
-          { label: "Settings", href: "/settings", icon: a.Settings },
-          { label: "Log Out", href: "/signin", icon: a.LogOut },
+          { label: "Dashboard", href: "/dashboard.html", icon: a.Dashboard },
+          { label: "Wallet", href: "/wallet.html", icon: a.Wallet },
+          { label: "Mev Bots", href: "/mev-bots.html", icon: a.MevBots },
+          { label: "Network", href: "/network.html", icon: a.Network },
+          { label: "Settings", href: "/settings.html", icon: a.Settings },
+          { label: "Log Out", href: "/signin.html", icon: a.LogOut },
         ],
         l = {
           "/dashboard": "Dashboard",

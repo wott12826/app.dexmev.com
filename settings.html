@@ -306,13 +306,13 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="text-sm text-secondary">Invate code</span>
+                        <span class="text-sm text-secondary">Invite code</span>
                         <div class="flex flex-row gap-5"><button class="mt-2.5 w-full inline">
                                 <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                         <div
                                             class="flex items-center !p-3 !pr-4 !rounded-[7px] h-full w-full rounded-[8px] bg-dark">
-                                            <p class="ml-3 text-sm"></p><svg xmlns="http://www.w3.org/2000/svg"
+                                            <p id="inviteCode" class="ml-3 text-sm"></p><svg xmlns="http://www.w3.org/2000/svg"
                                                 width="1em" height="1em" fill="none" viewbox="0 0 11 13"
                                                 class="ml-auto h-[11px] w-[13px]">
                                                 <path fill="#fff"
@@ -697,12 +697,13 @@
                 return emailRegex.test(email);
             }
             
-            onAuthStateChanged(auth, (user) => {
+            onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     // User is signed in.
                     const emailPasswordSettings = document.getElementById('emailPasswordSettings');
                     const userEmailInput = document.getElementById('userEmail');
-                    
+                    const inviteCodeElement = document.getElementById('inviteCode');
+
                     // Check if the user signed in with email/password
                     const isEmailPasswordUser = user.providerData.some(
                         (provider) => provider.providerId === 'password'
@@ -711,10 +712,23 @@
                     if (isEmailPasswordUser) {
                         emailPasswordSettings.style.display = 'block';
                         userEmailInput.value = user.email;
+                        document.getElementById('changeEmailBtn').disabled = false;
+                        document.getElementById('changePasswordBtn').disabled = false;
                     } else {
-                        // User is signed in but not with email/password (e.g., Phantom), so hide the settings.
                         emailPasswordSettings.style.display = 'none';
                     }
+
+                    // Fetch and display invite code
+                    if (inviteCodeElement) {
+                        const profileResult = await window.firebaseAuth.getUserProfile(user.uid);
+                        if (profileResult.success && profileResult.data.inviteCode) {
+                            inviteCodeElement.textContent = profileResult.data.inviteCode;
+                        } else {
+                            inviteCodeElement.textContent = 'Error loading code';
+                            console.error('Failed to get invite code:', profileResult.error);
+                        }
+                    }
+
                 } else {
                     // User is signed out. The main config will handle the redirect.
                 }

@@ -2,6 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,6 +20,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Helper function to generate a random invite code
+const generateInviteCode = () => {
+  return Math.random().toString(36).substring(2, 10).toUpperCase();
+};
 
 // Authentication functions
 window.firebaseAuth = {
@@ -26,7 +33,16 @@ window.firebaseAuth = {
   signUp: async (email, password) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      return { success: true, user: userCredential.user };
+      const user = userCredential.user;
+      
+      // Create a user profile in Firestore with an invite code
+      const inviteCode = generateInviteCode();
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        inviteCode: inviteCode
+      });
+      
+      return { success: true, user: user };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -87,6 +103,39 @@ window.firebaseAuth = {
       // Update password
       await updatePassword(user, newPassword);
       return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Get user profile from Firestore, create if it doesn't exist
+  getUserProfile: async (userId) => {
+    try {
+      const userDocRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        let userData = userDoc.data();
+        if (!userData.inviteCode) {
+          const newInviteCode = generateInviteCode();
+          await setDoc(userDocRef, { inviteCode: newInviteCode }, { merge: true });
+          userData.inviteCode = newInviteCode;
+        }
+        return { success: true, data: userData };
+      } else {
+        const user = auth.currentUser;
+        if (user && user.uid === userId) {
+          const newInviteCode = generateInviteCode();
+          const newUserProfile = {
+            email: user.email,
+            inviteCode: newInviteCode
+          };
+          await setDoc(userDocRef, newUserProfile);
+          return { success: true, data: newUserProfile };
+        } else {
+          return { success: false, error: "User not found or UID mismatch." };
+        }
+      }
     } catch (error) {
       return { success: false, error: error.message };
     }

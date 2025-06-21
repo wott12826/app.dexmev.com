@@ -48,7 +48,47 @@
           r = (0, d.usePathname)(),
           n = (0, d.useRouter)(),
           a = !!r && ["signin.html", "signup.html"].includes(r);
-
+        return (
+          (0, i.useEffect)(() => {
+            const cookies = document.cookie.split(";").reduce((e, t) => {
+              let [r, s] = t.trim().split("=");
+              return (e[r] = decodeURIComponent(s)), e;
+            }, {});
+            const hasAuthToken = cookies.auth_token;
+            
+            if (!hasAuthToken && !a) {
+              n.push("signin.html");
+            }
+          }, [r, a, n]),
+          (0, s.jsxs)("html", {
+            lang: "en",
+            children: [
+              (0, s.jsxs)("head", {
+                children: [
+                  (0, s.jsx)("link", {
+                    "data-rh": "true",
+                    rel: "icon",
+                    href: "/favicon-logo.svg",
+                  }),
+                  (0, s.jsx)("title", { children: "DM Dashboard" }),
+                  (0, s.jsx)("meta", {
+                    name: "description",
+                    content: "DM Dashboard description",
+                  }),
+                  (0, s.jsx)("meta", {
+                    name: "viewport",
+                    content: "width=device-width, initial-scale=1.0",
+                  }),
+                ],
+              }),
+              (0, s.jsx)("body", {
+                className: "antialiased",
+                suppressHydrationWarning: !0,
+                children: a ? t : (0, s.jsx)(o, { children: t }),
+              }),
+            ],
+          })
+        );
       }
     },
     1907: function (e, t, r) {

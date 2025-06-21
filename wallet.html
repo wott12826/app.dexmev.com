@@ -104,8 +104,7 @@
                                 </svg></span></div>
                     </button>
                     <p class="text-center text-[11px] leading-none tracking-wider text-[#ffffff51]">Settings</p>
-                </a><button id="logoutBtn" data-firebase-logout="true" data-nextjs-protected="true" class="mt-[120px] flex flex-col items-center gap-4"><button
-                        class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[50px] h-[50px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                </a><button id="logoutBtn" data-firebase-logout="true" data-nextjs-protected="true" class="mt-[120px] flex flex-col items-center gap-4 bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-[50px] h-[50px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                         <div class="inline"><span
                                 class="bg-gd-inside-red flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none"
@@ -120,7 +119,6 @@
                                         d="M5.85 16.1c-.19 0-.38-.07-.53-.22l-3.35-3.35a.754.754 0 0 1 0-1.06l3.35-3.35c.29-.29.77-.29 1.06 0s.29.77 0 1.06L3.56 12l2.82 2.82c.29.29.29.77 0 1.06-.14.15-.34.22-.53.22">
                                     </path>
                                 </svg></span></div>
-                    </button>
                     <p class="text-center text-[11px] leading-none tracking-wider opacity-55">Log Out</p>
                 </button>
             </nav>
@@ -452,36 +450,70 @@
     <!-- Firebase Authentication Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Wallet page loaded, setting up logout functionality...');
+            
             // Function to get protected logout button
             const getProtectedLogoutBtn = () => {
-                return document.querySelector('[data-firebase-logout="true"]') || 
-                       document.getElementById('logoutBtn');
+                const button = document.querySelector('[data-firebase-logout="true"]') || 
+                              document.getElementById('logoutBtn');
+                console.log('Found logout button:', button);
+                return button;
             };
             
             const logoutBtn = getProtectedLogoutBtn();
             
             if (logoutBtn) {
-                logoutBtn.addEventListener('click', async function() {
+                console.log('Adding click event listener to logout button...');
+                
+                logoutBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    console.log('Logout button clicked!');
+                    
                     try {
+                        // Show loading state
+                        logoutBtn.style.opacity = '0.5';
+                        logoutBtn.style.pointerEvents = 'none';
+                        
+                        console.log('Waiting for Firebase to be loaded...');
+                        
                         // Wait for Firebase to be loaded
-                        while (!window.firebaseAuth) {
+                        let attempts = 0;
+                        while (!window.firebaseAuth && attempts < 50) {
                             await new Promise(resolve => setTimeout(resolve, 100));
+                            attempts++;
                         }
+                        
+                        if (!window.firebaseAuth) {
+                            throw new Error('Firebase not loaded after 5 seconds');
+                        }
+                        
+                        console.log('Firebase loaded, calling signOut...');
                         
                         const result = await window.firebaseAuth.signOut();
                         
+                        console.log('Sign out result:', result);
+                        
                         if (result.success) {
                             // Success - redirect will be handled by auth state listener
-                            console.log('Sign out successful');
+                            console.log('Sign out successful, redirecting...');
+                            alert('Successfully signed out!');
                         } else {
                             console.error('Sign out error:', result.error);
-                            alert('Error signing out. Please try again.');
+                            alert('Error signing out: ' + result.error);
                         }
                     } catch (error) {
                         console.error('Sign out error:', error);
-                        alert('An unexpected error occurred. Please try again.');
+                        alert('An unexpected error occurred: ' + error.message);
+                    } finally {
+                        // Restore button state
+                        logoutBtn.style.opacity = '0.9';
+                        logoutBtn.style.pointerEvents = 'auto';
                     }
                 });
+                
+                console.log('Logout event listener added successfully');
+            } else {
+                console.error('Logout button not found!');
             }
         });
     </script>

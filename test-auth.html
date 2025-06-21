@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Auth Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .container {
+            background-color: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: #ff6b6b;
+            margin-top: 10px;
+        }
+        .success {
+            color: #51cf66;
+            margin-top: 10px;
+        }
+        .status {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Firebase Authentication Test</h1>
+        
+        <div class="status" id="authStatus">
+            <strong>Auth Status:</strong> <span id="statusText">Checking...</span>
+        </div>
+        
+        <div id="loginForm">
+            <h2>Sign In</h2>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button onclick="signIn()">Sign In</button>
+            <button onclick="signUp()">Sign Up</button>
+            <div id="errorMessage" class="error"></div>
+        </div>
+        
+        <div id="userInfo" style="display: none;">
+            <h2>User Information</h2>
+            <p><strong>Email:</strong> <span id="userEmail"></span></p>
+            <p><strong>UID:</strong> <span id="userUid"></span></p>
+            <button onclick="signOut()">Sign Out</button>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3>Navigation</h3>
+            <button onclick="window.location.href='signin.html'">Go to Sign In Page</button>
+            <button onclick="window.location.href='signup.html'">Go to Sign Up Page</button>
+            <button onclick="window.location.href='dashboard.html'">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Firebase Configuration -->
+    <script type="module" src="firebase-config.js"></script>
+    
+    <script>
+        let currentUser = null;
+        
+        // Wait for Firebase to load
+        async function waitForFirebase() {
+            while (!window.firebaseAuth) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
+        
+        // Update UI based on auth state
+        function updateUI(user) {
+            const loginForm = document.getElementById('loginForm');
+            const userInfo = document.getElementById('userInfo');
+            const statusText = document.getElementById('statusText');
+            
+            if (user) {
+                currentUser = user;
+                loginForm.style.display = 'none';
+                userInfo.style.display = 'block';
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('userUid').textContent = user.uid;
+                statusText.textContent = `Signed in as ${user.email}`;
+                statusText.style.color = '#51cf66';
+            } else {
+                currentUser = null;
+                loginForm.style.display = 'block';
+                userInfo.style.display = 'none';
+                statusText.textContent = 'Not signed in';
+                statusText.style.color = '#ff6b6b';
+            }
+        }
+        
+        // Sign in function
+        async function signIn() {
+            await waitForFirebase();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!email || !password) {
+                errorMessage.textContent = 'Please enter both email and password';
+                return;
+            }
+            
+            try {
+                const result = await window.firebaseAuth.signIn(email, password);
+                if (result.success) {
+                    errorMessage.textContent = '';
+                    errorMessage.className = 'success';
+                    errorMessage.textContent = 'Sign in successful!';
+                } else {
+                    errorMessage.textContent = result.error;
+                    errorMessage.className = 'error';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred during sign in';
+                errorMessage.className = 'error';
+                console.error('Sign in error:', error);
+            }
+        }
+        
+        // Sign up function
+        async function signUp() {
+            await waitForFirebase();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!email || !password) {
+                errorMessage.textContent = 'Please enter both email and password';
+                return;
+            }
+            
+            if (password.length < 6) {
+                errorMessage.textContent = 'Password must be at least 6 characters long';
+                return;
+            }
+            
+            try {
+                const result = await window.firebaseAuth.signUp(email, password);
+                if (result.success) {
+                    errorMessage.textContent = '';
+                    errorMessage.className = 'success';
+                    errorMessage.textContent = 'Sign up successful!';
+                } else {
+                    errorMessage.textContent = result.error;
+                    errorMessage.className = 'error';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred during sign up';
+                errorMessage.className = 'error';
+                console.error('Sign up error:', error);
+            }
+        }
+        
+        // Sign out function
+        async function signOut() {
+            await waitForFirebase();
+            
+            try {
+                const result = await window.firebaseAuth.signOut();
+                if (result.success) {
+                    document.getElementById('errorMessage').textContent = '';
+                    document.getElementById('errorMessage').className = 'success';
+                    document.getElementById('errorMessage').textContent = 'Sign out successful!';
+                } else {
+                    document.getElementById('errorMessage').textContent = result.error;
+                    document.getElementById('errorMessage').className = 'error';
+                }
+            } catch (error) {
+                document.getElementById('errorMessage').textContent = 'An error occurred during sign out';
+                document.getElementById('errorMessage').className = 'error';
+                console.error('Sign out error:', error);
+            }
+        }
+        
+        // Listen for auth state changes
+        document.addEventListener('DOMContentLoaded', async function() {
+            await waitForFirebase();
+            
+            // Listen for auth state changes
+            firebaseAuth.onAuthStateChanged((user) => {
+                updateUI(user);
+            });
+        });
+    </script>
+</body>
+</html> 

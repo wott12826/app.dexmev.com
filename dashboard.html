@@ -913,6 +913,7 @@
         const copyIcon = document.getElementById('copyWalletIcon');
         const disconnectBtn = document.getElementById('disconnectWalletBtn');
         const WALLET_STATE_KEY = 'wallet-event';
+        const WALLET_CONNECTED_KEY = 'wallet-connected';
 
         console.log('Dashboard page - Wallet elements found:', {
             walletBtn: !!walletBtn,
@@ -929,27 +930,15 @@
         async function updateWalletBtn() {
             console.log('Dashboard page - updateWalletBtn called');
             
-            // Если UI уже показывает "Connect Wallet", не перезаписываем его
-            if (walletText.textContent === 'Connect Wallet' && disconnectBtn.style.display === 'none') {
-                console.log('Dashboard page - UI already shows disconnected state, skipping update');
-                return;
-            }
+            // Проверяем общий статус подключения
+            const isConnected = localStorage.getItem(WALLET_CONNECTED_KEY) === 'true';
             
-            // Проверяем, не было ли недавно отключения
-            const walletState = localStorage.getItem(WALLET_STATE_KEY);
-            if (walletState) {
-                try {
-                    const state = JSON.parse(walletState);
-                    if (state.event === 'disconnect' && (Date.now() - state.ts) < 5000) {
-                        console.log('Dashboard page - Recent disconnect detected, forcing disconnected state');
-                        walletText.textContent = 'Connect Wallet';
-                        copyIcon.style.display = 'none';
-                        disconnectBtn.style.display = 'none';
-                        return;
-                    }
-                } catch (e) {
-                    console.log('Dashboard page - Error parsing wallet state:', e);
-                }
+            if (!isConnected) {
+                console.log('Dashboard page - Wallet is marked as disconnected, forcing disconnected state');
+                walletText.textContent = 'Connect Wallet';
+                copyIcon.style.display = 'none';
+                disconnectBtn.style.display = 'none';
+                return;
             }
             
             if (window.solana && window.solana.isPhantom) {
@@ -968,17 +957,21 @@
                     walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
                     copyIcon.style.display = 'inline-block';
                     disconnectBtn.style.display = 'inline-block';
+                    // Обновляем статус подключения
+                    localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
                 } else {
                     console.log('Dashboard page - No wallet connected, updating UI to show connect button');
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
+                    localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
                 }
             } else {
                 console.log('Dashboard page - Phantom wallet not available');
                 walletText.textContent = 'Connect Wallet';
                 copyIcon.style.display = 'none';
                 disconnectBtn.style.display = 'none';
+                localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
             }
         }
 
@@ -991,6 +984,7 @@
                 try {
                     await window.solana.connect();
                     console.log('Dashboard page - Successfully connected to Phantom wallet');
+                    localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
                     updateWalletBtn();
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
                     console.log('Dashboard page - Wallet state synchronized');
@@ -1030,6 +1024,9 @@
                     await window.solana.disconnect();
                     console.log('Dashboard page - Wallet disconnected successfully');
                     
+                    // Обновляем статус подключения
+                    localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
+                    
                     // Принудительно обновляем UI
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
@@ -1059,7 +1056,7 @@
         
         window.addEventListener('storage', (e) => {
             console.log('Dashboard page - Storage event detected:', e.key, e.newValue);
-            if (e.key === WALLET_STATE_KEY) {
+            if (e.key === WALLET_STATE_KEY || e.key === WALLET_CONNECTED_KEY) {
                 console.log('Dashboard page - Wallet state change detected, updating UI');
                 updateWalletBtn();
             }

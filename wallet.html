@@ -169,6 +169,7 @@
                             </div>
                         </div>
                     </button>
+                    <button id="disconnectWalletBtn" class="ml-2 bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn text-white px-4 py-2 rounded-xl hover:bg-pink/90 active:scale-[97%] opacity-90 transition-opacity hover:opacity-100" style="display:none;">Disconnect Wallet</button>
                 </div>
             </header>
             <main class="p-4 sm:p-[30px] pt-8">
@@ -325,7 +326,7 @@
                                                     width="1em" height="1em" fill="none" viewbox="0 0 11 13"
                                                     class="ml-auto h-[11px] w-[13px]">
                                                     <path fill="#fff"
-                                                        d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.134.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
+                                                        d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
                                                     </path>
                                                 </svg>
                                             </div>
@@ -509,6 +510,7 @@
         const walletBtn = document.getElementById('walletSolanaBtn');
         const walletText = document.getElementById('walletSolanaText');
         const copyIcon = document.getElementById('copyWalletIcon');
+        const disconnectBtn = document.getElementById('disconnectWalletBtn');
 
         function shortAddress(addr) {
             if (!addr) return '';
@@ -527,6 +529,7 @@
                 if (pubKey) {
                     walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
                     copyIcon.style.display = 'inline-block';
+                    disconnectBtn.style.display = 'inline-block';
                 } else {
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';

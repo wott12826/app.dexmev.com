@@ -655,6 +655,23 @@
                 return;
             }
             
+            // Проверяем, не было ли недавно отключения
+            const walletState = localStorage.getItem(WALLET_STATE_KEY);
+            if (walletState) {
+                try {
+                    const state = JSON.parse(walletState);
+                    if (state.event === 'disconnect' && (Date.now() - state.ts) < 5000) {
+                        console.log('Network page - Recent disconnect detected, forcing disconnected state');
+                        walletText.textContent = 'Connect Wallet';
+                        copyIcon.style.display = 'none';
+                        disconnectBtn.style.display = 'none';
+                        return;
+                    }
+                } catch (e) {
+                    console.log('Network page - Error parsing wallet state:', e);
+                }
+            }
+            
             if (window.solana && window.solana.isPhantom) {
                 console.log('Network page - Phantom wallet detected');
                 let pubKey = '';

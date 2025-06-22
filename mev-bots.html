@@ -152,8 +152,7 @@
                                     clip-rule="evenodd"></path>
                                 <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
                             </svg>
-                            <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green">
-                                    SOL</span></p>
+                            <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green" id="solBalance">0</span> SOL</p>
                         </div>
                     </div><button class="inline" id="walletSolanaBtn">
                         <div class="!rounded-sm rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
@@ -1203,6 +1202,24 @@
         console.log('MEV Bots page - Initializing wallet state...');
         updateWalletBtn();
         console.log('MEV Bots page - Wallet initialization complete');
+
+        async function getSolBalance() {
+            const balanceElement = document.getElementById('solBalance');
+            if (!balanceElement) return;
+            if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
+                try {
+                    const balance = await window.solana.connection.getBalance(window.solana.publicKey);
+                    const solBalance = balance / 1000000000;
+                    balanceElement.textContent = solBalance.toFixed(4);
+                } catch (error) {
+                    balanceElement.textContent = '0';
+                }
+            } else {
+                balanceElement.textContent = '0';
+            }
+        }
+        // Вызов getSolBalance() при подключении и отключении кошелька
+        // ... в updateWalletBtn() и при disconnect ...
     </script>
 </body>
 

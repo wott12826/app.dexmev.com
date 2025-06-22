@@ -152,10 +152,11 @@
                                     clip-rule="evenodd"></path>
                                     <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
                                 </svg>
-                                <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green">
-                                    SOL</span></p>
+                                <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green" id="solBalance">
+                                    0</span> SOL</p>
                             </div>
-                        </div><button class="inline" id="walletSolanaBtn">
+                        </div>
+                    </div><button class="inline" id="walletSolanaBtn">
                         <div class="!rounded-sm rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                             <div class="flex items-center !p-[9px] !rounded-[7px] h-full w-full rounded-[17px] bg-gd-main p-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
@@ -703,6 +704,26 @@
                 return addr.slice(0, 4) + '...' + addr.slice(-4);
             }
 
+            async function getSolBalance() {
+                const balanceElement = document.getElementById('solBalance');
+                if (!balanceElement) return;
+
+                if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
+                    try {
+                        // Получаем баланс в lamports (1 SOL = 1,000,000,000 lamports)
+                        const balance = await window.solana.connection.getBalance(window.solana.publicKey);
+                        const solBalance = balance / 1000000000; // Конвертируем в SOL
+                        balanceElement.textContent = solBalance.toFixed(4);
+                        console.log('SOL balance updated:', solBalance.toFixed(4));
+                    } catch (error) {
+                        console.error('Error getting SOL balance:', error);
+                        balanceElement.textContent = '0';
+                    }
+                } else {
+                    balanceElement.textContent = '0';
+                }
+            }
+
             async function updateWalletBtn() {
                 console.log('updateWalletBtn called');
                 
@@ -735,6 +756,8 @@
                         disconnectBtn.style.display = 'inline-block';
                         // Обновляем статус подключения
                         localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
+                        // Обновляем баланс SOL
+                        await getSolBalance();
                     } else {
                         console.log('No wallet connected, updating UI to show connect button');
                         walletText.textContent = 'Connect Wallet';
@@ -807,6 +830,12 @@
                         walletText.textContent = 'Connect Wallet';
                         copyIcon.style.display = 'none';
                         disconnectBtn.style.display = 'none';
+                        
+                        // Обновляем баланс SOL на 0
+                        const balanceElement = document.getElementById('solBalance');
+                        if (balanceElement) {
+                            balanceElement.textContent = '0';
+                        }
                         
                         // Синхронизируем с другими страницами
                         localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));

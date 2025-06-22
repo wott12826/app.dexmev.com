@@ -1109,8 +1109,12 @@
         if (window.solana && window.solana.isPhantom && window.solana.disconnect) {
             try {
                 await window.solana.disconnect();
-            } catch (e) {}
-            updateWalletBtn();
+            } catch (e) {
+                console.error("Disconnect error:", e);
+            }
+            walletText.textContent = 'Connect Wallet';
+            copyIcon.style.display = 'none';
+            disconnectBtn.style.display = 'none';
         }
     });
 

@@ -562,6 +562,20 @@
             }
         });
 
+        disconnectBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (window.solana && window.solana.isPhantom && window.solana.disconnect) {
+                try {
+                    await window.solana.disconnect();
+                } catch (e) {
+                    console.error("Disconnect error:", e);
+                }
+                walletText.textContent = 'Connect Wallet';
+                copyIcon.style.display = 'none';
+                disconnectBtn.style.display = 'none';
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', updateWalletBtn);
     </script>
 </body>

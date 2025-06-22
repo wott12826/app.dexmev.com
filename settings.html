@@ -693,6 +693,60 @@
             }
         });
     </script>
+
+    <script type="module">
+    // ... existing code ...
+    // Wallet connect logic
+    const walletAddressSpan = document.getElementById('walletAddress');
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+
+    function shortAddress(addr) {
+        if (!addr) return '';
+        return addr.slice(0, 4) + '...' + addr.slice(-4);
+    }
+
+    async function checkWallet() {
+        if (window.solana && window.solana.isPhantom) {
+            try {
+                await window.solana.connect({ onlyIfTrusted: true });
+                const pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
+                if (pubKey) {
+                    walletAddressSpan.textContent = shortAddress(pubKey);
+                    connectWalletBtn.style.display = 'none';
+                } else {
+                    walletAddressSpan.textContent = '';
+                    connectWalletBtn.style.display = 'inline-block';
+                }
+            } catch (e) {
+                walletAddressSpan.textContent = '';
+                connectWalletBtn.style.display = 'inline-block';
+            }
+        } else {
+            walletAddressSpan.textContent = '';
+            connectWalletBtn.style.display = 'inline-block';
+        }
+    }
+
+    connectWalletBtn.addEventListener('click', async () => {
+        if (window.solana && window.solana.isPhantom) {
+            try {
+                await window.solana.connect();
+                const pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
+                if (pubKey) {
+                    walletAddressSpan.textContent = shortAddress(pubKey);
+                    connectWalletBtn.style.display = 'none';
+                }
+            } catch (e) {
+                // Ошибка подключения
+            }
+        } else {
+            window.open('https://phantom.app/', '_blank');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', checkWallet);
+    // ... existing code ...
+    </script>
 </body>
 
 </html>

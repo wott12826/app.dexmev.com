@@ -155,26 +155,16 @@
                             <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green">
                                     SOL</span></p>
                         </div>
-                    </div><button class="inline">
+                    </div><button class="inline" id="walletSolanaBtn">
                         <div class="!rounded-sm rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
-                            <div
-                                class="flex items-center !p-[9px] !rounded-[7px] h-full w-full rounded-[17px] bg-gd-main p-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none"
-                                    viewbox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
-                                    <path fill="#9E9E9E" fill-rule="evenodd"
-                                        d="M19.899 9.405A3.75 3.75 0 1 0 14.595 4.1L10.41 8.288a.75.75 0 1 0 1.06 1.06l4.187-4.186a2.25 2.25 0 0 1 3.182 3.182l-4.187 4.187a.75.75 0 1 0 1.061 1.06zM4.064 14.633a3.75 3.75 0 0 0 5.303 5.303l4.224-4.224a.75.75 0 1 0-1.06-1.06l-4.224 4.223a2.25 2.25 0 1 1-3.182-3.182l4.223-4.223a.75.75 0 0 0-1.06-1.06z"
-                                        clip-rule="evenodd"></path>
-                                    <path fill="#9E9E9E"
-                                        d="M15.712 8.288a.75.75 0 0 0-1.06 0l-5.834 5.834a.75.75 0 1 0 1.06 1.06l5.834-5.833a.75.75 0 0 0 0-1.061">
-                                    </path>
+                            <div class="flex items-center !p-[9px] !rounded-[7px] h-full w-full rounded-[17px] bg-gd-main p-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
+                                    <path fill="#9E9E9E" fill-rule="evenodd" d="M19.899 9.405A3.75 3.75 0 1 0 14.595 4.1L10.41 8.288a.75.75 0 1 0 1.06 1.06l4.187-4.186a2.25 2.25 0 0 1 3.182 3.182l-4.187 4.187a.75.75 0 1 0 1.061 1.06zM4.064 14.633a3.75 3.75 0 0 0 5.303 5.303l4.224-4.224a.75.75 0 1 0-1.06-1.06l-4.224 4.223a2.25 2.25 0 1 1-3.182-3.182l4.223-4.223a.75.75 0 0 0-1.06-1.06z" clip-rule="evenodd"></path>
+                                    <path fill="#9E9E9E" d="M15.712 8.288a.75.75 0 0 0-1.06 0l-5.834 5.834a.75.75 0 1 0 1.06 1.06l5.834-5.833a.75.75 0 0 0 0-1.061"></path>
                                 </svg>
-                                <p class="ml-2.5 text-sm text-secondary">Wallet Solana:<span
-                                        class="ml-2.5 text-blue"></span></p><svg xmlns="http://www.w3.org/2000/svg"
-                                    width="1em" height="1em" fill="none" viewbox="0 0 11 13"
-                                    class="ml-3 min-h-4 min-w-4">
-                                    <path fill="#fff"
-                                        d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.134.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
-                                    </path>
+                                <span id="walletSolanaText" class="ml-2.5 text-sm text-secondary"></span>
+                                <svg id="copyWalletIcon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 11 13" class="ml-3 min-h-4 min-w-4" style="cursor:pointer;display:none;">
+                                    <path fill="#fff" d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z"></path>
                                 </svg>
                             </div>
                         </div>
@@ -635,6 +625,64 @@
                 console.error('Logout button not found!');
             }
         });
+    </script>
+    <script type="module">
+        // ... existing code ...
+        const walletBtn = document.getElementById('walletSolanaBtn');
+        const walletText = document.getElementById('walletSolanaText');
+        const copyIcon = document.getElementById('copyWalletIcon');
+
+        function shortAddress(addr) {
+            if (!addr) return '';
+            return addr.slice(0, 4) + '...' + addr.slice(-4);
+        }
+
+        async function updateWalletBtn() {
+            if (window.solana && window.solana.isPhantom) {
+                let pubKey = '';
+                try {
+                    await window.solana.connect({ onlyIfTrusted: true });
+                    pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
+                } catch (e) {
+                    pubKey = '';
+                }
+                if (pubKey) {
+                    walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
+                    copyIcon.style.display = 'inline-block';
+                } else {
+                    walletText.textContent = 'Connect Wallet';
+                    copyIcon.style.display = 'none';
+                }
+            } else {
+                walletText.textContent = 'Connect Wallet';
+                copyIcon.style.display = 'none';
+            }
+        }
+
+        walletBtn.addEventListener('click', async () => {
+            if (walletText.textContent === 'Connect Wallet') {
+                if (window.solana && window.solana.isPhantom) {
+                    try {
+                        await window.solana.connect();
+                        updateWalletBtn();
+                    } catch (e) {}
+                } else {
+                    window.open('https://phantom.app/', '_blank');
+                }
+            }
+        });
+
+        copyIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.solana && window.solana.publicKey) {
+                navigator.clipboard.writeText(window.solana.publicKey.toString());
+                copyIcon.style.opacity = 0.5;
+                setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', updateWalletBtn);
+        // ... existing code ...
     </script>
 </body>
 

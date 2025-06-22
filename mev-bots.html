@@ -1050,6 +1050,7 @@
     const walletBtn = document.getElementById('walletSolanaBtn');
     const walletText = document.getElementById('walletSolanaText');
     const copyIcon = document.getElementById('copyWalletIcon');
+    const disconnectBtn = document.getElementById('disconnectWalletBtn');
 
     function shortAddress(addr) {
         if (!addr) return '';
@@ -1068,13 +1069,16 @@
             if (pubKey) {
                 walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
                 copyIcon.style.display = 'inline-block';
+                disconnectBtn.style.display = 'inline-block';
             } else {
                 walletText.textContent = 'Connect Wallet';
                 copyIcon.style.display = 'none';
+                disconnectBtn.style.display = 'none';
             }
         } else {
             walletText.textContent = 'Connect Wallet';
             copyIcon.style.display = 'none';
+            disconnectBtn.style.display = 'none';
         }
     }
 
@@ -1097,6 +1101,16 @@
             navigator.clipboard.writeText(window.solana.publicKey.toString());
             copyIcon.style.opacity = 0.5;
             setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
+        }
+    });
+
+    disconnectBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (window.solana && window.solana.isPhantom && window.solana.disconnect) {
+            try {
+                await window.solana.disconnect();
+            } catch (e) {}
+            updateWalletBtn();
         }
     });
 

@@ -914,30 +914,44 @@
         const disconnectBtn = document.getElementById('disconnectWalletBtn');
         const WALLET_STATE_KEY = 'wallet-event';
 
+        console.log('Dashboard page - Wallet elements found:', {
+            walletBtn: !!walletBtn,
+            walletText: !!walletText,
+            copyIcon: !!copyIcon,
+            disconnectBtn: !!disconnectBtn
+        });
+
         function shortAddress(addr) {
             if (!addr) return '';
             return addr.slice(0, 4) + '...' + addr.slice(-4);
         }
 
         async function updateWalletBtn() {
+            console.log('Dashboard page - updateWalletBtn called');
             if (window.solana && window.solana.isPhantom) {
+                console.log('Dashboard page - Phantom wallet detected');
                 let pubKey = '';
                 try {
                     await window.solana.connect({ onlyIfTrusted: true });
                     pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
+                    console.log('Dashboard page - Connected wallet public key:', pubKey);
                 } catch (e) {
+                    console.log('Dashboard page - No trusted connection found');
                     pubKey = '';
                 }
                 if (pubKey) {
+                    console.log('Dashboard page - Wallet connected, updating UI to show address');
                     walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
                     copyIcon.style.display = 'inline-block';
                     disconnectBtn.style.display = 'inline-block';
                 } else {
+                    console.log('Dashboard page - No wallet connected, updating UI to show connect button');
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
                 }
             } else {
+                console.log('Dashboard page - Phantom wallet not available');
                 walletText.textContent = 'Connect Wallet';
                 copyIcon.style.display = 'none';
                 disconnectBtn.style.display = 'none';
@@ -945,46 +959,75 @@
         }
 
         walletBtn.addEventListener('click', async () => {
+            console.log('Dashboard page - Wallet button clicked, current text:', walletText.textContent);
             if (walletText.textContent !== 'Connect Wallet') return;
 
             if (window.solana && window.solana.isPhantom) {
+                console.log('Dashboard page - Attempting to connect to Phantom wallet...');
                 try {
                     await window.solana.connect();
+                    console.log('Dashboard page - Successfully connected to Phantom wallet');
                     updateWalletBtn();
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
-                } catch (e) { /* ignore */ }
+                    console.log('Dashboard page - Wallet state synchronized');
+                } catch (e) { 
+                    console.error('Dashboard page - Error connecting to wallet:', e);
+                    alert('Error connecting to wallet: ' + e.message);
+                }
             } else {
+                console.log('Dashboard page - Phantom wallet not available, opening download page');
                 window.open('https://phantom.app/', '_blank');
             }
         });
 
         copyIcon.addEventListener('click', (e) => {
             e.stopPropagation();
+            console.log('Dashboard page - Copy icon clicked');
             if (window.solana && window.solana.publicKey) {
-                navigator.clipboard.writeText(window.solana.publicKey.toString());
+                const address = window.solana.publicKey.toString();
+                console.log('Dashboard page - Copying address to clipboard:', address);
+                navigator.clipboard.writeText(address);
                 copyIcon.style.opacity = 0.5;
                 setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
+                console.log('Dashboard page - Address copied to clipboard');
+            } else {
+                console.log('Dashboard page - No wallet address to copy');
             }
         });
 
         disconnectBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
+            console.log('Dashboard page - Disconnect button clicked!');
+            
             if (window.solana && window.solana.isPhantom) {
+                console.log('Dashboard page - Phantom wallet found, attempting to disconnect...');
                 try {
                     await window.solana.disconnect();
+                    console.log('Dashboard page - Wallet disconnected successfully');
                     updateWalletBtn();
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
-                } catch (e) { /* ignore */ }
+                    console.log('Dashboard page - Wallet state updated and synchronized');
+                } catch (e) { 
+                    console.error('Dashboard page - Error disconnecting wallet:', e);
+                    alert('Error disconnecting wallet: ' + e.message);
+                }
+            } else {
+                console.log('Dashboard page - Phantom wallet not found');
+                alert('Phantom wallet not found');
             }
         });
         
         window.addEventListener('storage', (e) => {
+            console.log('Dashboard page - Storage event detected:', e.key, e.newValue);
             if (e.key === WALLET_STATE_KEY) {
+                console.log('Dashboard page - Wallet state change detected, updating UI');
                 updateWalletBtn();
             }
         });
 
-        document.addEventListener('DOMContentLoaded', updateWalletBtn);
+        console.log('Dashboard page - Initializing wallet state...');
+        updateWalletBtn();
+        console.log('Dashboard page - Wallet initialization complete');
     </script>
 </body>
 

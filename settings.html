@@ -690,30 +690,44 @@
             const disconnectBtn = document.getElementById('disconnectWalletBtn');
             const WALLET_STATE_KEY = 'wallet-event';
 
+            console.log('Wallet elements found:', {
+                walletBtn: !!walletBtn,
+                walletText: !!walletText,
+                copyIcon: !!copyIcon,
+                disconnectBtn: !!disconnectBtn
+            });
+
             function shortAddress(addr) {
                 if (!addr) return '';
                 return addr.slice(0, 4) + '...' + addr.slice(-4);
             }
 
             async function updateWalletBtn() {
+                console.log('updateWalletBtn called');
                 if (window.solana && window.solana.isPhantom) {
+                    console.log('Phantom wallet detected');
                     let pubKey = '';
                     try {
                         await window.solana.connect({ onlyIfTrusted: true });
                         pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
+                        console.log('Connected wallet public key:', pubKey);
                     } catch (e) {
+                        console.log('No trusted connection found');
                         pubKey = '';
                     }
                     if (pubKey) {
+                        console.log('Wallet connected, updating UI to show address');
                         walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
                         copyIcon.style.display = 'inline-block';
                         disconnectBtn.style.display = 'inline-block';
                     } else {
+                        console.log('No wallet connected, updating UI to show connect button');
                         walletText.textContent = 'Connect Wallet';
                         copyIcon.style.display = 'none';
                         disconnectBtn.style.display = 'none';
                     }
                 } else {
+                    console.log('Phantom wallet not available');
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
@@ -721,46 +735,75 @@
             }
 
             walletBtn.addEventListener('click', async () => {
+                console.log('Wallet button clicked, current text:', walletText.textContent);
                 if (walletText.textContent !== 'Connect Wallet') return;
 
                 if (window.solana && window.solana.isPhantom) {
+                    console.log('Attempting to connect to Phantom wallet...');
                     try {
                         await window.solana.connect();
+                        console.log('Successfully connected to Phantom wallet');
                         updateWalletBtn();
                         localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
-                    } catch (e) { /* ignore */ }
+                        console.log('Wallet state synchronized');
+                    } catch (e) { 
+                        console.error('Error connecting to wallet:', e);
+                        alert('Error connecting to wallet: ' + e.message);
+                    }
                 } else {
+                    console.log('Phantom wallet not available, opening download page');
                     window.open('https://phantom.app/', '_blank');
                 }
             });
 
             copyIcon.addEventListener('click', (e) => {
                 e.stopPropagation();
+                console.log('Copy icon clicked');
                 if (window.solana && window.solana.publicKey) {
-                    navigator.clipboard.writeText(window.solana.publicKey.toString());
+                    const address = window.solana.publicKey.toString();
+                    console.log('Copying address to clipboard:', address);
+                    navigator.clipboard.writeText(address);
                     copyIcon.style.opacity = 0.5;
                     setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
+                    console.log('Address copied to clipboard');
+                } else {
+                    console.log('No wallet address to copy');
                 }
             });
 
             disconnectBtn.addEventListener('click', async (e) => {
                 e.stopPropagation();
+                console.log('Disconnect button clicked!');
+                
                 if (window.solana && window.solana.isPhantom) {
+                    console.log('Phantom wallet found, attempting to disconnect...');
                     try {
                         await window.solana.disconnect();
+                        console.log('Wallet disconnected successfully');
                         updateWalletBtn();
                         localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
-                    } catch (e) { /* ignore */ }
+                        console.log('Wallet state updated and synchronized');
+                    } catch (e) { 
+                        console.error('Error disconnecting wallet:', e);
+                        alert('Error disconnecting wallet: ' + e.message);
+                    }
+                } else {
+                    console.log('Phantom wallet not found');
+                    alert('Phantom wallet not found');
                 }
             });
             
             window.addEventListener('storage', (e) => {
+                console.log('Storage event detected:', e.key, e.newValue);
                 if (e.key === WALLET_STATE_KEY) {
+                    console.log('Wallet state change detected, updating UI');
                     updateWalletBtn();
                 }
             });
 
+            console.log('Initializing wallet state...');
             updateWalletBtn();
+            console.log('Wallet initialization complete');
         });
     </script>
 </body>

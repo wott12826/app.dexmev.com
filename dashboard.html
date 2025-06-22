@@ -908,11 +908,11 @@
         });
     </script>
     <script type="module">
-        // ... existing code ...
         const walletBtn = document.getElementById('walletSolanaBtn');
         const walletText = document.getElementById('walletSolanaText');
         const copyIcon = document.getElementById('copyWalletIcon');
         const disconnectBtn = document.getElementById('disconnectWalletBtn');
+        const WALLET_STATE_KEY = 'wallet-event';
 
         function shortAddress(addr) {
             if (!addr) return '';
@@ -945,15 +945,16 @@
         }
 
         walletBtn.addEventListener('click', async () => {
-            if (walletText.textContent === 'Connect Wallet') {
-                if (window.solana && window.solana.isPhantom) {
-                    try {
-                        await window.solana.connect();
-                        updateWalletBtn();
-                    } catch (e) {}
-                } else {
-                    window.open('https://phantom.app/', '_blank');
-                }
+            if (walletText.textContent !== 'Connect Wallet') return;
+
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    await window.solana.connect();
+                    updateWalletBtn();
+                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
+                } catch (e) { /* ignore */ }
+            } else {
+                window.open('https://phantom.app/', '_blank');
             }
         });
 
@@ -968,20 +969,22 @@
 
         disconnectBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            if (window.solana && window.solana.isPhantom && window.solana.disconnect) {
+            if (window.solana && window.solana.isPhantom) {
                 try {
                     await window.solana.disconnect();
-                } catch (e) {
-                    console.error("Disconnect error:", e);
-                }
-                walletText.textContent = 'Connect Wallet';
-                copyIcon.style.display = 'none';
-                disconnectBtn.style.display = 'none';
+                    updateWalletBtn();
+                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
+                } catch (e) { /* ignore */ }
+            }
+        });
+        
+        window.addEventListener('storage', (e) => {
+            if (e.key === WALLET_STATE_KEY) {
+                updateWalletBtn();
             }
         });
 
         document.addEventListener('DOMContentLoaded', updateWalletBtn);
-        // ... existing code ...
     </script>
 </body>
 

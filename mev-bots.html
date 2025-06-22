@@ -1046,80 +1046,83 @@
         });
     </script>
     <script type="module">
-    // ... existing code ...
-    const walletBtn = document.getElementById('walletSolanaBtn');
-    const walletText = document.getElementById('walletSolanaText');
-    const copyIcon = document.getElementById('copyWalletIcon');
-    const disconnectBtn = document.getElementById('disconnectWalletBtn');
+        const walletBtn = document.getElementById('walletSolanaBtn');
+        const walletText = document.getElementById('walletSolanaText');
+        const copyIcon = document.getElementById('copyWalletIcon');
+        const disconnectBtn = document.getElementById('disconnectWalletBtn');
+        const WALLET_STATE_KEY = 'wallet-event';
 
-    function shortAddress(addr) {
-        if (!addr) return '';
-        return addr.slice(0, 4) + '...' + addr.slice(-4);
-    }
+        function shortAddress(addr) {
+            if (!addr) return '';
+            return addr.slice(0, 4) + '...' + addr.slice(-4);
+        }
 
-    async function updateWalletBtn() {
-        if (window.solana && window.solana.isPhantom) {
-            let pubKey = '';
-            try {
-                await window.solana.connect({ onlyIfTrusted: true });
-                pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
-            } catch (e) {
-                pubKey = '';
-            }
-            if (pubKey) {
-                walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
-                copyIcon.style.display = 'inline-block';
-                disconnectBtn.style.display = 'inline-block';
+        async function updateWalletBtn() {
+            if (window.solana && window.solana.isPhantom) {
+                let pubKey = '';
+                try {
+                    await window.solana.connect({ onlyIfTrusted: true });
+                    pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
+                } catch (e) {
+                    pubKey = '';
+                }
+                if (pubKey) {
+                    walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
+                    copyIcon.style.display = 'inline-block';
+                    disconnectBtn.style.display = 'inline-block';
+                } else {
+                    walletText.textContent = 'Connect Wallet';
+                    copyIcon.style.display = 'none';
+                    disconnectBtn.style.display = 'none';
+                }
             } else {
                 walletText.textContent = 'Connect Wallet';
                 copyIcon.style.display = 'none';
                 disconnectBtn.style.display = 'none';
             }
-        } else {
-            walletText.textContent = 'Connect Wallet';
-            copyIcon.style.display = 'none';
-            disconnectBtn.style.display = 'none';
         }
-    }
 
-    walletBtn.addEventListener('click', async () => {
-        if (walletText.textContent === 'Connect Wallet') {
+        walletBtn.addEventListener('click', async () => {
+            if (walletText.textContent !== 'Connect Wallet') return;
+
             if (window.solana && window.solana.isPhantom) {
                 try {
                     await window.solana.connect();
                     updateWalletBtn();
-                } catch (e) {}
+                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
+                } catch (e) { /* ignore */ }
             } else {
                 window.open('https://phantom.app/', '_blank');
             }
-        }
-    });
+        });
 
-    copyIcon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (window.solana && window.solana.publicKey) {
-            navigator.clipboard.writeText(window.solana.publicKey.toString());
-            copyIcon.style.opacity = 0.5;
-            setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
-        }
-    });
-
-    disconnectBtn.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        if (window.solana && window.solana.isPhantom && window.solana.disconnect) {
-            try {
-                await window.solana.disconnect();
-            } catch (e) {
-                console.error("Disconnect error:", e);
+        copyIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.solana && window.solana.publicKey) {
+                navigator.clipboard.writeText(window.solana.publicKey.toString());
+                copyIcon.style.opacity = 0.5;
+                setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
             }
-            walletText.textContent = 'Connect Wallet';
-            copyIcon.style.display = 'none';
-            disconnectBtn.style.display = 'none';
-        }
-    });
+        });
 
-    document.addEventListener('DOMContentLoaded', updateWalletBtn);
-    // ... existing code ...
+        disconnectBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    await window.solana.disconnect();
+                    updateWalletBtn();
+                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
+                } catch (e) { /* ignore */ }
+            }
+        });
+        
+        window.addEventListener('storage', (e) => {
+            if (e.key === WALLET_STATE_KEY) {
+                updateWalletBtn();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', updateWalletBtn);
     </script>
 </body>
 

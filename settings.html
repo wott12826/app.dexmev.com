@@ -704,6 +704,13 @@
 
             async function updateWalletBtn() {
                 console.log('updateWalletBtn called');
+                
+                // Если UI уже показывает "Connect Wallet", не перезаписываем его
+                if (walletText.textContent === 'Connect Wallet' && disconnectBtn.style.display === 'none') {
+                    console.log('UI already shows disconnected state, skipping update');
+                    return;
+                }
+                
                 if (window.solana && window.solana.isPhantom) {
                     console.log('Phantom wallet detected');
                     let pubKey = '';
@@ -787,15 +794,18 @@
                         copyIcon.style.display = 'none';
                         disconnectBtn.style.display = 'none';
                         
-                        // Дополнительно вызываем updateWalletBtn для синхронизации
-                        updateWalletBtn();
-                        
                         // Синхронизируем с другими страницами
                         localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
                         console.log('Wallet state updated and synchronized');
                         
                         // Показываем подтверждение пользователю
                         console.log('Wallet disconnected and UI updated');
+                        
+                        // Добавляем небольшую задержку перед вызовом updateWalletBtn
+                        setTimeout(() => {
+                            updateWalletBtn();
+                        }, 100);
+                        
                     } catch (e) { 
                         console.error('Error disconnecting wallet:', e);
                         alert('Error disconnecting wallet: ' + e.message);

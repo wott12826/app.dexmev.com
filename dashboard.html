@@ -875,6 +875,136 @@
             }
         });
     </script>
+    <script type="module">
+        const walletBtn = document.getElementById('walletSolanaBtn');
+        const walletText = document.getElementById('walletSolanaText');
+        const copyIcon = document.getElementById('copyWalletIcon');
+        const disconnectBtn = document.getElementById('disconnectWalletBtn');
+        const WALLET_STATE_KEY = 'wallet-event';
+        const WALLET_CONNECTED_KEY = 'wallet-connected';
+
+        function shortAddress(addr) {
+            if (!addr) return '';
+            return addr.slice(0, 4) + '...' + addr.slice(-4);
+        }
+
+        async function getSolBalance() {
+            const balanceElement = document.getElementById('solBalance');
+            if (!balanceElement) return;
+
+            if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
+                try {
+                    const balance = await window.solana.connection.getBalance(window.solana.publicKey);
+                    const solBalance = balance / 1000000000;
+                    balanceElement.textContent = solBalance.toFixed(4);
+                } catch (error) {
+                    balanceElement.textContent = '0';
+                }
+            } else {
+                balanceElement.textContent = '0';
+            }
+        }
+
+        async function updateWalletBtn() {
+            const isConnected = localStorage.getItem('wallet-connected') === 'true';
+            if (!isConnected) {
+                walletText.textContent = 'Connect Wallet';
+                copyIcon.style.display = 'none';
+                disconnectBtn.style.display = 'none';
+                document.getElementById('solBalance').textContent = '0';
+                return;
+            }
+            if (window.solana && window.solana.isPhantom) {
+                let pubKey = '';
+                try {
+                    await window.solana.connect({ onlyIfTrusted: true });
+                    pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
+                } catch (e) {
+                    pubKey = '';
+                }
+                if (pubKey) {
+                    walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
+                    copyIcon.style.display = 'inline-block';
+                    disconnectBtn.style.display = 'inline-block';
+                    localStorage.setItem('wallet-connected', 'true');
+                    await getSolBalance();
+                } else {
+                    walletText.textContent = 'Connect Wallet';
+                    copyIcon.style.display = 'none';
+                    disconnectBtn.style.display = 'none';
+                    localStorage.setItem('wallet-connected', 'false');
+                    document.getElementById('solBalance').textContent = '0';
+                }
+            } else {
+                walletText.textContent = 'Connect Wallet';
+                copyIcon.style.display = 'none';
+                disconnectBtn.style.display = 'none';
+                localStorage.setItem('wallet-connected', 'false');
+                document.getElementById('solBalance').textContent = '0';
+            }
+        }
+
+        if (walletBtn) {
+            walletBtn.addEventListener('click', async () => {
+                if (walletText.textContent !== 'Connect Wallet') return;
+                if (window.solana && window.solana.isPhantom) {
+                    try {
+                        await window.solana.connect();
+                        localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
+                        updateWalletBtn();
+                        localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
+                    } catch (e) {
+                        alert('Error connecting to wallet: ' + e.message);
+                    }
+                } else {
+                    window.open('https://phantom.app/', '_blank');
+                }
+            });
+        }
+
+        if (copyIcon) {
+            copyIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (window.solana && window.solana.publicKey) {
+                    const address = window.solana.publicKey.toString();
+                    navigator.clipboard.writeText(address);
+                    copyIcon.style.opacity = 0.5;
+                    setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
+                }
+            });
+        }
+
+        if (disconnectBtn) {
+            disconnectBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (window.solana && window.solana.isPhantom) {
+                    try {
+                        await window.solana.disconnect();
+                        localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
+                        walletText.textContent = 'Connect Wallet';
+                        copyIcon.style.display = 'none';
+                        disconnectBtn.style.display = 'none';
+                        localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
+                        setTimeout(() => {
+                            updateWalletBtn();
+                        }, 100);
+                    } catch (e) {
+                        alert('Error disconnecting wallet: ' + e.message);
+                    }
+                } else {
+                    alert('Phantom wallet not found');
+                }
+            });
+        }
+
+        window.addEventListener('storage', (e) => {
+            if (e.key === WALLET_STATE_KEY || e.key === WALLET_CONNECTED_KEY) {
+                updateWalletBtn();
+            }
+        });
+
+        updateWalletBtn();
+    </script>
 </body>
 
 </html>

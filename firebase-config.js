@@ -1,19 +1,19 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBvcUP3TD0ZUjYQvWUhVgE2Tt9Xivi3m7s",
-  authDomain: "testtest-c94df.firebaseapp.com",
-  projectId: "testtest-c94df",
-  storageBucket: "testtest-c94df.firebasestorage.app",
-  messagingSenderId: "112669024582",
-  appId: "1:112669024582:web:9cfa5fcd8c6325085fc547",
-  measurementId: "G-1QQTFLJ7WG"
+  apiKey: "AIzaSyCuL4tpaSsw1ylXf2VZrQ1b_2t_Kxd97cI",
+  authDomain: "post-ad037.firebaseapp.com",
+  projectId: "post-ad037",
+  storageBucket: "post-ad037.firebasestorage.app",
+  messagingSenderId: "377312187432",
+  appId: "1:377312187432:web:565f47c145e0e73ac0911d",
+  measurementId: "G-T48NR3B9VW"
 };
 
 // Initialize Firebase
@@ -32,19 +32,9 @@ window.firebaseAuth = {
   // Check if invite code exists
   checkInviteCode: async (inviteCode) => {
     try {
-      // Search for user with such inviteCode
-      const usersRef = db.collection ? db.collection("users") : null;
-      if (!usersRef) {
-        // For compatibility with modular SDK
-        const { collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-        const q = query(collection(db, "users"), where("inviteCode", "==", inviteCode));
-        const querySnapshot = await getDocs(q);
-        return !querySnapshot.empty;
-      } else {
-        // For compatibility with older SDK
-        const snapshot = await usersRef.where("inviteCode", "==", inviteCode).get();
-        return !snapshot.empty;
-      }
+      const q = query(collection(db, "users"), where("inviteCode", "==", inviteCode));
+      const querySnapshot = await getDocs(q);
+      return !querySnapshot.empty;
     } catch (error) {
       return false;
     }

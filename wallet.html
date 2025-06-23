@@ -10,37 +10,37 @@
     <title>DM Wallet</title>
     <meta name="description" content="DM Wallet description">
     <style>
-      /* Мобильная адаптация */
+      /* Мобильная адаптация — исправленная */
       @media (max-width: 900px) {
         aside {
-          min-width: 60px !important;
-          width: 60px !important;
+          min-width: 56px !important;
+          width: 56px !important;
           padding: 0 !important;
         }
         aside nav p, aside nav .text-center {
           display: none !important;
         }
         aside img {
-          width: 40px !important;
-          margin-top: 10px !important;
+          width: 36px !important;
+          margin-top: 8px !important;
         }
         .flex-1, main, header {
           padding-left: 0 !important;
         }
-        .w-[606px], .mx-auto {
+        .mx-auto, .w-[606px], .max-w-full, .sm\:max-w-\[1440px\] {
           width: 100% !important;
           max-width: 100vw !important;
           margin-left: 0 !important;
           margin-right: 0 !important;
         }
-        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px] {
-          border-radius: 10px !important;
+        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px], .rounded-lg {
+          border-radius: 8px !important;
         }
         .p-[30px], .p-5, .pt-8, .pt-7, .px-[30px], .sm\:p-\[30px\] {
-          padding: 12px !important;
+          padding: 10px !important;
         }
         .gap-[30px], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 {
-          gap: 10px !important;
+          gap: 8px !important;
         }
         .flex {
           flex-direction: column !important;
@@ -54,22 +54,25 @@
         .overflow-x-auto, .overflow-hidden {
           overflow-x: visible !important;
         }
-        .h-[340px], .h-[182px], .h-full, .h-4, .h-5, .h-6, .h-8, .h-9, .h-10, .h-11, .h-12, .h-14, .h-16, .h-20, .h-24, .h-32, .h-40, .h-48, .h-56, .h-64, .h-72, .h-80, .h-96 {
+        .h-[340px], .h-[182px], .h-full {
           height: auto !important;
           min-height: 0 !important;
         }
-        .w-full, .w-fit, .w-4, .w-5, .w-6, .w-8, .w-9, .w-10, .w-11, .w-12, .w-14, .w-16, .w-20, .w-24, .w-32, .w-40, .w-48, .w-56, .w-64, .w-72, .w-80, .w-96 {
+        .w-full, .w-fit {
           width: 100% !important;
           min-width: 0 !important;
         }
         .text-[32px], .text-base, .text-sm, .text-secondary, .text-green, .text-pink-hot, .text-white, .text-3xl, .text-xl, .text-lg {
-          font-size: 16px !important;
+          font-size: 15px !important;
         }
         .text-center {
           text-align: left !important;
         }
         .mt-[30px], .mt-10, .mt-2, .mt-2.5, .mt-3, .mt-4, .mt-5, .mt-6, .mt-7, .mt-8, .mt-9, .mt-12, .mt-14, .mt-16, .mt-20, .mt-24, .mt-32, .mt-40, .mt-48, .mt-56, .mt-64, .mt-72, .mt-80, .mt-96 {
-          margin-top: 10px !important;
+          margin-top: 8px !important;
+        }
+        .mb-3, .mb-4, .mb-5, .mb-6, .mb-7, .mb-8, .mb-9, .mb-10, .mb-12, .mb-14, .mb-16, .mb-20, .mb-24, .mb-32, .mb-40, .mb-48, .mb-56, .mb-64, .mb-72, .mb-80, .mb-96 {
+          margin-bottom: 8px !important;
         }
         .ml-3, .ml-4, .ml-5, .ml-6, .ml-7, .ml-8, .ml-9, .ml-10, .ml-12, .ml-14, .ml-16, .ml-20, .ml-24, .ml-32, .ml-40, .ml-48, .ml-56, .ml-64, .ml-72, .ml-80, .ml-96, .ml-20, .ml-24 {
           margin-left: 0 !important;
@@ -77,35 +80,13 @@
         .mr-auto, .mr-4, .mr-5, .mr-6, .mr-7, .mr-8, .mr-9, .mr-10, .mr-12, .mr-14, .mr-16, .mr-20, .mr-24, .mr-32, .mr-40, .mr-48, .mr-56, .mr-64, .mr-72, .mr-80, .mr-96 {
           margin-right: 0 !important;
         }
-        .mx-auto {
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-        }
-        .sm\:max-w-\[1440px\], .max-w-full {
-          max-width: 100vw !important;
-        }
-        .rounded-lg {
-          border-radius: 10px !important;
-        }
-        .shadow-main, .shadow-magenta-btn {
-          box-shadow: none !important;
-        }
-        .overflow-y-auto {
-          overflow-y: visible !important;
-        }
-        .p-px {
-          padding: 1px !important;
-        }
         .py-2, .py-0, .py-1, .py-3, .py-4, .py-5, .py-6, .py-7, .py-8, .py-9, .py-10 {
-          padding-top: 6px !important;
-          padding-bottom: 6px !important;
+          padding-top: 5px !important;
+          padding-bottom: 5px !important;
         }
         .px-3, .px-4, .px-5, .px-6, .px-7, .px-8, .px-9, .px-10 {
-          padding-left: 8px !important;
-          padding-right: 8px !important;
-        }
-        .sm\:p-\[30px\] {
-          padding: 12px !important;
+          padding-left: 6px !important;
+          padding-right: 6px !important;
         }
         /* Скрыть/свернуть сайдбар на очень маленьких экранах */
         @media (max-width: 600px) {
@@ -115,6 +96,24 @@
           .flex-1, main, header {
             padding-left: 0 !important;
           }
+        }
+        /* Уменьшить отступы у .section и .main блоков */
+        section, main {
+          padding: 6px !important;
+        }
+        /* Сделать кнопки и инпуты крупнее и на всю ширину */
+        button, input, select {
+          min-height: 38px !important;
+          font-size: 16px !important;
+          width: 100% !important;
+        }
+        /* Сделать вкладки в одну строку, но с прокруткой если не помещаются */
+        [id^="tab-"] {
+          min-width: 120px;
+          font-size: 15px !important;
+        }
+        .flex.items-center.gap-5, .flex.items-center.gap-4 {
+          flex-wrap: wrap !important;
         }
       }
     </style>
@@ -451,61 +450,108 @@
                                     </div>
                                 </div>
                             </div>
-                            <section class="mt-[30px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
+                            <section class="rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                                 <div class="!p-0 overflow-hidden h-full w-full rounded-[17px] bg-gd-main p-5">
-                                    <div class="flex items-center justify-between p-5 pb-0 text-xs">
-                                        <h2 class="text-base font-medium">Transactions</h2>
-                                        <div class="flex items-center gap-[30px]">
-                                            <div class="flex items-center gap-2 text-secondary">Show<button type="button"
-                                                    id="radix-:R4psvf9kq:" aria-haspopup="menu" aria-expanded="false"
-                                                    data-state="closed">
-                                                    <div
-                                                        class="!rounded-[6px] h-[22px] neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                                        <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                                            <div
-                                                                class="!rounded-[5px] !px-2.5 flex items-center !py-0 text-white h-full w-full rounded-[8px] bg-dark">
-                                                                <span class="w-6 text-left text-sm">5</span><svg
-                                                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                    viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                    stroke-width="2" stroke-linecap="round"
-                                                                    stroke-linejoin="round"
-                                                                    class="lucide lucide-chevron-down -mr-1">
-                                                                    <path d="m6 9 6 6 6-6"></path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </div>
-                                                </button>per page</div>
-                                            <div>
-                                                <div class="flex items-center gap-2.5"><button
-                                                        class="bg-gd-border-main p-px shadow-main !rounded-[4px] h-5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                                        <div class="inline"><span
-                                                                class="bg-dark !rounded-[3px] px-[5px] flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                    viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                    stroke-width="2" stroke-linecap="round"
-                                                                    stroke-linejoin="round" class="lucide lucide-chevron-left">
-                                                                    <path d="m15 18-6-6 6-6"></path>
-                                                                </svg></span></div>
-                                                </button>
-                                                <p>Item <span class="text-green">1 - <!-- -->0</span> <span
-                                                        class="text-secondary">of <!-- -->0</span></p><button
-                                                    class="bg-gd-border-main p-px shadow-main !rounded-[4px] h-5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                                    <div class="inline"><span
-                                                            class="bg-dark !rounded-[3px] px-[5px] flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round" class="lucide lucide-chevron-right">
-                                                                <path d="m9 18 6-6-6-6"></path>
-                                                            </svg></span></div>
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div class="flex items-center justify-between p-5 pb-0">
+                                        <h2 class="font-semibold">User Transaction Live Stream</h2>
+                                        <p class="text-sm text-green">1 - 5 <span class="text-[#aeb9e1]">of <!-- -->0</span></p>
                                     </div>
                                     <div class="mt-3 h-px bg-gd-divider opacity-[32%]"></div>
                                     <div class="relative mt-7 overflow-x-auto">
-                                        <div class="h-[340px] flex items-center justify-center text-white text-3xl">Transactions
-                                            not found</div>
+                                        <table class="h-[340px] w-full">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal pl-5 pr-0">
+                                                            #<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Time<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Token<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Cost<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Revenue<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Profit<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Block<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Delay<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Dex<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Type<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="10">
+                                                        <div class="h-[340px] flex items-center justify-center text-white text-3xl">
+                                                            Transactions not found</div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </section>

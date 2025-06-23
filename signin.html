@@ -165,13 +165,28 @@
         });
     </script>
     <script>
-    document.getElementById('phantomSignInBtn').onclick = async function() {
+    async function handlePhantomAuth() {
       if (window.solana && window.solana.isPhantom) {
         try {
           await window.solana.connect();
-          // Можно сохранить адрес в localStorage или отправить на сервер для авторизации
-          alert('Phantom wallet connected: ' + window.solana.publicKey.toString());
-          // window.location.href = 'dashboard.html'; // редирект после успешной авторизации
+          const address = window.solana.publicKey.toString();
+          const db = firebase.firestore();
+          const userRef = db.collection('users').doc(address);
+          const doc = await userRef.get();
+          if (doc.exists) {
+            localStorage.setItem('phantomUser', address);
+            alert('Вход через Phantom выполнен!');
+            window.location.href = 'dashboard.html';
+          } else {
+            await userRef.set({
+              email: '',
+              password: '',
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            localStorage.setItem('phantomUser', address);
+            alert('Аккаунт создан через Phantom!');
+            window.location.href = 'dashboard.html';
+          }
         } catch (e) {
           alert('Ошибка подключения Phantom: ' + e.message);
         }
@@ -180,7 +195,9 @@
           window.open('https://phantom.app/', '_blank');
         }
       }
-    };
+    }
+    document.getElementById('phantomSignInBtn')?.addEventListener('click', handlePhantomAuth);
+    document.getElementById('phantomSignUpBtn')?.addEventListener('click', handlePhantomAuth);
     </script>
 </body>
 

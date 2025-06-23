@@ -268,6 +268,120 @@
         th:nth-child(n+5), td:nth-child(n+5) { display: none !important; }
         .h-\[340px\] { height: auto !important; min-height: 0 !important; }
       }
+      @media (max-width: 768px) {
+        body, html {
+          width: 100vw;
+          overflow-x: hidden;
+        }
+        aside {
+          min-width: 0 !important;
+          width: 100vw !important;
+          display: none !important;
+        }
+        .flex.gap-[30px] {
+          flex-direction: column !important;
+          gap: 10px !important;
+        }
+        .w-[606px], .mx-auto, .max-w-full, .sm\:max-w-\[1440px\] {
+          width: 100% !important;
+          max-width: 100vw !important;
+          margin: 0 !important;
+        }
+        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px], .rounded-lg {
+          border-radius: 8px !important;
+        }
+        .p-[30px], .p-5, .pt-8, .pt-7, .px-[30px], .sm\:p-\[30px\] {
+          padding: 10px !important;
+        }
+        .gap-[30px], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 {
+          gap: 8px !important;
+        }
+        .text-[32px], .text-base, .text-sm, .text-3xl, .text-xl, .text-lg {
+          font-size: 15px !important;
+        }
+        .h-[182px], .w-[182px] {
+          height: 80px !important;
+          width: 80px !important;
+        }
+        .mt-[30px], .mt-10, .mt-6, .mt-2, .mt-2\.5 {
+          margin-top: 8px !important;
+        }
+        .shadow-main, .shadow-magenta-btn {
+          box-shadow: none !important;
+          display: contents !important;
+          background: none !important;
+        }
+        /* Вкладки */
+        .flex.gap-1.justify-between.p-1.bg-dark {
+          flex-wrap: wrap !important;
+          gap: 4px !important;
+        }
+        [id^="tab-"] {
+          min-width: 32% !important;
+          font-size: 14px !important;
+          padding: 8px 0 !important;
+          margin-bottom: 4px !important;
+        }
+        /* Кнопки и поля */
+        button, input, select {
+          min-height: 38px !important;
+          font-size: 15px !important;
+          width: 100% !important;
+        }
+        /* QR-код и иконки */
+        svg, .h-[19px], .min-w-6, .min-h-6, .min-w-4, .min-h-4 {
+          width: 18px !important;
+          height: 18px !important;
+          min-width: 18px !important;
+          min-height: 18px !important;
+        }
+        /* Таблица транзакций — вертикальный список */
+        .relative.overflow-x-auto, .relative.mt-7.overflow-x-auto {
+          overflow-x: visible !important;
+        }
+        table, .transactions-table {
+          display: block !important;
+          width: 100% !important;
+        }
+        thead {
+          display: none !important;
+        }
+        tbody, tr {
+          display: block !important;
+          width: 100% !important;
+        }
+        tr {
+          margin-bottom: 10px !important;
+          border-bottom: 1px solid #222;
+          background: none !important;
+        }
+        td {
+          display: flex !important;
+          width: 100% !important;
+          font-size: 14px !important;
+          padding: 4px 0 !important;
+          align-items: center;
+        }
+        td:before {
+          content: attr(data-label);
+          flex: 0 0 110px;
+          color: #888;
+          font-size: 12px;
+          margin-right: 8px;
+        }
+        /* Скрыть второстепенные элементы */
+        .hide-mobile, .sidebar, .extra-info, .desktop-only { display: none !important; }
+        /* Шапка */
+        header, .header, .main-header {
+          flex-direction: column !important;
+          gap: 8px !important;
+          padding: 10px !important;
+        }
+        .flex.items-center.gap-5, .flex.items-center.gap-4 {
+          flex-wrap: wrap !important;
+          gap: 8px !important;
+        }
+      }
     </style>
 </head>
 

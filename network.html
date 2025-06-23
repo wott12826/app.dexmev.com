@@ -179,15 +179,14 @@
                         <div class="flex items-start h-full w-full rounded-[17px] bg-gd-main p-5">
                             <div>
                                 <p class="text-sm text-secondary">Slot Height</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
+                                <div id="slot-height" class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
                             </div>
                             <div class="ml-20">
                                 <p class="text-sm text-secondary">Supply</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
+                                <div id="supply" class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
                             </div>
                             <div class="ml-24">
-                                <p class="text-sm text-secondary">Epoch</p><button
-                                    class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-8 h-8 mt-[14px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                <p class="text-sm text-secondary">Epoch</p><button class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-8 h-8 mt-[14px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                     <div class="inline"><span
                                             class="bg-gd-magenta-2 flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
                                                 xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none"
@@ -208,67 +207,23 @@
                                             </svg></span></div>
                                 </button>
                             </div>
-                            <div class="ml-3 flex items-end gap-3"><span
-                                    class="relative top-[14px] text-[32px] font-bold">...</span>
+                            <div class="ml-3 flex items-end gap-3"><span id="epoch-current" class="relative top-[14px] text-[32px] font-bold">...</span>
                                 <div class="w-[500px]">
                                     <div class="relative">
-                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA ...</p>
-                                        <div class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out"
-                                            style="left:calc(0% - 0px)">0<!-- -->%</div>
-                                        <div
-                                            class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
+                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA <span id="eta">...</span></p>
+                                        <div id="epoch-percentage-text" class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out" style="left:calc(0% - 0px)">0%</div>
+                                        <div class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
                                             <div class="h-4 w-full rounded-md bg-dark">
-                                                <div class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out"
-                                                    style="width:0%"></div>
+                                                <div id="epoch-progress-bar" class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out" style="width:0%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div><span class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
+                                </div><span id="epoch-next" class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
                             </div>
                         </div>
                     </section>
-                    <div class="rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
-                        <div class="flex flex-col gap-1 !py-[30px] h-full w-full rounded-[17px] bg-gd-main p-5">
-                            <div class="w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                    <div class="flex gap-1 justify-between p-1 h-full w-full rounded-[8px] bg-dark">
-                                        <button
-                                            class="bg-gradient-to-br from-[#FF00FF] to-[#930093] text-magenta p-px shadow-main !rounded-[7px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                            <div class="inline"><span
-                                                    class="bg-gd-main !py-1 !px-8 !rounded-[6px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Mev
-                                                    Live Stream</span></div>
-                                        </button><button
-                                            class="bg-transparent p-0.5 !rounded-[7px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                            <div class="inline"><span
-                                                    class="bg-transparent text-secondary !py-1 !px-8 !rounded-[6px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">DexMev
-                                                    Performance</span></div>
-                                        </button><button
-                                            class="bg-transparent p-0.5 !rounded-[7px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                            <div class="inline"><span
-                                                    class="bg-transparent text-secondary !py-1 !px-8 !rounded-[6px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                                        fill="none" viewbox="0 0 7 10" class="-mr-0.5 h-2.5 w-2">
-                                                        <path fill="#9E9E9E"
-                                                            d="M7 9.455V4.339a.56.56 0 0 0-.573-.545h-.012V2.775C6.415 1.245 5.107 0 3.5 0S.585 1.245.585 2.775v1.019H.573A.56.56 0 0 0 0 4.339v5.116A.56.56 0 0 0 .573 10h5.854A.56.56 0 0 0 7 9.455M2.927 6.814a.56.56 0 0 1 .573-.546.56.56 0 0 1 .573.546v.679a.56.56 0 0 1-.573.545.56.56 0 0 1-.573-.545zM1.731 2.775c0-.929.793-1.684 1.769-1.684s1.77.755 1.77 1.684v1.019H1.73z">
-                                                        </path>
-                                                    </svg>Mev Leaderboard</span></div>
-                                        </button><button
-                                            class="bg-transparent p-0.5 !rounded-[7px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                            <div class="inline"><span
-                                                    class="bg-transparent text-secondary !py-1 !px-8 !rounded-[6px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                                        fill="none" viewbox="0 0 7 10" class="-mr-0.5 h-2.5 w-2">
-                                                        <path fill="#9E9E9E"
-                                                            d="M7 9.455V4.339a.56.56 0 0 0-.573-.545h-.012V2.775C6.415 1.245 5.107 0 3.5 0S.585 1.245.585 2.775v1.019H.573A.56.56 0 0 0 0 4.339v5.116A.56.56 0 0 0 .573 10h5.854A.56.56 0 0 0 7 9.455M2.927 6.814a.56.56 0 0 1 .573-.546.56.56 0 0 1 .573.546v.679a.56.56 0 0 1-.573.545.56.56 0 0 1-.573-.545zM1.731 2.775c0-.929.793-1.684 1.769-1.684s1.77.755 1.77 1.684v1.019H1.73z">
-                                                        </path>
-                                                    </svg>Transaction Explorer</span></div>
-                                        </button></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="flex gap-[30px]">
-                        <div class="w-[710px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
+                        <div class="rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                             <div class="h-full w-full rounded-[17px] bg-gd-main p-5">
                                 <div>
                                     <div class="flex items-center justify-between">
@@ -809,6 +764,13 @@
         updateWalletBtn();
         console.log('Network page - Wallet initialization complete');
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Network page - DOM loaded');
+        });
+    </script>
+    <script src="firebase-config.js" type="module"></script>
+    <script src="dashboard-script.js"></script>
 </body>
 
 </html>

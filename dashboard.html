@@ -165,11 +165,11 @@
                         <div class="flex items-start h-full w-full rounded-[17px] bg-gd-main p-5">
                             <div>
                                 <p class="text-sm text-secondary">Slot Height</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
+                                <div id="slot-height" class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
                             </div>
                             <div class="ml-20">
                                 <p class="text-sm text-secondary">Supply</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
+                                <div id="supply" class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
                             </div>
                             <div class="ml-24">
                                 <p class="text-sm text-secondary">Epoch</p><button
@@ -194,22 +194,18 @@
                                             </svg></span></div>
                                 </button>
                             </div>
-                            <div class="ml-3 flex items-end gap-3"><span
-                                    class="relative top-[14px] text-[32px] font-bold">...</span>
+                            <div class="ml-3 flex items-end gap-3"><span id="epoch-current" class="relative top-[14px] text-[32px] font-bold">...</span>
                                 <div class="w-[500px]">
                                     <div class="relative">
-                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA ...</p>
-                                        <div class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out"
-                                            style="left:calc(0% - 0px)">0<!-- -->%</div>
-                                        <div
-                                            class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
+                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA <span id="eta">...</span></p>
+                                        <div id="epoch-percentage-text" class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out" style="left:calc(0% - 0px)">0%</div>
+                                        <div class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
                                             <div class="h-4 w-full rounded-md bg-dark">
-                                                <div class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out"
-                                                    style="width:0%"></div>
+                                                <div id="epoch-progress-bar" class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out" style="width:0%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div><span class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
+                                </div><span id="epoch-next" class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
                             </div>
                         </div>
                     </section>
@@ -815,255 +811,14 @@
             </main>
         </div>
     </div>
-    <div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events:none">
-        <ol tabindex="-1"
-            class="fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]">
-        </ol>
-    </div>
-    
-    <!-- Firebase Configuration -->
-    <script type="module" src="firebase-config.js"></script>
-    
-    <!-- Firebase Authentication Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Dashboard page loaded, setting up logout functionality...');
-            
-            // Function to get protected logout button
-            const getProtectedLogoutBtn = () => {
-                const button = document.querySelector('[data-firebase-logout="true"]') || 
-                              document.getElementById('logoutBtn');
-                console.log('Found logout button:', button);
-                return button;
-            };
-            
-            const logoutBtn = getProtectedLogoutBtn();
-            
-            if (logoutBtn) {
-                console.log('Adding click event listener to logout button...');
-                
-                logoutBtn.addEventListener('click', async function(e) {
-                    e.preventDefault();
-                    console.log('Logout button clicked!');
-                    
-                    try {
-                        // Show loading state
-                        logoutBtn.style.opacity = '0.5';
-                        logoutBtn.style.pointerEvents = 'none';
-                        
-                        console.log('Waiting for Firebase to be loaded...');
-                        
-                        // Wait for Firebase to be loaded
-                        let attempts = 0;
-                        while (!window.firebaseAuth && attempts < 50) {
-                            await new Promise(resolve => setTimeout(resolve, 100));
-                            attempts++;
-                        }
-                        
-                        if (!window.firebaseAuth) {
-                            throw new Error('Firebase not loaded after 5 seconds');
-                        }
-                        
-                        console.log('Firebase loaded, calling signOut...');
-                        
-                        const result = await window.firebaseAuth.signOut();
-                        
-                        console.log('Sign out result:', result);
-                        
-                        if (result.success) {
-                            // Success - redirect will be handled by auth state listener
-                            console.log('Sign out successful, redirecting...');
-                            alert('Successfully signed out!');
-                        } else {
-                            console.error('Sign out error:', result.error);
-                            alert('Error signing out: ' + result.error);
-                        }
-                    } catch (error) {
-                        console.error('Sign out error:', error);
-                        alert('An unexpected error occurred: ' + error.message);
-                    } finally {
-                        // Restore button state
-                        logoutBtn.style.opacity = '0.9';
-                        logoutBtn.style.pointerEvents = 'auto';
-                    }
-                });
-                
-                console.log('Logout event listener added successfully');
-            } else {
-                console.error('Logout button not found!');
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Dashboard page - Wallet initialization complete');
         });
     </script>
-    <script type="module">
-        const walletBtn = document.getElementById('walletSolanaBtn');
-        const walletText = document.getElementById('walletSolanaText');
-        const copyIcon = document.getElementById('copyWalletIcon');
-        const disconnectBtn = document.getElementById('disconnectWalletBtn');
-        const WALLET_STATE_KEY = 'wallet-event';
-        const WALLET_CONNECTED_KEY = 'wallet-connected';
-
-        console.log('Dashboard page - Wallet elements found:', {
-            walletBtn: !!walletBtn,
-            walletText: !!walletText,
-            copyIcon: !!copyIcon,
-            disconnectBtn: !!disconnectBtn
-        });
-
-        function shortAddress(addr) {
-            if (!addr) return '';
-            return addr.slice(0, 4) + '...' + addr.slice(-4);
-        }
-        async function getSolBalance() {
-            const balanceElement = document.getElementById('solBalance');
-            if (!balanceElement) return;
-
-            if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
-                try {
-                    // Получаем баланс в lamports (1 SOL = 1,000,000,000 lamports)
-                    const balance = await window.solana.connection.getBalance(window.solana.publicKey);
-                    const solBalance = balance / 1000000000; // Конвертируем в SOL
-                    balanceElement.textContent = solBalance.toFixed(4);
-                    console.log('Dashboard page - SOL balance updated:', solBalance.toFixed(4));
-                } catch (error) {
-                    console.error('Dashboard page - Error getting SOL balance:', error);
-                    balanceElement.textContent = '0';
-                }
-            } else {
-                balanceElement.textContent = '0';
-            }
-        }
-        async function updateWalletBtn() {
-            console.log('Dashboard page - updateWalletBtn called');
-            const isConnected = localStorage.getItem('wallet-connected') === 'true';
-            if (!isConnected) {
-                console.log('Dashboard page - Wallet is marked as disconnected, forcing disconnected state');
-                walletText.textContent = 'Connect Wallet';
-                copyIcon.style.display = 'none';
-                disconnectBtn.style.display = 'none';
-                document.getElementById('solBalance').textContent = '0';
-                return;
-            }
-            if (window.solana && window.solana.isPhantom) {
-                let pubKey = '';
-                try {
-                    await window.solana.connect({ onlyIfTrusted: true });
-                    pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
-                } catch (e) {
-                    pubKey = '';
-                }
-                if (pubKey) {
-                    walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
-                    copyIcon.style.display = 'inline-block';
-                    disconnectBtn.style.display = 'inline-block';
-                    localStorage.setItem('wallet-connected', 'true');
-                    await getSolBalance();
-                } else {
-                    walletText.textContent = 'Connect Wallet';
-                    copyIcon.style.display = 'none';
-                    disconnectBtn.style.display = 'none';
-                    localStorage.setItem('wallet-connected', 'false');
-                    document.getElementById('solBalance').textContent = '0';
-                }
-            } else {
-                walletText.textContent = 'Connect Wallet';
-                copyIcon.style.display = 'none';
-                disconnectBtn.style.display = 'none';
-                localStorage.setItem('wallet-connected', 'false');
-                document.getElementById('solBalance').textContent = '0';
-            }
-        }
-
-        walletBtn.addEventListener('click', async () => {
-            console.log('Dashboard page - Wallet button clicked, current text:', walletText.textContent);
-            if (walletText.textContent !== 'Connect Wallet') return;
-
-            if (window.solana && window.solana.isPhantom) {
-                console.log('Dashboard page - Attempting to connect to Phantom wallet...');
-                try {
-                    await window.solana.connect();
-                    console.log('Dashboard page - Successfully connected to Phantom wallet');
-                    localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-                    updateWalletBtn();
-                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
-                    console.log('Dashboard page - Wallet state synchronized');
-                } catch (e) { 
-                    console.error('Dashboard page - Error connecting to wallet:', e);
-                    alert('Error connecting to wallet: ' + e.message);
-                }
-            } else {
-                console.log('Dashboard page - Phantom wallet not available, opening download page');
-                window.open('https://phantom.app/', '_blank');
-            }
-        });
-
-        copyIcon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            console.log('Dashboard page - Copy icon clicked');
-            if (window.solana && window.solana.publicKey) {
-                const address = window.solana.publicKey.toString();
-                console.log('Dashboard page - Copying address to clipboard:', address);
-                navigator.clipboard.writeText(address);
-                copyIcon.style.opacity = 0.5;
-                setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
-                console.log('Dashboard page - Address copied to clipboard');
-            } else {
-                console.log('Dashboard page - No wallet address to copy');
-            }
-        });
-
-        disconnectBtn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            console.log('Dashboard page - Disconnect button clicked!');
-            
-            if (window.solana && window.solana.isPhantom) {
-                console.log('Dashboard page - Phantom wallet found, attempting to disconnect...');
-                try {
-                    // Отключаем кошелек
-                    await window.solana.disconnect();
-                    console.log('Dashboard page - Wallet disconnected successfully');
-                    
-                    // Обновляем статус подключения
-                    localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
-                    
-                    // Принудительно обновляем UI
-                    walletText.textContent = 'Connect Wallet';
-                    copyIcon.style.display = 'none';
-                    disconnectBtn.style.display = 'none';
-                    
-                    // Синхронизируем с другими страницами
-                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
-                    console.log('Dashboard page - Wallet state updated and synchronized');
-                    
-                    // Показываем подтверждение пользователю
-                    console.log('Dashboard page - Wallet disconnected and UI updated');
-                    
-                    // Добавляем небольшую задержку перед вызовом updateWalletBtn
-                    setTimeout(() => {
-                        updateWalletBtn();
-                    }, 100);
-                    
-                } catch (e) { 
-                    console.error('Dashboard page - Error disconnecting wallet:', e);
-                    alert('Error disconnecting wallet: ' + e.message);
-                }
-            } else {
-                console.log('Dashboard page - Phantom wallet not found');
-                alert('Phantom wallet not found');
-            }
-        });
-        
-        window.addEventListener('storage', (e) => {
-            console.log('Dashboard page - Storage event detected:', e.key, e.newValue);
-            if (e.key === WALLET_STATE_KEY || e.key === WALLET_CONNECTED_KEY) {
-                console.log('Dashboard page - Wallet state change detected, updating UI');
-                updateWalletBtn();
-            }
-        });
-
-        console.log('Dashboard page - Initializing wallet state...');
-        updateWalletBtn();
-        console.log('Dashboard page - Wallet initialization complete');
-    </script>
+    <script src="firebase-config.js" type="module"></script>
+    <script src="dashboard-script.js"></script>
 </body>
 
 </html>

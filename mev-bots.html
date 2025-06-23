@@ -177,11 +177,11 @@
                         <div class="flex items-start h-full w-full rounded-[17px] bg-gd-main p-5">
                             <div>
                                 <p class="text-sm text-secondary">Slot Height</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
+                                <div id="slot-height" class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
                             </div>
                             <div class="ml-20">
                                 <p class="text-sm text-secondary">Supply</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
+                                <div id="supply" class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
                             </div>
                             <div class="ml-24">
                                 <p class="text-sm text-secondary">Epoch</p><button
@@ -206,22 +206,20 @@
                                             </svg></span></div>
                                 </button>
                             </div>
-                            <div class="ml-3 flex items-end gap-3"><span
-                                    class="relative top-[14px] text-[32px] font-bold">...</span>
+                            <div class="ml-3 flex items-end gap-3"><span id="epoch-current" class="relative top-[14px] text-[32px] font-bold">...</span>
                                 <div class="w-[500px]">
                                     <div class="relative">
-                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA ...</p>
-                                        <div class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out"
-                                            style="left:calc(0% - 0px)">0<!-- -->%</div>
+                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA <span id="eta">...</span></p>
+                                        <div id="epoch-percentage-text" class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out" style="left:calc(0% - 0px)">0%</div>
                                         <div
                                             class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
                                             <div class="h-4 w-full rounded-md bg-dark">
-                                                <div class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out"
+                                                <div id="epoch-progress-bar" class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out"
                                                     style="width:0%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div><span class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
+                                </div><span id="epoch-next" class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
                             </div>
                         </div>
                     </section>
@@ -1221,6 +1219,13 @@
         // Вызов getSolBalance() при подключении и отключении кошелька
         // ... в updateWalletBtn() и при disconnect ...
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Mev Bots page - DOM loaded');
+        });
+    </script>
+    <script src="firebase-config.js" type="module"></script>
+    <script src="dashboard-script.js"></script>
 </body>
 
 </html>

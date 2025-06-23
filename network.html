@@ -9,6 +9,23 @@
     <link data-rh="true" rel="icon" href="favicon-logo.svg">
     <title>DM Dashboard - Network</title>
     <meta name="description" content="DM Dashboard description">
+    <style>
+        /* Стили для активного состояния табов MEV Types */
+        .tab-btn.active {
+            background: linear-gradient(to bottom right, #FF00FF, #930093) !important;
+        }
+        .tab-btn.active span {
+            background-color: #1a1a1a !important;
+            color: #fff !important;
+        }
+        .tab-btn:not(.active) {
+            background: transparent !important;
+        }
+        .tab-btn:not(.active) span {
+            background-color: transparent !important;
+            color: #9E9E9E !important;
+        }
+    </style>
 </head>
 
 <body class="antialiased">
@@ -335,18 +352,17 @@
                                 class="h-fit w-full rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                                 <div class="h-full w-full rounded-[17px] bg-gd-main p-5">
                                     <h2 class="font-semibold">Performance of MEV Types</h2>
-                                    <div class="mt-3 h-px bg-gd-divider opacity-[32%]"></div>
                                     <div class="mt-5 w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
                                         <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                             <div
                                                 class="flex gap-2 p-1 justify-between h-full w-full rounded-[8px] bg-dark">
-                                                <button
-                                                    class="bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                <button id="tab-profit" class="tab-btn
+                                                    bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] active">
                                                     <div class="inline"><span
                                                             class="bg-gd-magenta px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">By
                                                             <!-- -->profit</span></div>
-                                                </button><button
-                                                    class="bg-transparent p-0.5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                </button><button id="tab-volume" class="tab-btn
+                                                    bg-transparent p-0.5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                                     <div class="inline"><span
                                                             class="bg-transparent text-secondary px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">By
                                                             <!-- -->volume</span></div>
@@ -354,7 +370,14 @@
                                         </div>
                                     </div>
                                     <div class="mt-3 min-h-[310px]">
-                                        <div></div>
+                                        <!-- График по профиту -->
+                                        <div id="chart-profit" class="mev-chart">
+                                            <img src="by_profit.png" alt="Performance by profit" class="w-full h-auto">
+                                        </div>
+                                        <!-- График по объёму -->
+                                        <div id="chart-volume" class="mev-chart" style="display:none;">
+                                            <img src="by_volume.png" alt="Performance by volume" class="w-full h-auto">
+                                        </div>
                                     </div>
                                     <div class="mt-8 flex gap-5">
                                         <div class="w-full neumorphism-border-1 rounded-md p-px overflow-hidden">
@@ -770,6 +793,38 @@
         });
     </script>
     <script src="firebase-config.js" type="module"></script>
+    
+    <script>
+        // Переключение табов MEV Types
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabProfit = document.getElementById('tab-profit');
+            const tabVolume = document.getElementById('tab-volume');
+            const chartProfit = document.getElementById('chart-profit');
+            const chartVolume = document.getElementById('chart-volume');
+            
+            if (tabProfit && tabVolume && chartProfit && chartVolume) {
+                tabProfit.addEventListener('click', function() {
+                    // Активируем таб "By profit"
+                    tabProfit.classList.add('active');
+                    tabVolume.classList.remove('active');
+                    
+                    // Показываем график по профиту
+                    chartProfit.style.display = '';
+                    chartVolume.style.display = 'none';
+                });
+                
+                tabVolume.addEventListener('click', function() {
+                    // Активируем таб "By volume"
+                    tabVolume.classList.add('active');
+                    tabProfit.classList.remove('active');
+                    
+                    // Показываем график по объёму
+                    chartVolume.style.display = '';
+                    chartProfit.style.display = 'none';
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

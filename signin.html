@@ -164,6 +164,41 @@
             }
         });
     </script>
+    <script>
+    async function handlePhantomAuth() {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          await window.solana.connect();
+          const address = window.solana.publicKey.toString();
+          const db = firebase.firestore();
+          const userRef = db.collection('users').doc(address);
+          const doc = await userRef.get();
+          if (doc.exists) {
+            localStorage.setItem('phantomUser', address);
+            alert('Вход через Phantom выполнен!');
+            window.location.href = 'dashboard.html';
+          } else {
+            await userRef.set({
+              email: '',
+              password: '',
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            localStorage.setItem('phantomUser', address);
+            alert('Аккаунт создан через Phantom!');
+            window.location.href = 'dashboard.html';
+          }
+        } catch (e) {
+          alert('Ошибка подключения Phantom: ' + e.message);
+        }
+      } else {
+        if (confirm('Phantom wallet не найден. Открыть страницу скачивания?')) {
+          window.open('https://phantom.app/', '_blank');
+        }
+      }
+    }
+    document.getElementById('phantomSignInBtn')?.addEventListener('click', handlePhantomAuth);
+    document.getElementById('phantomSignUpBtn')?.addEventListener('click', handlePhantomAuth);
+    </script>
 </body>
 
 </html>

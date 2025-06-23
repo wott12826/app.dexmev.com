@@ -23,6 +23,23 @@
     <link data-rh="true" rel="icon" href="favicon-logo.svg">
     <title>DM Dashboard</title>
     <meta name="description" content="DM Dashboard description">
+    <style>
+        /* Стили для активного состояния табов MEV Types */
+        .tab-btn.active {
+            background: linear-gradient(to bottom right, #FF00FF, #930093) !important;
+        }
+        .tab-btn.active span {
+            background-color: #1a1a1a !important;
+            color: #fff !important;
+        }
+        .tab-btn:not(.active) {
+            background: transparent !important;
+        }
+        .tab-btn:not(.active) span {
+            background-color: transparent !important;
+            color: #9E9E9E !important;
+        }
+    </style>
     <script src="_next/static/chunks/polyfills-42372ed130431b0a.js" nomodule=""></script>
 </head>
 
@@ -284,7 +301,7 @@
                                                     </svg>
                                                 </div>
                                                 <p class="text-2xl font-bold tracking-[-0.01em] text-magenta">
-                                                    0<!-- -->-<!-- -->0</p>
+                                                     807<!-- -->-<!-- -->808</p>
                                             </div>
                                             <div class="min-h-full w-px bg-gd-divider opacity-[32%]"></div>
                                             <div class="min-w-[510px]">
@@ -624,13 +641,13 @@
                                 <div class="mt-5 w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                         <div class="flex gap-2 p-1 justify-between h-full w-full rounded-[8px] bg-dark">
-                                            <button
-                                                class="bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                            <button id="tab-profit" class="tab-btn
+                                                bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] active">
                                                 <div class="inline"><span
                                                         class="bg-gd-magenta px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">By
                                                         <!-- -->profit</span></div>
-                                            </button><button
-                                                class="bg-transparent p-0.5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                            </button><button id="tab-volume" class="tab-btn
+                                                bg-transparent p-0.5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                                 <div class="inline"><span
                                                         class="bg-transparent text-secondary px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">By
                                                         <!-- -->volume</span></div>
@@ -638,7 +655,14 @@
                                     </div>
                                 </div>
                                 <div class="mt-3 min-h-[310px]">
-                                    <div></div>
+                                    <!-- График по профиту -->
+                                    <div id="chart-profit" class="mev-chart">
+                                        <img src="by_profit.png" alt="Performance by profit" class="w-full h-auto">
+                                    </div>
+                                    <!-- График по объёму -->
+                                    <div id="chart-volume" class="mev-chart" style="display:none;">
+                                        <img src="by_volume.png" alt="Performance by volume" class="w-full h-auto">
+                                    </div>
                                 </div>
                                 <div class="mt-8 flex gap-5">
                                     <div class="w-full neumorphism-border-1 rounded-md p-px overflow-hidden">
@@ -658,7 +682,7 @@
                                                                 <path fill="#fff" d="M0 0h24v24H0z"></path>
                                                             </clippath>
                                                         </defs>
-                                                    </svg>$<!-- -->0</div>
+                                                    </svg>$829.2K</div>
                                             </div>
                                         </div>
                                     </div>
@@ -672,7 +696,7 @@
                                                         <path fill="#14F195"
                                                             d="m13.507 6.671 1.05 2.895a7.05 7.05 0 0 0 1.659 2.64L20.21 16.3c.599.613.597 1.6-.003 2.2a1.56 1.56 0 0 1-2.204 0l-4.85-4.85a.63.63 0 0 0-.632-.17l-2.374.637a.39.39 0 0 0-.294.383v3.35a1.56 1.56 0 0 1-1.558 1.558c-.86 0-1.558-.699-1.558-1.558v-3.948c0-1.178.054-1.729 1.336-2.444l.968-.54c.443-.247.426-.36.356-.553l-.816-2.25a1.14 1.14 0 0 0-1.099-.77H3.98c-.886 0-1.363-.675-1.363-1.312 0-.647.48-1.303 1.4-1.303h6.72c1.255 0 2.343.762 2.77 1.941M3.366 6.033c0 .28.19.563.613.563H9.74a.375.375 0 0 1 0 .75h-.734q.175.23.279.514l.816 2.249c.325.894-.416 1.308-.695 1.464l-.968.54c-.952.53-.952.748-.952 1.79v3.947a.81.81 0 0 0 1.616 0V14.5c0-.526.342-.972.85-1.108l2.374-.636a1.37 1.37 0 0 1 1.356.363l4.851 4.851a.81.81 0 0 0 1.143 0 .82.82 0 0 0-.003-1.146l-3.995-4.094a7.8 7.8 0 0 1-1.826-2.909l-1.051-2.894a2.15 2.15 0 0 0-2.065-1.447h-6.72c-.48 0-.651.286-.651.553m6.017-1.52a2.19 2.19 0 0 1-2.186-2.186c0-1.206.98-2.186 2.186-2.186s2.187.98 2.187 2.186-.981 2.186-2.187 2.186m0-3.622c-.792 0-1.436.644-1.436 1.436s.644 1.436 1.436 1.436 1.437-.644 1.437-1.436S10.175.891 9.383.891M.425 20.777l2.8-1.905a.643.643 0 0 1 1.006.533v.483h11.177c.332 0 .602.27.602.601v1.641c0 .332-.27.602-.602.602H4.231v.483a.643.643 0 0 1-1.006.532l-2.8-1.905a.643.643 0 0 1 0-1.065m3.056 2.237v-.657c0-.207.168-.375.375-.375H15.26v-1.344H3.856a.375.375 0 0 1-.375-.375v-.658L.976 21.31zm12.483-14.02a.375.375 0 0 0 0 .75h1.937a.375.375 0 0 0 0-.75zm-1.723-3.575h1.937a.375.375 0 0 0 0-.75h-1.937a.375.375 0 0 0 0 .75m4.272-2.897a.375.375 0 0 0-.375-.375h-5.203a.375.375 0 0 0 0 .75h5.203a.375.375 0 0 0 .375-.375m4.086 12.089a.375.375 0 0 0-.375-.375H20.08a.375.375 0 0 0 0 .75h2.144a.375.375 0 0 0 .375-.375m-1.058 3.686h1.94a.375.375 0 0 0 0-.75h-1.94a.375.375 0 0 0 0 .75m-4.692 3.013c0 .207.168.375.375.375h5.203a.375.375 0 0 0 0-.75h-5.203a.375.375 0 0 0-.375.375m3.626-14.545a.375.375 0 0 0-.375-.375h-3.806a.375.375 0 0 0 0 .75H20.1a.375.375 0 0 0 .375-.375m.6 5.261a.375.375 0 0 0-.375-.375h-2.726a.375.375 0 0 0 0 .75H20.7a.375.375 0 0 0 .375-.375">
                                                         </path>
-                                                    </svg>$<!-- -->0</div>
+                                                    </svg>$670.9K</div>
                                             </div>
                                         </div>
                                     </div>
@@ -698,7 +722,7 @@
                                                         <path fill="#B056FF" fill-rule="evenodd"
                                                             d="M2.229 9.376c.042.042.071.118.108.21.055.142.107.317.159.514.168.644.33 1.508.555 2.278.161.552.358 1.057.602 1.419.2.295.436.502.701.601.25.094.58.078.964-.055.448-.155.991-.47 1.558-.847.803-.534 1.659-1.191 2.345-1.633.254-.164.482-.296.672-.376a.6.6 0 0 1 .215-.064.376.376 0 0 0-.012-.75c-.224.004-.552.125-.937.348-.734.425-1.753 1.221-2.698 1.85-.507.337-.989.625-1.389.764-.182.063-.336.106-.454.061-.179-.067-.31-.246-.436-.47-.163-.292-.295-.662-.41-1.059-.263-.896-.439-1.92-.64-2.572-.109-.356-.24-.617-.373-.749a.375.375 0 0 0-.53.53M5.75 6.25h.375a.375.375 0 0 0 0-.75H5.75a.375.375 0 0 0 0 .75M8 4.75h.375a.375.375 0 0 0 0-.75H8a.375.375 0 0 0 0 .75M9.5 7h.375a.375.375 0 0 0 0-.75H9.5a.375.375 0 0 0 0 .75M11 3.625h.375a.375.375 0 0 0 0-.75H11a.375.375 0 0 0 0 .75M12.5 5.5h.375a.375.375 0 0 0 0-.75H12.5a.375.375 0 0 0 0 .75M15.875 5.875h.375a.375.375 0 0 0 0-.75h-.375a.375.375 0 0 0 0 .75"
                                                             clip-rule="evenodd"></path>
-                                                    </svg>$<!-- -->0</div>
+                                                    </svg>$941.9K</div>
                                             </div>
                                         </div>
                                     </div>
@@ -867,6 +891,38 @@
     <script>self.__next_f.push([1, "2:I[2846,[],\"\"]\n4:I[1720,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"11\",\"static/chunks/11-740fd8c49e11b861.js\",\"931\",\"static/chunks/app/page-1e5c037a9c2d008b.js\"],\"default\"]\n5:I[3408,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"63\",\"static/chunks/63-edabb0564f32b29a.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"185\",\"static/chunks/app/layout-69e37278711243f1.js\"],\"default\",1]\n6:I[4707,[],\"\"]\n7:I[6423,[],\"\"]\n8:I[2972,[\"972\",\"static/chunks/972-be09035380864e2e.js\",\"160\",\"static/chunks/app/not-found-b1955826259ffaed.js\"],\"\"]\na:I[1060,[],\"\"]\nb:[]\n0:[\"$\",\"$L2\",null,{\"buildId\":\"cBLe5wMNn_jJiYrdUbgQc\",\"assetPrefix\":\"\",\"urlParts\":[\"\",\"\"],\"initialTree\":[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{}],null],null],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ea903d5c6198cacb.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L5\",null,{\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[\"$\",\"div\",null,{\"className\":\"mt-[-120px] flex h-screen w-[1240px] flex-col items-center justify-center\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"\",\"children\":\"Not found – 404!\"}],[\"$\",\"div\",null,{\"className\":\"mt-2\",\"children\":[\"$\",\"$L8\",null,{\"href\":\"/\",\"className\":\"text-blue-500 text-magenta\",\"children\":\"Go back to Home\"}]}]]}],\"notFoundStyles\":[]}],\"params\":{}}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$L9\"],\"globalErrorComponent\":\"$a\","])</script>
     <script>self.__next_f.push([1, "\"missingSlots\":\"$Wb\"}]\n"])</script>
     <script>self.__next_f.push([1, "9:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}]]\n3:null\n"])</script>
+    
+    <script>
+        // Переключение табов MEV Types
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabProfit = document.getElementById('tab-profit');
+            const tabVolume = document.getElementById('tab-volume');
+            const chartProfit = document.getElementById('chart-profit');
+            const chartVolume = document.getElementById('chart-volume');
+            
+            if (tabProfit && tabVolume && chartProfit && chartVolume) {
+                tabProfit.addEventListener('click', function() {
+                    // Активируем таб "By profit"
+                    tabProfit.classList.add('active');
+                    tabVolume.classList.remove('active');
+                    
+                    // Показываем график по профиту
+                    chartProfit.style.display = '';
+                    chartVolume.style.display = 'none';
+                });
+                
+                tabVolume.addEventListener('click', function() {
+                    // Активируем таб "By volume"
+                    tabVolume.classList.add('active');
+                    tabProfit.classList.remove('active');
+                    
+                    // Показываем график по объёму
+                    chartVolume.style.display = '';
+                    chartProfit.style.display = 'none';
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

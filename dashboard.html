@@ -9,6 +9,23 @@
     <link data-rh="true" rel="icon" href="favicon-logo.svg">
     <title>DM Dashboard</title>
     <meta name="description" content="DM Dashboard description">
+    <style>
+        /* Стили для активного состояния табов MEV Types */
+        .tab-btn.active {
+            background: linear-gradient(to bottom right, #FF00FF, #930093) !important;
+        }
+        .tab-btn.active span {
+            background-color: #1a1a1a !important;
+            color: #fff !important;
+        }
+        .tab-btn:not(.active) {
+            background: transparent !important;
+        }
+        .tab-btn:not(.active) span {
+            background-color: transparent !important;
+            color: #9E9E9E !important;
+        }
+    </style>
 </head>
 
 <body class="antialiased">
@@ -165,11 +182,11 @@
                         <div class="flex items-start h-full w-full rounded-[17px] bg-gd-main p-5">
                             <div>
                                 <p class="text-sm text-secondary">Slot Height</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
+                                <div id="slot-height" class="mt-2 text-[32px] font-bold leading-[48px]">348,639,437</div>
                             </div>
                             <div class="ml-20">
                                 <p class="text-sm text-secondary">Supply</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
+                                <div id="supply" class="mt-2 text-[32px] font-bold leading-[48px] text-green">531.2M</div>
                             </div>
                             <div class="ml-24">
                                 <p class="text-sm text-secondary">Epoch</p><button
@@ -194,22 +211,18 @@
                                             </svg></span></div>
                                 </button>
                             </div>
-                            <div class="ml-3 flex items-end gap-3"><span
-                                    class="relative top-[14px] text-[32px] font-bold">...</span>
+                            <div class="ml-3 flex items-end gap-3"><span id="epoch-current" class="relative top-[14px] text-[32px] font-bold">807</span>
                                 <div class="w-[500px]">
                                     <div class="relative">
-                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA ...</p>
-                                        <div class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out"
-                                            style="left:calc(0% - 0px)">0<!-- -->%</div>
-                                        <div
-                                            class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
+                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA <span id="eta">1d 22h</span></p>
+                                        <div id="epoch-percentage-text" class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out" style="left:calc(4% - 0px)">4%</div>
+                                        <div class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
                                             <div class="h-4 w-full rounded-md bg-dark">
-                                                <div class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out"
-                                                    style="width:0%"></div>
+                                                <div id="epoch-progress-bar" class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out" style="width:4%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div><span class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
+                                </div><span id="epoch-next" class="relative top-[14px] text-[32px] font-bold text-secondary">808</span>
                             </div>
                         </div>
                     </section>
@@ -243,7 +256,7 @@
                                                     </svg>
                                                 </div>
                                                 <p class="text-2xl font-bold tracking-[-0.01em] text-magenta">
-                                                    0<!-- -->-<!-- -->0</p>
+                                                     807<!-- -->-<!-- -->808</p>
                                             </div>
                                             <div class="min-h-full w-px bg-gd-divider opacity-[32%]"></div>
                                             <div class="min-w-[510px]">
@@ -583,21 +596,29 @@
                                 <div class="mt-5 w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                         <div class="flex gap-2 p-1 justify-between h-full w-full rounded-[8px] bg-dark">
-                                            <button
-                                                class="bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                            <button id="tab-profit" class="tab-btn
+                                                bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] active">
                                                 <div class="inline"><span
                                                         class="bg-gd-magenta px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">By
                                                         <!-- -->profit</span></div>
-                                            </button><button
-                                                class="bg-transparent p-0.5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                            </button><button id="tab-volume" class="tab-btn
+                                                bg-transparent p-0.5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                                 <div class="inline"><span
                                                         class="bg-transparent text-secondary px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">By
                                                         <!-- -->volume</span></div>
-                                            </button></div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="mt-3 min-h-[310px]">
-                                    <div></div>
+                                    <!-- График по профиту -->
+                                    <div id="chart-profit" class="mev-chart">
+                                        <img src="by_profit.png" alt="Performance by profit" class="w-full h-auto">
+                                    </div>
+                                    <!-- График по объёму -->
+                                    <div id="chart-volume" class="mev-chart" style="display:none;">
+                                        <img src="by_volume.png" alt="Performance by volume" class="w-full h-auto">
+                                    </div>
                                 </div>
                                 <div class="mt-8 flex gap-5">
                                     <div class="w-full neumorphism-border-1 rounded-md p-px overflow-hidden">
@@ -617,7 +638,7 @@
                                                                 <path fill="#fff" d="M0 0h24v24H0z"></path>
                                                             </clippath>
                                                         </defs>
-                                                    </svg>$<!-- -->0</div>
+                                                    </svg>$829.2K</div>
                                             </div>
                                         </div>
                                     </div>
@@ -631,7 +652,7 @@
                                                         <path fill="#14F195"
                                                             d="m13.507 6.671 1.05 2.895a7.05 7.05 0 0 0 1.659 2.64L20.21 16.3c.599.613.597 1.6-.003 2.2a1.56 1.56 0 0 1-2.204 0l-4.85-4.85a.63.63 0 0 0-.632-.17l-2.374.637a.39.39 0 0 0-.294.383v3.35a1.56 1.56 0 0 1-1.558 1.558c-.86 0-1.558-.699-1.558-1.558v-3.948c0-1.178.054-1.729 1.336-2.444l.968-.54c.443-.247.426-.36.356-.553l-.816-2.25a1.14 1.14 0 0 0-1.099-.77H3.98c-.886 0-1.363-.675-1.363-1.312 0-.647.48-1.303 1.4-1.303h6.72c1.255 0 2.343.762 2.77 1.941M3.366 6.033c0 .28.19.563.613.563H9.74a.375.375 0 0 1 0 .75h-.734q.175.23.279.514l.816 2.249c.325.894-.416 1.308-.695 1.464l-.968.54c-.952.53-.952.748-.952 1.79v3.947a.81.81 0 0 0 1.616 0V14.5c0-.526.342-.972.85-1.108l2.374-.636a1.37 1.37 0 0 1 1.356.363l4.851 4.851a.81.81 0 0 0 1.143 0 .82.82 0 0 0-.003-1.146l-3.995-4.094a7.8 7.8 0 0 1-1.826-2.909l-1.051-2.894a2.15 2.15 0 0 0-2.065-1.447h-6.72c-.48 0-.651.286-.651.553m6.017-1.52a2.19 2.19 0 0 1 2.186-2.186c0-1.206.98-2.186 2.186-2.186s2.187.98 2.187 2.186-.981 2.186-2.187 2.186m0-3.622c-.792 0-1.436.644-1.436 1.436s.644 1.436 1.436 1.436 1.437-.644 1.437-1.436S10.175.891 9.383.891M.425 20.777l2.8-1.905a.643.643 0 0 1 1.006.533v.483h11.177c.332 0 .602.27.602.601v1.641c0 .332-.27.602-.602.602H4.231v.483a.643.643 0 0 1-1.006.532l-2.8-1.905a.643.643 0 0 1 0-1.065m3.056 2.237v-.657c0-.207.168-.375.375-.375H15.26v-1.344H3.856a.375.375 0 0 1-.375-.375v-.658L.976 21.31zm12.483-14.02a.375.375 0 0 0 0 .75h1.937a.375.375 0 0 0 0-.75zm-1.723-3.575h1.937a.375.375 0 0 0 0-.75h-1.937a.375.375 0 0 0 0 .75m4.272-2.897a.375.375 0 0 0-.375-.375h-5.203a.375.375 0 0 0 0 .75h5.203a.375.375 0 0 0 .375-.375m4.086 12.089a.375.375 0 0 0-.375-.375H20.08a.375.375 0 0 0 0 .75h2.144a.375.375 0 0 0 .375-.375m-1.058 3.686h1.94a.375.375 0 0 0 0-.75h-1.94a.375.375 0 0 0 0 .75m-4.692 3.013c0 .207.168.375.375.375h5.203a.375.375 0 0 0 0-.75h-5.203a.375.375 0 0 0-.375.375m3.626-14.545a.375.375 0 0 0-.375-.375h-3.806a.375.375 0 0 0 0 .75H20.1a.375.375 0 0 0 .375-.375m.6 5.261a.375.375 0 0 0-.375-.375h-2.726a.375.375 0 0 0 0 .75H20.7a.375.375 0 0 0 .375-.375">
                                                         </path>
-                                                    </svg>$<!-- -->0</div>
+                                                    </svg>$670.9K</div>
                                             </div>
                                         </div>
                                     </div>
@@ -657,7 +678,7 @@
                                                         <path fill="#B056FF" fill-rule="evenodd"
                                                             d="M2.229 9.376c.042.042.071.118.108.21.055.142.107.317.159.514.168.644.33 1.508.555 2.278.161.552.358 1.057.602 1.419.2.295.436.502.701.601.25.094.58.078.964-.055.448-.155.991-.47 1.558-.847.803-.534 1.659-1.191 2.345-1.633.254-.164.482-.296.672-.376a.6.6 0 0 1 .215-.064.376.376 0 0 0-.012-.75c-.224.004-.552.125-.937.348-.734.425-1.753 1.221-2.698 1.85-.507.337-.989.625-1.389.764-.182.063-.336.106-.454.061-.179-.067-.31-.246-.436-.47-.163-.292-.295-.662-.41-1.059-.263-.896-.439-1.92-.64-2.572-.109-.356-.24-.617-.373-.749a.375.375 0 0 0-.53.53M5.75 6.25h.375a.375.375 0 0 0 0-.75H5.75a.375.375 0 0 0 0 .75M8 4.75h.375a.375.375 0 0 0 0-.75H8a.375.375 0 0 0 0 .75M9.5 7h.375a.375.375 0 0 0 0-.75H9.5a.375.375 0 0 0 0 .75M11 3.625h.375a.375.375 0 0 0 0-.75H11a.375.375 0 0 0 0 .75M12.5 5.5h.375a.375.375 0 0 0 0-.75H12.5a.375.375 0 0 0 0 .75M15.875 5.875h.375a.375.375 0 0 0 0-.75h-.375a.375.375 0 0 0 0 .75"
                                                             clip-rule="evenodd"></path>
-                                                    </svg>$<!-- -->0</div>
+                                                    </svg>$941.9K</div>
                                             </div>
                                         </div>
                                     </div>
@@ -815,254 +836,44 @@
             </main>
         </div>
     </div>
-    <div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events:none">
-        <ol tabindex="-1"
-            class="fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]">
-        </ol>
-    </div>
-    
-    <!-- Firebase Configuration -->
-    <script type="module" src="firebase-config.js"></script>
-    
-    <!-- Firebase Authentication Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Dashboard page loaded, setting up logout functionality...');
-            
-            // Function to get protected logout button
-            const getProtectedLogoutBtn = () => {
-                const button = document.querySelector('[data-firebase-logout="true"]') || 
-                              document.getElementById('logoutBtn');
-                console.log('Found logout button:', button);
-                return button;
-            };
-            
-            const logoutBtn = getProtectedLogoutBtn();
-            
-            if (logoutBtn) {
-                console.log('Adding click event listener to logout button...');
-                
-                logoutBtn.addEventListener('click', async function(e) {
-                    e.preventDefault();
-                    console.log('Logout button clicked!');
-                    
-                    try {
-                        // Show loading state
-                        logoutBtn.style.opacity = '0.5';
-                        logoutBtn.style.pointerEvents = 'none';
-                        
-                        console.log('Waiting for Firebase to be loaded...');
-                        
-                        // Wait for Firebase to be loaded
-                        let attempts = 0;
-                        while (!window.firebaseAuth && attempts < 50) {
-                            await new Promise(resolve => setTimeout(resolve, 100));
-                            attempts++;
-                        }
-                        
-                        if (!window.firebaseAuth) {
-                            throw new Error('Firebase not loaded after 5 seconds');
-                        }
-                        
-                        console.log('Firebase loaded, calling signOut...');
-                        
-                        const result = await window.firebaseAuth.signOut();
-                        
-                        console.log('Sign out result:', result);
-                        
-                        if (result.success) {
-                            // Success - redirect will be handled by auth state listener
-                            console.log('Sign out successful, redirecting...');
-                            alert('Successfully signed out!');
-                        } else {
-                            console.error('Sign out error:', result.error);
-                            alert('Error signing out: ' + result.error);
-                        }
-                    } catch (error) {
-                        console.error('Sign out error:', error);
-                        alert('An unexpected error occurred: ' + error.message);
-                    } finally {
-                        // Restore button state
-                        logoutBtn.style.opacity = '0.9';
-                        logoutBtn.style.pointerEvents = 'auto';
-                    }
-                });
-                
-                console.log('Logout event listener added successfully');
-            } else {
-                console.error('Logout button not found!');
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Dashboard page - Wallet initialization complete');
         });
     </script>
-    <script type="module">
-        const walletBtn = document.getElementById('walletSolanaBtn');
-        const walletText = document.getElementById('walletSolanaText');
-        const copyIcon = document.getElementById('copyWalletIcon');
-        const disconnectBtn = document.getElementById('disconnectWalletBtn');
-        const WALLET_STATE_KEY = 'wallet-event';
-        const WALLET_CONNECTED_KEY = 'wallet-connected';
-
-        console.log('Dashboard page - Wallet elements found:', {
-            walletBtn: !!walletBtn,
-            walletText: !!walletText,
-            copyIcon: !!copyIcon,
-            disconnectBtn: !!disconnectBtn
-        });
-
-        function shortAddress(addr) {
-            if (!addr) return '';
-            return addr.slice(0, 4) + '...' + addr.slice(-4);
-        }
-        async function getSolBalance() {
-            const balanceElement = document.getElementById('solBalance');
-            if (!balanceElement) return;
-
-            if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
-                try {
-                    // Получаем баланс в lamports (1 SOL = 1,000,000,000 lamports)
-                    const balance = await window.solana.connection.getBalance(window.solana.publicKey);
-                    const solBalance = balance / 1000000000; // Конвертируем в SOL
-                    balanceElement.textContent = solBalance.toFixed(4);
-                    console.log('Dashboard page - SOL balance updated:', solBalance.toFixed(4));
-                } catch (error) {
-                    console.error('Dashboard page - Error getting SOL balance:', error);
-                    balanceElement.textContent = '0';
-                }
-            } else {
-                balanceElement.textContent = '0';
-            }
-        }
-        async function updateWalletBtn() {
-            console.log('Dashboard page - updateWalletBtn called');
-            const isConnected = localStorage.getItem('wallet-connected') === 'true';
-            if (!isConnected) {
-                console.log('Dashboard page - Wallet is marked as disconnected, forcing disconnected state');
-                walletText.textContent = 'Connect Wallet';
-                copyIcon.style.display = 'none';
-                disconnectBtn.style.display = 'none';
-                document.getElementById('solBalance').textContent = '0';
-                return;
-            }
-            if (window.solana && window.solana.isPhantom) {
-                let pubKey = '';
-                try {
-                    await window.solana.connect({ onlyIfTrusted: true });
-                    pubKey = window.solana.publicKey ? window.solana.publicKey.toString() : '';
-                } catch (e) {
-                    pubKey = '';
-                }
-                if (pubKey) {
-                    walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
-                    copyIcon.style.display = 'inline-block';
-                    disconnectBtn.style.display = 'inline-block';
-                    localStorage.setItem('wallet-connected', 'true');
-                    await getSolBalance();
-                } else {
-                    walletText.textContent = 'Connect Wallet';
-                    copyIcon.style.display = 'none';
-                    disconnectBtn.style.display = 'none';
-                    localStorage.setItem('wallet-connected', 'false');
-                    document.getElementById('solBalance').textContent = '0';
-                }
-            } else {
-                walletText.textContent = 'Connect Wallet';
-                copyIcon.style.display = 'none';
-                disconnectBtn.style.display = 'none';
-                localStorage.setItem('wallet-connected', 'false');
-                document.getElementById('solBalance').textContent = '0';
-            }
-        }
-
-        walletBtn.addEventListener('click', async () => {
-            console.log('Dashboard page - Wallet button clicked, current text:', walletText.textContent);
-            if (walletText.textContent !== 'Connect Wallet') return;
-
-            if (window.solana && window.solana.isPhantom) {
-                console.log('Dashboard page - Attempting to connect to Phantom wallet...');
-                try {
-                    await window.solana.connect();
-                    console.log('Dashboard page - Successfully connected to Phantom wallet');
-                    localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-                    updateWalletBtn();
-                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
-                    console.log('Dashboard page - Wallet state synchronized');
-                } catch (e) { 
-                    console.error('Dashboard page - Error connecting to wallet:', e);
-                    alert('Error connecting to wallet: ' + e.message);
-                }
-            } else {
-                console.log('Dashboard page - Phantom wallet not available, opening download page');
-                window.open('https://phantom.app/', '_blank');
-            }
-        });
-
-        copyIcon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            console.log('Dashboard page - Copy icon clicked');
-            if (window.solana && window.solana.publicKey) {
-                const address = window.solana.publicKey.toString();
-                console.log('Dashboard page - Copying address to clipboard:', address);
-                navigator.clipboard.writeText(address);
-                copyIcon.style.opacity = 0.5;
-                setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
-                console.log('Dashboard page - Address copied to clipboard');
-            } else {
-                console.log('Dashboard page - No wallet address to copy');
-            }
-        });
-
-        disconnectBtn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            console.log('Dashboard page - Disconnect button clicked!');
+    <script src="firebase-config.js" type="module"></script>
+    
+    <script>
+        // Переключение табов MEV Types
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabProfit = document.getElementById('tab-profit');
+            const tabVolume = document.getElementById('tab-volume');
+            const chartProfit = document.getElementById('chart-profit');
+            const chartVolume = document.getElementById('chart-volume');
             
-            if (window.solana && window.solana.isPhantom) {
-                console.log('Dashboard page - Phantom wallet found, attempting to disconnect...');
-                try {
-                    // Отключаем кошелек
-                    await window.solana.disconnect();
-                    console.log('Dashboard page - Wallet disconnected successfully');
+            if (tabProfit && tabVolume && chartProfit && chartVolume) {
+                tabProfit.addEventListener('click', function() {
+                    // Активируем таб "By profit"
+                    tabProfit.classList.add('active');
+                    tabVolume.classList.remove('active');
                     
-                    // Обновляем статус подключения
-                    localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
+                    // Показываем график по профиту
+                    chartProfit.style.display = '';
+                    chartVolume.style.display = 'none';
+                });
+                
+                tabVolume.addEventListener('click', function() {
+                    // Активируем таб "By volume"
+                    tabVolume.classList.add('active');
+                    tabProfit.classList.remove('active');
                     
-                    // Принудительно обновляем UI
-                    walletText.textContent = 'Connect Wallet';
-                    copyIcon.style.display = 'none';
-                    disconnectBtn.style.display = 'none';
-                    
-                    // Синхронизируем с другими страницами
-                    localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
-                    console.log('Dashboard page - Wallet state updated and synchronized');
-                    
-                    // Показываем подтверждение пользователю
-                    console.log('Dashboard page - Wallet disconnected and UI updated');
-                    
-                    // Добавляем небольшую задержку перед вызовом updateWalletBtn
-                    setTimeout(() => {
-                        updateWalletBtn();
-                    }, 100);
-                    
-                } catch (e) { 
-                    console.error('Dashboard page - Error disconnecting wallet:', e);
-                    alert('Error disconnecting wallet: ' + e.message);
-                }
-            } else {
-                console.log('Dashboard page - Phantom wallet not found');
-                alert('Phantom wallet not found');
+                    // Показываем график по объёму
+                    chartVolume.style.display = '';
+                    chartProfit.style.display = 'none';
+                });
             }
         });
-        
-        window.addEventListener('storage', (e) => {
-            console.log('Dashboard page - Storage event detected:', e.key, e.newValue);
-            if (e.key === WALLET_STATE_KEY || e.key === WALLET_CONNECTED_KEY) {
-                console.log('Dashboard page - Wallet state change detected, updating UI');
-                updateWalletBtn();
-            }
-        });
-
-        console.log('Dashboard page - Initializing wallet state...');
-        updateWalletBtn();
-        console.log('Dashboard page - Wallet initialization complete');
     </script>
 </body>
 

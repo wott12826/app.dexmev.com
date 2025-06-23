@@ -7,8 +7,382 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="_next/static/css/ea903d5c6198cacb.css" data-precedence="next">
     <link data-rh="true" rel="icon" href="favicon-logo.svg">
-    <title>DM Dashboard - Wallet</title>
-    <meta name="description" content="DM Dashboard description">
+    <title>DM Wallet</title>
+    <meta name="description" content="DM Wallet description">
+    <style>
+      /* Мобильная адаптация — исправленная */
+      @media (max-width: 900px) {
+        aside {
+          min-width: 56px !important;
+          width: 56px !important;
+          padding: 0 !important;
+        }
+        aside nav p, aside nav .text-center {
+          display: none !important;
+        }
+        aside img {
+          width: 36px !important;
+          margin-top: 8px !important;
+        }
+        .flex-1, main, header {
+          padding-left: 0 !important;
+        }
+        .mx-auto, .w-[606px], .max-w-full, .sm\:max-w-\[1440px\] {
+          width: 100% !important;
+          max-width: 100vw !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px], .rounded-lg {
+          border-radius: 8px !important;
+        }
+        .p-[30px], .p-5, .pt-8, .pt-7, .px-[30px], .sm\:p-\[30px\] {
+          padding: 10px !important;
+        }
+        .gap-[30px], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 {
+          gap: 8px !important;
+        }
+        .flex {
+          flex-direction: column !important;
+        }
+        .items-center, .items-end, .items-start {
+          align-items: stretch !important;
+        }
+        .justify-between, .justify-center, .justify-end, .justify-start {
+          justify-content: flex-start !important;
+        }
+        .overflow-x-auto, .overflow-hidden {
+          overflow-x: visible !important;
+        }
+        .h-[340px], .h-[182px], .h-full {
+          height: auto !important;
+          min-height: 0 !important;
+        }
+        .w-full, .w-fit {
+          width: 100% !important;
+          min-width: 0 !important;
+        }
+        .text-[32px], .text-base, .text-sm, .text-secondary, .text-green, .text-pink-hot, .text-white, .text-3xl, .text-xl, .text-lg {
+          font-size: 15px !important;
+        }
+        .text-center {
+          text-align: left !important;
+        }
+        .mt-[30px], .mt-10, .mt-2, .mt-2.5, .mt-3, .mt-4, .mt-5, .mt-6, .mt-7, .mt-8, .mt-9, .mt-12, .mt-14, .mt-16, .mt-20, .mt-24, .mt-32, .mt-40, .mt-48, .mt-56, .mt-64, .mt-72, .mt-80, .mt-96 {
+          margin-top: 8px !important;
+        }
+        .mb-3, .mb-4, .mb-5, .mb-6, .mb-7, .mb-8, .mb-9, .mb-10, .mb-12, .mb-14, .mb-16, .mb-20, .mb-24, .mb-32, .mb-40, .mb-48, .mb-56, .mb-64, .mb-72, .mb-80, .mb-96 {
+          margin-bottom: 8px !important;
+        }
+        .ml-3, .ml-4, .ml-5, .ml-6, .ml-7, .ml-8, .ml-9, .ml-10, .ml-12, .ml-14, .ml-16, .ml-20, .ml-24, .ml-32, .ml-40, .ml-48, .ml-56, .ml-64, .ml-72, .ml-80, .ml-96, .ml-20, .ml-24 {
+          margin-left: 0 !important;
+        }
+        .mr-auto, .mr-4, .mr-5, .mr-6, .mr-7, .mr-8, .mr-9, .mr-10, .mr-12, .mr-14, .mr-16, .mr-20, .mr-24, .mr-32, .mr-40, .mr-48, .mr-56, .mr-64, .mr-72, .mr-80, .mr-96 {
+          margin-right: 0 !important;
+        }
+        .py-2, .py-0, .py-1, .py-3, .py-4, .py-5, .py-6, .py-7, .py-8, .py-9, .py-10 {
+          padding-top: 5px !important;
+          padding-bottom: 5px !important;
+        }
+        .px-3, .px-4, .px-5, .px-6, .px-7, .px-8, .px-9, .px-10 {
+          padding-left: 6px !important;
+          padding-right: 6px !important;
+        }
+        /* Скрыть/свернуть сайдбар на очень маленьких экранах */
+        @media (max-width: 600px) {
+          aside {
+            display: none !important;
+          }
+          .flex-1, main, header {
+            padding-left: 0 !important;
+          }
+        }
+        /* Уменьшить отступы у .section и .main блоков */
+        section, main {
+          padding: 6px !important;
+        }
+        /* Сделать кнопки и инпуты крупнее и на всю ширину */
+        button, input, select {
+          min-height: 38px !important;
+          font-size: 16px !important;
+          width: 100% !important;
+        }
+        /* Сделать вкладки в одну строку, но с прокруткой если не помещаются */
+        [id^="tab-"] {
+          min-width: 120px;
+          font-size: 15px !important;
+        }
+        .flex.items-center.gap-5, .flex.items-center.gap-4 {
+          flex-wrap: wrap !important;
+        }
+        .shadow-main, .shadow-magenta-btn { box-shadow: none !important; display: contents !important; background: none !important; }
+      }
+      /* Мобильная адаптация — улучшенная */
+      @media (max-width: 900px) {
+        /* ... предыдущие стили ... */
+        /* Вкладки: скроллируемые и компактные */
+        .flex.gap-1.justify-between.p-1.bg-dark {
+          overflow-x: auto !important;
+          white-space: nowrap !important;
+          flex-wrap: nowrap !important;
+        }
+        [id^="tab-"] {
+          min-width: 100px !important;
+          font-size: 13px !important;
+          padding-left: 8px !important;
+          padding-right: 8px !important;
+          padding-top: 4px !important;
+          padding-bottom: 4px !important;
+        }
+        /* Таблица транзакций: скролл и скрытие колонок */
+        .relative.overflow-x-auto, .relative.mt-7.overflow-x-auto {
+          overflow-x: auto !important;
+        }
+        table, .transactions-table {
+          min-width: 480px !important;
+          font-size: 13px !important;
+        }
+        th, td {
+          padding: 4px 6px !important;
+          font-size: 13px !important;
+        }
+        /* Скрыть неважные колонки на мобиле */
+        th:nth-child(n+4), td:nth-child(n+4) {
+          display: none !important;
+        }
+        /* Карточки и секции на всю ширину */
+        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px], .rounded-lg {
+          border-radius: 8px !important;
+        }
+        .p-[30px], .p-5, .pt-8, .pt-7, .px-[30px], .sm\:p-\[30px\] {
+          padding: 8px !important;
+        }
+        .gap-[30px], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 {
+          gap: 6px !important;
+        }
+        .text-[32px], .text-base, .text-sm, .text-secondary, .text-green, .text-pink-hot, .text-white, .text-3xl, .text-xl, .text-lg {
+          font-size: 14px !important;
+        }
+        /* Уменьшить кнопки */
+        button, input, select {
+          min-height: 32px !important;
+          font-size: 14px !important;
+        }
+        /* QR-код и прочие квадратные блоки — auto */
+        .h-[182px], .w-[182px] {
+          height: 120px !important;
+          width: 120px !important;
+        }
+      }
+      /* Мобильная адаптация — вкладки wrap, таблица вертикально, всё компактно */
+      @media (max-width: 900px) {
+        /* Вкладки: wrap и уменьшение */
+        .flex.gap-1.justify-between.p-1.bg-dark {
+          flex-wrap: wrap !important;
+          overflow-x: visible !important;
+          white-space: normal !important;
+        }
+        [id^="tab-"] {
+          min-width: 32% !important;
+          max-width: 100% !important;
+          font-size: 13px !important;
+          padding: 4px 0 !important;
+          margin-bottom: 4px !important;
+        }
+        /* Блоки и карточки */
+        .mx-auto, .w-[606px], .max-w-full, .sm\:max-w-\[1440px\] {
+          width: 100% !important;
+          max-width: 100vw !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px], .rounded-lg {
+          border-radius: 8px !important;
+        }
+        .p-[30px], .p-5, .pt-8, .pt-7, .px-[30px], .sm\:p-\[30px\] {
+          padding: 8px !important;
+        }
+        .gap-[30px], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 {
+          gap: 6px !important;
+        }
+        .text-[32px], .text-base, .text-sm, .text-secondary, .text-green, .text-pink-hot, .text-white, .text-3xl, .text-xl, .text-lg {
+          font-size: 14px !important;
+        }
+        /* Иконки */
+        svg, .min-h-6, .min-w-6, .h-[19px], .min-w-4, .min-h-4 {
+          width: 18px !important;
+          height: 18px !important;
+          min-width: 18px !important;
+          min-height: 18px !important;
+        }
+        /* Кнопки и поля */
+        button, input, select {
+          min-height: 32px !important;
+          font-size: 14px !important;
+        }
+        /* QR-код и прочие квадратные блоки */
+        .h-[182px], .w-[182px] {
+          height: 100px !important;
+          width: 100px !important;
+        }
+        /* Таблица транзакций — вертикальный список */
+        .relative.overflow-x-auto, .relative.mt-7.overflow-x-auto {
+          overflow-x: visible !important;
+        }
+        table, .transactions-table {
+          display: block !important;
+          width: 100% !important;
+        }
+        thead {
+          display: none !important;
+        }
+        tbody, tr {
+          display: block !important;
+          width: 100% !important;
+        }
+        tr {
+          margin-bottom: 10px !important;
+          border-bottom: 1px solid #222;
+          background: none !important;
+        }
+        td {
+          display: flex !important;
+          width: 100% !important;
+          font-size: 13px !important;
+        }
+        .flex.gap-\[30px\] { flex-direction: column !important; gap: 8px !important; }
+        .w-\[606px\], .mx-auto { width: 100% !important; max-width: 100vw !important; margin: 0 !important; }
+        .p-\[30px\], .p-5, .pt-8, .pt-7, .px-\[30px\] { padding: 8px !important; }
+        .gap-\[30px\], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 { gap: 8px !important; }
+        .text-\[32px\], .text-base, .text-sm, .text-3xl, .text-xl, .text-lg { font-size: 14px !important; }
+        svg, .h-\[19px\], .min-w-6 { width: 18px !important; height: 18px !important; }
+        .h-\[182px\], .w-\[182px\] { height: 90px !important; width: 90px !important; }
+        .mt-\[30px\], .mt-10, .mt-6, .mt-2, .mt-2\.5 { margin-top: 8px !important; }
+        .rounded-\[18px\], .rounded-\[17px\], .rounded-md, .rounded-\[9px\], .rounded-\[8px\], .rounded-\[7px\], .rounded-\[6px\], .rounded-\[5px\], .rounded-\[4px\] { border-radius: 8px !important; }
+        /* Вкладки */
+        .flex.gap-1.justify-between.p-1.bg-dark { flex-wrap: wrap !important; gap: 4px !important; }
+        [id^="tab-"] { min-width: 32% !important; font-size: 13px !important; padding: 4px 0 !important; }
+        /* Таблица */
+        table, .transactions-table { font-size: 13px !important; }
+        th, td { padding: 4px 2px !important; font-size: 13px !important; }
+        th:nth-child(n+5), td:nth-child(n+5) { display: none !important; }
+        .h-\[340px\] { height: auto !important; min-height: 0 !important; }
+      }
+      @media (max-width: 768px) {
+        body, html {
+          width: 100vw;
+          overflow-x: hidden;
+        }
+        aside {
+          min-width: 0 !important;
+          width: 100vw !important;
+          display: none !important;
+        }
+        .flex.gap-[30px] {
+          flex-direction: column !important;
+          gap: 10px !important;
+        }
+        .w-[606px], .mx-auto, .max-w-full, .sm\:max-w-\[1440px\] {
+          width: 100% !important;
+          max-width: 100vw !important;
+          margin: 0 !important;
+        }
+        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px], .rounded-lg {
+          border-radius: 8px !important;
+        }
+        .p-[30px], .p-5, .pt-8, .pt-7, .px-[30px], .sm\:p-\[30px\] {
+          padding: 10px !important;
+        }
+        .gap-[30px], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 {
+          gap: 8px !important;
+        }
+        .text-[32px], .text-base, .text-sm, .text-3xl, .text-xl, .text-lg {
+          font-size: 15px !important;
+        }
+        .h-[182px], .w-[182px] {
+          height: 80px !important;
+          width: 80px !important;
+        }
+        .mt-[30px], .mt-10, .mt-6, .mt-2, .mt-2\.5 {
+          margin-top: 8px !important;
+        }
+        .shadow-main, .shadow-magenta-btn {
+          box-shadow: none !important;
+          display: contents !important;
+          background: none !important;
+        }
+        /* Вкладки */
+        .flex.gap-1.justify-between.p-1.bg-dark {
+          flex-wrap: wrap !important;
+          gap: 4px !important;
+        }
+        [id^="tab-"] {
+          min-width: 32% !important;
+          font-size: 14px !important;
+          padding: 8px 0 !important;
+          margin-bottom: 4px !important;
+        }
+        /* Кнопки и поля */
+        button, input, select {
+          min-height: 38px !important;
+          font-size: 15px !important;
+          width: 100% !important;
+        }
+        /* QR-код и иконки */
+        svg, .h-[19px], .min-w-6, .min-h-6, .min-w-4, .min-h-4 {
+          width: 18px !important;
+          height: 18px !important;
+          min-width: 18px !important;
+          min-height: 18px !important;
+        }
+        /* Таблица транзакций — вертикальный список */
+        .relative.overflow-x-auto, .relative.mt-7.overflow-x-auto {
+          overflow-x: visible !important;
+        }
+        table, .transactions-table {
+          display: block !important;
+          width: 100% !important;
+        }
+        thead {
+          display: none !important;
+        }
+        tbody, tr {
+          display: block !important;
+          width: 100% !important;
+        }
+        tr {
+          margin-bottom: 10px !important;
+          border-bottom: 1px solid #222;
+          background: none !important;
+        }
+        td {
+          display: flex !important;
+          width: 100% !important;
+          font-size: 14px !important;
+          padding: 4px 0 !important;
+          align-items: center;
+        }
+        td:before {
+          content: attr(data-label);
+          flex: 0 0 110px;
+          color: #888;
+          font-size: 12px;
+          margin-right: 8px;
+        }
+        /* Скрыть второстепенные элементы */
+        .hide-mobile, .sidebar, .extra-info, .desktop-only { display: none !important; }
+        /* Шапка */
+        header, .header, .main-header {
+          flex-direction: column !important;
+          gap: 8px !important;
+          padding: 10px !important;
+        }
+        .flex.items-center.gap-5, .flex.items-center.gap-4 {
+          flex-wrap: wrap !important;
+          gap: 8px !important;
+        }
+      }
+    </style>
 </head>
 
 <body class="antialiased">
@@ -160,256 +534,294 @@
                 </div>
             </header>
             <main class="p-4 sm:p-[30px] pt-8">
-                <div>
+                <div class="flex flex-col gap-[30px]">
                     <section class="rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                         <div class="flex items-start h-full w-full rounded-[17px] bg-gd-main p-5">
                             <div>
                                 <p class="text-sm text-secondary">Slot Height</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
+                                <div id="slot-height" class="mt-2 text-[32px] font-bold leading-[48px]">348,639,437</div>
                             </div>
                             <div class="ml-20">
                                 <p class="text-sm text-secondary">Supply</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
+                                <div id="supply" class="mt-2 text-[32px] font-bold leading-[48px] text-green">531.2M</div>
                             </div>
                             <div class="ml-24">
-                                <p class="text-sm text-secondary">Epoch</p><button
-                                    class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-8 h-8 mt-[14px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                    <div class="inline"><span
-                                            class="bg-gd-magenta-2 flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none"
-                                                viewbox="0 0 16 16" class="min-h-4 min-w-4">
+                                <p class="text-sm text-secondary">Epoch</p><button class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-8 h-8 mt-[14px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                    <div class="inline"><span class="bg-gd-magenta-2 flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 16 16" class="min-h-4 min-w-4">
                                                 <g fill="#fff" clip-path="url(#clock_svg__a)">
-                                                    <path
-                                                        d="M10.7 9.338 8.588 7.753V4.525a.587.587 0 1 0-1.174 0v3.522c0 .185.087.36.235.47l2.348 1.76a.584.584 0 0 0 .822-.117.586.586 0 0 0-.117-.822">
+                                                    <path d="M10.7 9.338 8.588 7.753V4.525a.587.587 0 1 0-1.174 0v3.522c0 .185.087.36.235.47l2.348 1.76a.584.584 0 0 0 .822-.117.586.586 0 0 0-.117-.822">
                                                     </path>
-                                                    <path
-                                                        d="M8 .42C3.82.42.42 3.82.42 8s3.4 7.579 7.58 7.579 7.579-3.4 7.579-7.58c0-4.178-3.4-7.578-7.58-7.578m0 13.985A6.413 6.413 0 0 1 1.595 8 6.413 6.413 0 0 1 8 1.595 6.41 6.41 0 0 1 14.405 8 6.413 6.413 0 0 1 8 14.405">
+                                                    <path d="M8 .42C3.82.42.42 3.82.42 8s3.4 7.579 7.58 7.579 7.579-3.4 7.579-7.58c0-4.178-3.4-7.578-7.58-7.578m0 13.985A6.413 6.413 0 0 1 1.595 8 6.413 6.413 0 0 1 8 1.595 6.41 6.41 0 0 1 14.405 8 6.413 6.413 0 0 1 8 14.405">
                                                     </path>
                                                 </g>
                                                 <defs>
-                                                    <clippath id="clock_svg__a">
+                                                    <clipPath id="clock_svg__a">
                                                         <path fill="#fff" d="M.42.42H15.58V15.58H.42z"></path>
-                                                    </clippath>
+                                                    </clipPath>
                                                 </defs>
                                             </svg></span></div>
                                 </button>
                             </div>
-                            <div class="ml-3 flex items-end gap-3"><span
-                                    class="relative top-[14px] text-[32px] font-bold">...</span>
+                            <div class="ml-3 flex items-end gap-3"><span id="epoch-current" class="relative top-[14px] text-[32px] font-bold">807</span>
                                 <div class="w-[500px]">
                                     <div class="relative">
-                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA ...</p>
-                                        <div class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out"
-                                            style="left:calc(0% - 0px)">0<!-- -->%</div>
-                                        <div
-                                            class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
+                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA <span id="eta">1d 22h</span></p>
+                                        <div id="epoch-percentage-text" class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out" style="left:calc(4% - 0px)">4%</div>
+                                        <div class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
                                             <div class="h-4 w-full rounded-md bg-dark">
-                                                <div class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out"
-                                                    style="width:0%"></div>
+                                                <div id="epoch-progress-bar" class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out" style="width:4%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div><span class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
+                                </div><span id="epoch-next" class="relative top-[14px] text-[32px] font-bold text-secondary">808</span>
                             </div>
                         </div>
                     </section>
-                    <div
-                        class="w-[606px] mx-auto mt-[30px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
-                        <div class="!p-[30px] h-full w-full rounded-[17px] bg-gd-main p-5">
-                            <h2 class="text-center text-[32px] font-semibold">Deposit</h2><span
-                                class="text-sm text-secondary">Your Trading Balance</span>
-                            <div
-                                class="mt-2 !rounded-[8px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
-                                <div
-                                    class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
-                                    <div class="flex items-center gap-[14px]"><svg xmlns="http://www.w3.org/2000/svg"
-                                            width="1em" height="1em" fill="none" viewbox="0 0 24 20"
-                                            class="h-[19px] min-w-6">
-                                            <path fill="url(#solana-without-bg_svg__a)"
-                                                d="M3.923 14.949a.77.77 0 0 1 .548-.232h19.144a.41.41 0 0 1 .277.687L20.11 19.18a.77.77 0 0 1-.548.231H.42a.394.394 0 0 1-.278-.695z">
-                                            </path>
-                                            <path fill="url(#solana-without-bg_svg__b)"
-                                                d="M3.922.821A.77.77 0 0 1 4.47.59h19.143A.386.386 0 0 1 24 .99a.4.4 0 0 1-.108.27l-3.782 3.791a.77.77 0 0 1-.548.232H.417a.41.41 0 0 1-.277-.687z">
-                                            </path>
-                                            <path fill="url(#solana-without-bg_svg__c)"
-                                                d="M20.109 7.839a.77.77 0 0 0-.548-.232H.417a.41.41 0 0 0-.277.687l3.782 3.768a.77.77 0 0 0 .548.231h19.143a.394.394 0 0 0 .386-.401.4.4 0 0 0-.108-.27z">
-                                            </path>
-                                            <defs>
-                                                <lineargradient id="solana-without-bg_svg__a" x1="22.85" x2="8.142"
-                                                    y1="1.161" y2="22.721" gradientunits="userSpaceOnUse">
-                                                    <stop stop-color="#00FFA3"></stop>
-                                                    <stop offset="1" stop-color="#DC1FFF"></stop>
-                                                </lineargradient>
-                                                <lineargradient id="solana-without-bg_svg__b" x1="16.28" x2="1.572"
-                                                    y1="-3.324" y2="18.236" gradientunits="userSpaceOnUse">
-                                                    <stop stop-color="#00FFA3"></stop>
-                                                    <stop offset="1" stop-color="#DC1FFF"></stop>
-                                                </lineargradient>
-                                                <lineargradient id="solana-without-bg_svg__c" x1="19.553" x2="4.845"
-                                                    y1="-1.094" y2="20.467" gradientunits="userSpaceOnUse">
-                                                    <stop stop-color="#00FFA3"></stop>
-                                                    <stop offset="1" stop-color="#DC1FFF"></stop>
-                                                </lineargradient>
-                                            </defs>
-                                        </svg>
-                                        <div class="flex items-end leading-none"><span
-                                                class="text-[32px] font-medium">0</span><span
-                                                class="relative -top-[3px] ml-0.5 text-green">/ $<!-- -->0.00</span>
-                                        </div>
-                                    </div><button
-                                        class="w-[40px] h-[40px] !rounded-[6px] focus:outline-none active:scale-[97%] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                    <div class="flex gap-[30px]">
+                        <div class="flex w-full flex-col gap-[30px]">
+                            <div class="w-[606px] mx-auto mt-[30px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
+                                <div class="!p-[30px] h-full w-full rounded-[17px] bg-gd-main p-5">
+                                    <h2 class="text-center text-[32px] font-semibold">Deposit</h2><span
+                                        class="text-sm text-secondary">Your Trading Balance</span>
+                                    <div
+                                        class="mt-2 !rounded-[8px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                                         <div
-                                            class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                            <div
-                                                class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                                    fill="none" viewbox="0 0 20 20" class="min-h-5 min-w-5">
-                                                    <path fill="#14F195"
-                                                        d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1">
+                                            class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
+                                            <div class="flex items-center gap-[14px]"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="1em" height="1em" fill="none" viewbox="0 0 24 20"
+                                                    class="h-[19px] min-w-6">
+                                                    <path fill="url(#solana-without-bg_svg__a)"
+                                                        d="M3.923 14.949a.77.77 0 0 1 .548-.232h19.144a.41.41 0 0 1 .277.687L20.11 19.18a.77.77 0 0 1-.548.231H.42a.394.394 0 0 1-.278-.695z">
                                                     </path>
-                                                </svg></div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="mt-[30px] !w-full w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                    <div class="flex gap-1 justify-between p-1 h-full w-full rounded-[8px] bg-dark">
-                                        <button
-                                            class="bg-gradient-to-br from-[#14F195] to-[#005330ca] text-green p-px shadow-main !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                            <div class="inline"><span
-                                                    class="bg-gd-main !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Deposit</span>
-                                            </div>
-                                        </button><button
-                                            class="bg-transparent p-0.5 !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                            <div class="inline"><span
-                                                    class="bg-transparent text-secondary !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Withdrawal</span>
-                                            </div>
-                                        </button><button
-                                            class="bg-transparent p-0.5 !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                            <div class="inline"><span
-                                                    class="bg-transparent text-secondary !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Buy
-                                                    Solana</span></div>
-                                        </button></div>
-                                </div>
-                            </div>
-                            <div class="mt-6"><span class="text-sm text-secondary">Address</span><button
-                                    class="mt-2.5 w-full inline">
-                                    <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                        <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                            <div
-                                                class="flex items-center !p-3 !pr-4 !rounded-[7px] h-full w-full rounded-[8px] bg-dark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                                    fill="none" viewbox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
-                                                    <path fill="#fff" fill-rule="evenodd"
-                                                        d="m13.89 4.809-.04-.024c-1.038-.599-1.873-1.081-2.583-1.386-.735-.315-1.423-.481-2.154-.358a3.8 3.8 0 0 0-.691.185c-.695.259-1.208.747-1.687 1.387-.291.39-.591.868-.923 1.428Q6.384 5.893 7 5.89h.67q.137-.207.267-.38c.393-.526.694-.762 1.01-.88a2.3 2.3 0 0 1 .414-.111c.332-.056.711-.001 1.314.257.544.234 1.198.6 2.089 1.114h3z"
-                                                        clip-rule="evenodd"></path>
-                                                    <path fill="#fff" fill-rule="evenodd"
-                                                        d="M7 5.89a4.75 4.75 0 0 0-4.75 4.75v6A4.75 4.75 0 0 0 7 21.39h10a4.75 4.75 0 0 0 4.744-4.5h.006v-6.499h-.006A4.75 4.75 0 0 0 17 5.89zm13.24 4.5a3.25 3.25 0 0 0-3.24-3H7a3.25 3.25 0 0 0-3.25 3.25v6A3.25 3.25 0 0 0 7 19.89h10a3.25 3.25 0 0 0 3.24-3h-3.72a3.25 3.25 0 1 1 0-6.5zm-5.47 3.25c0-.966.784-1.75 1.75-1.75h3.73v3.5h-3.73a1.75 1.75 0 0 1-1.75-1.75"
-                                                        clip-rule="evenodd"></path>
-                                                    <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
-                                                </svg>
-                                                <p class="ml-3 text-sm"></p><svg xmlns="http://www.w3.org/2000/svg"
-                                                    width="1em" height="1em" fill="none" viewbox="0 0 11 13"
-                                                    class="ml-auto h-[11px] w-[13px]">
-                                                    <path fill="#fff"
-                                                        d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z">
+                                                    <path fill="url(#solana-without-bg_svg__b)"
+                                                        d="M3.922.821A.77.77 0 0 1 4.47.59h19.143A.386.386 0 0 1 24 .99a.4.4 0 0 1-.108.27l-3.782 3.791a.77.77 0 0 1-.548.232H.417a.41.41 0 0 1-.277-.687z">
                                                     </path>
+                                                    <path fill="url(#solana-without-bg_svg__c)"
+                                                        d="M20.109 7.839a.77.77 0 0 0-.548-.232H.417a.41.41 0 0 0-.277.687l3.782 3.768a.77.77 0 0 0 .548.231h19.143a.394.394 0 0 0 .386-.401.4.4 0 0 0-.108-.27z">
+                                                    </path>
+                                                    <defs>
+                                                        <lineargradient id="solana-without-bg_svg__a" x1="22.85" x2="8.142"
+                                                            y1="1.161" y2="22.721" gradientunits="userSpaceOnUse">
+                                                            <stop stop-color="#00FFA3"></stop>
+                                                            <stop offset="1" stop-color="#DC1FFF"></stop>
+                                                        </lineargradient>
+                                                        <lineargradient id="solana-without-bg_svg__b" x1="16.28" x2="1.572"
+                                                            y1="-3.324" y2="18.236" gradientunits="userSpaceOnUse">
+                                                            <stop stop-color="#00FFA3"></stop>
+                                                            <stop offset="1" stop-color="#DC1FFF"></stop>
+                                                        </lineargradient>
+                                                        <lineargradient id="solana-without-bg_svg__c" x1="19.553" x2="4.845"
+                                                            y1="-1.094" y2="20.467" gradientunits="userSpaceOnUse">
+                                                            <stop stop-color="#00FFA3"></stop>
+                                                            <stop offset="1" stop-color="#DC1FFF"></stop>
+                                                        </lineargradient>
+                                                    </defs>
                                                 </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </button>
-                                <div
-                                    class="mx-auto mt-10 flex h-[182px] w-[182px] items-center justify-center rounded-md border-2">
-                                </div>
-                                <div class="relative mt-10 p-5"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
-                                        height="1em" fill="none" viewbox="0 0 546 170"
-                                        class="absolute left-0 top-0 min-h-[170px] min-w-[546px]">
-                                        <rect width="545" height="169" x="0.5" y="0.5"
-                                            stroke="url(#wallet-deposit_svg__a)" rx="7.5"></rect>
-                                        <defs>
-                                            <lineargradient id="wallet-deposit_svg__a" x1="124.091" x2="193.115"
-                                                y1="37.01" y2="265.2" gradientunits="userSpaceOnUse">
-                                                <stop stop-color="#343538"></stop>
-                                                <stop offset="0.852" stop-color="#1F2023"></stop>
-                                            </lineargradient>
-                                        </defs>
-                                    </svg>
-                                    <ul class="text-sm">
-                                        <li class="flex justify-between text-secondary"><span>Min deposit
-                                                amount</span><span>0.003 SOL</span></li>
-                                        <li class="mt-2.5 flex justify-between"><span>Expected arrival</span><span>1
-                                                confirmations</span></li>
-                                        <li class="mt-2.5 flex justify-between"><span>Minimum unlock</span><span>1
-                                                confirmations</span></li>
-                                    </ul>
-                                    <p class="yellow-label-common mt-2.5 !leading-normal">Deposit Solana tokens to your
-                                        personal crypto deposit address. Make sure you copy the address correctly as
-                                        incorrect transfers can not be refunded.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <section class="mt-[30px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
-                        <div class="!p-0 overflow-hidden h-full w-full rounded-[17px] bg-gd-main p-5">
-                            <div class="flex items-center justify-between p-5 pb-0 text-xs">
-                                <h2 class="text-base font-medium">Transactions</h2>
-                                <div class="flex items-center gap-[30px]">
-                                    <div class="flex items-center gap-2 text-secondary">Show<button type="button"
-                                            id="radix-:R4psvf9kq:" aria-haspopup="menu" aria-expanded="false"
-                                            data-state="closed">
-                                            <div
-                                                class="!rounded-[6px] h-[22px] neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                                <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                <div class="flex items-end leading-none"><span
+                                                        class="text-[32px] font-medium">0</span><span
+                                                        class="relative -top-[3px] ml-0.5 text-green">/ $<!-- -->0.00</span>
+                                                </div>
+                                            </div><button
+                                                class="w-[40px] h-[40px] !rounded-[6px] focus:outline-none active:scale-[97%] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                <div
+                                                    class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                                     <div
-                                                        class="!rounded-[5px] !px-2.5 flex items-center !py-0 text-white h-full w-full rounded-[8px] bg-dark">
-                                                        <span class="w-6 text-left text-sm">5</span><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            class="lucide lucide-chevron-down -mr-1">
-                                                            <path d="m6 9 6 6 6-6"></path>
+                                                        class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                            fill="none" viewbox="0 0 20 20" class="min-h-5 min-w-5">
+                                                            <path fill="#14F195"
+                                                                d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1">
+                                                            </path>
                                                         </svg></div>
                                                 </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-[30px] !w-full w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                        <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                            <div class="flex gap-1 justify-between p-1 h-full w-full rounded-[8px] bg-dark">
+                                                <button
+                                                    class="bg-gradient-to-br from-[#14F195] to-[#005330ca] text-green p-px shadow-main !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    <div class="inline"><span
+                                                            class="bg-gd-main !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Deposit</span>
+                                                    </div>
+                                                </button><button
+                                                    class="bg-transparent p-0.5 !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    <div class="inline"><span
+                                                            class="bg-transparent text-secondary !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Withdrawal</span>
+                                                    </div>
+                                                </button><button
+                                                    class="bg-transparent p-0.5 !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    <div class="inline"><span
+                                                            class="bg-transparent text-secondary !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Buy
+                                                            Solana</span></div>
+                                                </button></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6"><span class="text-sm text-secondary">Address</span><button
+                                            class="mt-2.5 w-full inline">
+                                            <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                    <div
+                                                        class="flex items-center !p-3 !pr-4 !rounded-[7px] h-full w-full rounded-[8px] bg-dark">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                            fill="none" viewbox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
+                                                            <path fill="#fff" fill-rule="evenodd"
+                                                                d="m13.89 4.809-.04-.024c-1.038-.599-1.873-1.081-2.583-1.386-.735-.315-1.423-.481-2.154-.358a3.8 3.8 0 0 0-.691.185c-.695.259-1.208.747-1.687 1.387-.291.39-.591.868-.923 1.428Q6.384 5.893 7 5.89h.67q.137-.207.267-.38c.393-.526.694-.762 1.01-.88a2.3 2.3 0 0 1 .414-.111c.332-.056.711-.001 1.314.257.544.234 1.198.6 2.089 1.114h3z"
+                                                                clip-rule="evenodd"></path>
+                                                            <path fill="#fff" fill-rule="evenodd"
+                                                                d="M7 5.89a4.75 4.75 0 0 0-4.75 4.75v6A4.75 4.75 0 0 0 7 21.39h10a4.75 4.75 0 0 0 4.744-4.5h.006v-6.499h-.006A4.75 4.75 0 0 0 17 5.89zm13.24 4.5a3.25 3.25 0 0 0-3.24-3H7a3.25 3.25 0 0 0-3.25 3.25v6A3.25 3.25 0 0 0 7 19.89h10a3.25 3.25 0 0 0 3.24-3h-3.72a3.25 3.25 0 1 1 0-6.5zm-5.47 3.25c0-.966.784-1.75 1.75-1.75h3.73v3.5h-3.73a1.75 1.75 0 0 1-1.75-1.75"
+                                                                clip-rule="evenodd"></path>
+                                                            <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
+                                                        </svg>
+                                                        <p class="ml-3 text-sm"></p><svg xmlns="http://www.w3.org/2000/svg"
+                                                            width="1em" height="1em" fill="none" viewbox="0 0 11 13"
+                                                            class="ml-auto h-[11px] w-[13px]">
+                                                            <path fill="#fff"
+                                                                d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </button>per page</div>
-                                    <div>
-                                        <div class="flex items-center gap-2.5"><button
-                                                class="bg-gd-border-main p-px shadow-main !rounded-[4px] h-5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                                <div class="inline"><span
-                                                        class="bg-dark !rounded-[3px] px-[5px] flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round" class="lucide lucide-chevron-left">
-                                                            <path d="m15 18-6-6 6-6"></path>
-                                                        </svg></span></div>
-                                            </button>
-                                            <p>Item <span class="text-green">1 - <!-- -->0</span> <span
-                                                    class="text-secondary">of <!-- -->0</span></p><button
-                                                class="bg-gd-border-main p-px shadow-main !rounded-[4px] h-5 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                                <div class="inline"><span
-                                                        class="bg-dark !rounded-[3px] px-[5px] flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round" class="lucide lucide-chevron-right">
-                                                            <path d="m9 18 6-6-6-6"></path>
-                                                        </svg></span></div>
-                                            </button>
+                                        </button>
+                                        <div
+                                            class="mx-auto mt-10 flex h-[182px] w-[182px] items-center justify-center rounded-md border-2">
+                                        </div>
+                                        <div class="relative mt-10 p-5"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                height="1em" fill="none" viewbox="0 0 546 170"
+                                                class="absolute left-0 top-0 min-h-[170px] min-w-[546px]">
+                                                <rect width="545" height="169" x="0.5" y="0.5"
+                                                    stroke="url(#wallet-deposit_svg__a)" rx="7.5"></rect>
+                                                <defs>
+                                                    <lineargradient id="wallet-deposit_svg__a" x1="124.091" x2="193.115"
+                                                        y1="37.01" y2="265.2" gradientunits="userSpaceOnUse">
+                                                        <stop stop-color="#343538"></stop>
+                                                        <stop offset="0.852" stop-color="#1F2023"></stop>
+                                                    </lineargradient>
+                                                </defs>
+                                            </svg>
+                                            <ul class="text-sm">
+                                                <li class="flex justify-between text-secondary"><span>Min deposit
+                                                        amount</span><span>0.003 SOL</span></li>
+                                                <li class="mt-2.5 flex justify-between"><span>Expected arrival</span><span>1
+                                                        confirmations</span></li>
+                                                <li class="mt-2.5 flex justify-between"><span>Minimum unlock</span><span>1
+                                                        confirmations</span></li>
+                                            </ul>
+                                            <p class="yellow-label-common mt-2.5 !leading-normal">Deposit Solana tokens to your
+                                                personal crypto deposit address. Make sure you copy the address correctly as
+                                                incorrect transfers can not be refunded.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-3 h-px bg-gd-divider opacity-[32%]"></div>
-                            <div class="relative mt-7 overflow-x-auto">
-                                <div class="h-[340px] flex items-center justify-center text-white text-3xl">Transactions
-                                    not found</div>
-                            </div>
+                            <section class="rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
+                                <div class="!p-0 overflow-hidden h-full w-full rounded-[17px] bg-gd-main p-5">
+                                    <div class="flex items-center justify-between p-5 pb-0">
+                                        <h2 class="font-semibold">User Transaction Live Stream</h2>
+                                        <p class="text-sm text-green">1 - 5 <span class="text-[#aeb9e1]">of <!-- -->0</span></p>
+                                    </div>
+                                    <div class="mt-3 h-px bg-gd-divider opacity-[32%]"></div>
+                                    <div class="relative mt-7 overflow-x-auto">
+                                        <table class="h-[340px] w-full">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal pl-5 pr-0">
+                                                            #<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Time<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Token<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Cost<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Revenue<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Profit<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Block<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Delay<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Dex<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
+                                                            Type<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
+                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
+                                                                    </path>
+                                                                </svg></div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="10">
+                                                        <div class="h-[340px] flex items-center justify-center text-white text-3xl">
+                                                            Transactions not found</div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-                    </section>
+                    </div>
                 </div>
             </main>
         </div>
@@ -664,6 +1076,12 @@
         updateWalletBtn();
         console.log('Wallet page - Wallet initialization complete');
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Wallet page - DOM loaded');
+        });
+    </script>
+    <script src="firebase-config.js" type="module"></script>
 </body>
 
 </html>

@@ -43,10 +43,19 @@ window.firebaseAuth = {
   // Sign up with email and password
   signUp: async (email, password, inviteCode) => {
     try {
-      // Check invite code
-      const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
-      if (!isValid) {
-        return { success: false, error: "Invalid invite code" };
+      // Проверяем invite code только если это не первый пользователь
+      let isFirstUser = false;
+      const q = query(collection(db, "users"));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        isFirstUser = true;
+      }
+      if (!isFirstUser) {
+        // Если не первый пользователь, invite code обязателен
+        const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
+        if (!isValid) {
+          return { success: false, error: "Invalid invite code" };
+        }
       }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -55,7 +64,7 @@ window.firebaseAuth = {
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         inviteCode: newInviteCode,
-        invitedBy: inviteCode
+        ...(isFirstUser ? {} : { invitedBy: inviteCode })
       });
       return { success: true, user: user };
     } catch (error) {

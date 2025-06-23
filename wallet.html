@@ -116,6 +116,63 @@
           flex-wrap: wrap !important;
         }
       }
+      /* Мобильная адаптация — улучшенная */
+      @media (max-width: 900px) {
+        /* ... предыдущие стили ... */
+        /* Вкладки: скроллируемые и компактные */
+        .flex.gap-1.justify-between.p-1.bg-dark {
+          overflow-x: auto !important;
+          white-space: nowrap !important;
+          flex-wrap: nowrap !important;
+        }
+        [id^="tab-"] {
+          min-width: 100px !important;
+          font-size: 13px !important;
+          padding-left: 8px !important;
+          padding-right: 8px !important;
+          padding-top: 4px !important;
+          padding-bottom: 4px !important;
+        }
+        /* Таблица транзакций: скролл и скрытие колонок */
+        .relative.overflow-x-auto, .relative.mt-7.overflow-x-auto {
+          overflow-x: auto !important;
+        }
+        table, .transactions-table {
+          min-width: 480px !important;
+          font-size: 13px !important;
+        }
+        th, td {
+          padding: 4px 6px !important;
+          font-size: 13px !important;
+        }
+        /* Скрыть неважные колонки на мобиле */
+        th:nth-child(n+4), td:nth-child(n+4) {
+          display: none !important;
+        }
+        /* Карточки и секции на всю ширину */
+        .rounded-[18px], .rounded-[17px], .rounded-md, .rounded-[9px], .rounded-[8px], .rounded-[7px], .rounded-[6px], .rounded-[5px], .rounded-[4px], .rounded-lg {
+          border-radius: 8px !important;
+        }
+        .p-[30px], .p-5, .pt-8, .pt-7, .px-[30px], .sm\:p-\[30px\] {
+          padding: 8px !important;
+        }
+        .gap-[30px], .gap-7, .gap-5, .gap-4, .gap-3, .gap-2, .gap-1 {
+          gap: 6px !important;
+        }
+        .text-[32px], .text-base, .text-sm, .text-secondary, .text-green, .text-pink-hot, .text-white, .text-3xl, .text-xl, .text-lg {
+          font-size: 14px !important;
+        }
+        /* Уменьшить кнопки */
+        button, input, select {
+          min-height: 32px !important;
+          font-size: 14px !important;
+        }
+        /* QR-код и прочие квадратные блоки — auto */
+        .h-[182px], .w-[182px] {
+          height: 120px !important;
+          width: 120px !important;
+        }
+      }
     </style>
 </head>
 

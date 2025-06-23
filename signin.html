@@ -164,6 +164,24 @@
             }
         });
     </script>
+    <script>
+    document.getElementById('phantomSignInBtn').onclick = async function() {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          await window.solana.connect();
+          // Можно сохранить адрес в localStorage или отправить на сервер для авторизации
+          alert('Phantom wallet connected: ' + window.solana.publicKey.toString());
+          // window.location.href = 'dashboard.html'; // редирект после успешной авторизации
+        } catch (e) {
+          alert('Ошибка подключения Phantom: ' + e.message);
+        }
+      } else {
+        if (confirm('Phantom wallet не найден. Открыть страницу скачивания?')) {
+          window.open('https://phantom.app/', '_blank');
+        }
+      }
+    };
+    </script>
 </body>
 
 </html>

@@ -29,19 +29,44 @@ const generateInviteCode = () => {
 
 // Authentication functions
 window.firebaseAuth = {
-  // Sign up with email and password
-  signUp: async (email, password) => {
+  // Check if invite code exists
+  checkInviteCode: async (inviteCode) => {
     try {
+      // Search for user with such inviteCode
+      const usersRef = db.collection ? db.collection("users") : null;
+      if (!usersRef) {
+        // For compatibility with modular SDK
+        const { collection, query, where, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+        const q = query(collection(db, "users"), where("inviteCode", "==", inviteCode));
+        const querySnapshot = await getDocs(q);
+        return !querySnapshot.empty;
+      } else {
+        // For compatibility with older SDK
+        const snapshot = await usersRef.where("inviteCode", "==", inviteCode).get();
+        return !snapshot.empty;
+      }
+    } catch (error) {
+      return false;
+    }
+  },
+
+  // Sign up with email and password
+  signUp: async (email, password, inviteCode) => {
+    try {
+      // Check invite code
+      const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
+      if (!isValid) {
+        return { success: false, error: "Invalid invite code" };
+      }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      
-      // Create a user profile in Firestore with an invite code
-      const inviteCode = generateInviteCode();
+      // Create a user profile in Firestore with a new invite code
+      const newInviteCode = generateInviteCode();
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
-        inviteCode: inviteCode
+        inviteCode: newInviteCode,
+        invitedBy: inviteCode
       });
-      
       return { success: true, user: user };
     } catch (error) {
       return { success: false, error: error.message };

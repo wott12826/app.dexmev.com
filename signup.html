@@ -153,7 +153,7 @@
                             await new Promise(resolve => setTimeout(resolve, 100));
                         }
                         
-                        const result = await window.firebaseAuth.signUp(email, password);
+                        const result = await window.firebaseAuth.signUp(email, password, inviteCode);
                         
                         if (result.success) {
                             // Success - redirect will be handled by auth state listener
@@ -162,7 +162,11 @@
                         } else {
                             // Show error message
                             if (errorMessage) {
-                                errorMessage.textContent = result.error;
+                                if(result.error === 'Invalid invite code') {
+                                    errorMessage.textContent = 'Invite code not found or invalid';
+                                } else {
+                                    errorMessage.textContent = result.error;
+                                }
                                 errorMessage.classList.remove('hidden');
                             }
                         }

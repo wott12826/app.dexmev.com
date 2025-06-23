@@ -295,12 +295,72 @@
                                             </div>
                                         </div>
                                         <div id="content-withdrawal" style="display:none;">
-                                            <!-- Содержимое Withdrawal (ваш HTML для вывода) -->
-                                            ...
+                                            <span class="text-sm text-secondary">Withdraw</span>
+                                            <div class="mt-2.5 mb-4 neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                    <div class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 14 14">
+                                                            <path fill="#000101" d="M13.781 8.693A7 7 0 1 1 .194 5.323a7 7 0 0 1 13.587 3.37"></path>
+                                                            <path fill="#000101" d="M12.517 8.376A5.687 5.687 0 1 1 1.48 5.626a5.687 5.687 0 0 1 11.036 2.75"></path>
+                                                            <path fill="url(#solana_svg__a)" d="M4.712 8.403a.22.22 0 0 1 .156-.066h5.425a.116.116 0 0 1 .079.195L9.3 9.602a.22.22 0 0 1-.156.065H3.72a.111.111 0 0 1-.078-.197z"></path>
+                                                            <path fill="url(#solana_svg__b)" d="M4.712 4.4a.22.22 0 0 1 .155-.066h5.425a.11.11 0 0 1 .11.114.11.11 0 0 1-.031.076L9.299 5.598a.22.22 0 0 1-.155.066H3.719a.116.116 0 0 1-.079-.195z"></path>
+                                                            <path fill="url(#solana_svg__c)" d="M9.3 6.388a.22.22 0 0 0-.156-.066H3.719a.116.116 0 0 0-.079.195l1.072 1.067a.22.22 0 0 0 .155.066h5.425a.11.11 0 0 0 .11-.114.11.11 0 0 0-.031-.076z"></path>
+                                                            <defs>
+                                                                <linearGradient id="solana_svg__a" x1="10.076" x2="5.909" y1="4.496" y2="10.605" gradientUnits="userSpaceOnUse"><stop stop-color="#00FFA3"></stop><stop offset="1" stop-color="#DC1FFF"></stop></linearGradient>
+                                                                <linearGradient id="solana_svg__b" x1="8.214" x2="4.047" y1="3.225" y2="9.335" gradientUnits="userSpaceOnUse"><stop stop-color="#00FFA3"></stop><stop offset="1" stop-color="#DC1FFF"></stop></linearGradient>
+                                                                <linearGradient id="solana_svg__c" x1="9.142" x2="4.974" y1="3.857" y2="9.967" gradientUnits="userSpaceOnUse"><stop stop-color="#00FFA3"></stop><stop offset="1" stop-color="#DC1FFF"></stop></linearGradient>
+                                                            </defs>
+                                                        </svg>
+                                                        <input class="ml-3 mr-auto w-32 text-sm" placeholder="0.00000" type="string" value="0">
+                                                        <div>
+                                                            <button class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]"><div class="inline"><span class="bg-transparent text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">25%</span></div></button>
+                                                            <button class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]"><div class="inline"><span class="bg-transparent text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">50%</span></div></button>
+                                                            <button class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]"><div class="inline"><span class="bg-transparent text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">75%</span></div></button>
+                                                            <button class="bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]"><div class="inline"><span class="bg-gd-magenta text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">100%</span></div></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span class="text-sm text-secondary">To wallet</span>
+                                            <div class="mt-2.5 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                    <div class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
+                                                        <input class="ml-3 mr-4 flex-1 text-sm" placeholder="Enter wallet" type="text" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label class="mt-5 flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none" viewBox="0 0 21 21">
+                                                    <rect width="19" height="19" x="1" y="1" fill="#191A1C" rx="4"></rect>
+                                                    <rect width="19" height="19" x="1" y="1" stroke="url(#paint0_linear_2123_323)" stroke-width="1.5" rx="4" style="mix-blend-mode: overlay;"></rect>
+                                                    <rect width="14" height="14" x="3.5" y="3.5" fill="url(#paint1_linear_2123_323)" stroke="url(#paint2_linear_2123_323)" rx="3.5"></rect>
+                                                    <path class="" fill="#14F195" d="M9.79 14h-.005a.2.2 0 0 1-.136-.061L6.05 10.055a.19.19 0 0 1-.013-.24.19.19 0 0 1 .235-.06l3.293 1.53c.028.014.06.008.082-.014l5.024-5.212a.19.19 0 0 1 .257-.018c.077.06.095.17.04.252l-4.997 7.6-.025.03-.022.022A.2.2 0 0 1 9.79 14"></path>
+                                                    <defs>
+                                                        <linearGradient id="paint0_linear_2123_323" x1="2.9" x2="17.34" y1="4.04" y2="25.32" gradientUnits="userSpaceOnUse"><stop stop-opacity="0.45"></stop><stop offset="1" stop-color="#fff"></stop></linearGradient>
+                                                        <linearGradient id="paint1_linear_2123_323" x1="3.571" x2="17.25" y1="3.929" y2="17.214" gradientUnits="userSpaceOnUse"><stop stop-color="#1F2023"></stop><stop offset="1" stop-color="#27282C"></stop></linearGradient>
+                                                        <linearGradient id="paint2_linear_2123_323" x1="6.409" x2="17.393" y1="6.266" y2="17.571" gradientUnits="userSpaceOnUse"><stop stop-color="#343538"></stop><stop offset="0.852" stop-color="#1F2023"></stop></linearGradient>
+                                                    </defs>
+                                                </svg>
+                                                <span class="!ml-[14px] text-sm text-pink-hot ml-2">Save wallet</span>
+                                            </label>
+                                            <div class="">
+                                                <button class="bg-gradient-to-br from-[#FF0040] to-[#6C001B] p-px shadow-main w-full h-[50px] mt-9 active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    <div class="inline"><span class="bg-gd-red text-[22px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Withdrawx</span></div>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div id="content-buy" style="display:none;">
-                                            <!-- Содержимое Buy Solana (ваш HTML для покупки) -->
-                                            ...
+                                            <div class="relative h-[277px] w-full">
+                                                <img alt="Want crypto ?" loading="lazy" decoding="async" data-nimg="fill" sizes="100vw" srcset="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=640&amp;q=100 640w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=750&amp;q=100 750w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=828&amp;q=100 828w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=1080&amp;q=100 1080w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=1200&amp;q=100 1200w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=1920&amp;q=100 1920w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=2048&amp;q=100 2048w, /_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=3840&amp;q=100 3840w" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&amp;w=3840&amp;q=100" style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;">
+                                            <div class="relative px-7 py-5">
+                                                <h2 class="text-[34px] font-semibold">Want crypto?</h2>
+                                                <h3 class="mt-[9px] font-bold">Buy with:</h3>
+                                                <ul class="mt-[19px]">
+                                                    <li class="flex items-center gap-[14px] text-sm text-white/60"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" class="h-6 min-w-6"><path fill="#fff" fill-opacity="0.6" d="M21.918 12.31a.7.7 0 0 1 0-.62l.896-1.832a2.083 2.083 0 0 0-.9-2.767l-1.8-.955a.7.7 0 0 1-.365-.503l-.352-2.007a2.084 2.084 0 0 0-2.354-1.71l-2.018.285a.7.7 0 0 1-.591-.192L12.969.592a2.083 2.083 0 0 0-2.91 0L8.596 2.009a.7.7 0 0 1-.591.192l-2.018-.285a2.083 2.083 0 0 0-2.354 1.71L3.28 5.633a.7.7 0 0 1-.365.503l-1.8.955a2.083 2.083 0 0 0-.9 2.767l.895 1.831a.7.7 0 0 1 0 .622l-.895 1.831a2.083 2.083 0 0 0 .9 2.767l1.8.955a.7.7 0 0 1 .365.503l.352 2.008a2.08 2.08 0 0 0 2.354 1.71l2.018-.286c.217-.03.433.04.591.192l1.465 1.417a2.085 2.085 0 0 0 2.909 0l1.465-1.417a.7.7 0 0 1 .591-.192l2.018.285a2.083 2.083 0 0 0 2.354-1.71l.352-2.007a.7.7 0 0 1 .365-.503l1.8-.955a2.083 2.083 0 0 0 .9-2.767zM8.746 5.772a2.54 2.54 0 0 1 2.538 2.538 2.54 2.54 0 0 1-2.538 2.538 2.54 2.54 0 0 1-2.538-2.538A2.54 2.54 0 0 1 8.746 5.77m-1.31 11.286a.69.69 0 0 1-.979 0 .69.69 0 0 1 0-.979l9.136-9.135a.692.692 0 0 1 .978.979zm6.847 1.172a2.54 2.54 0 0 1-2.538-2.538 2.54 2.54 0 0 1 2.538-2.538 2.54 2.54 0 0 1 2.537 2.538 2.54 2.54 0 0 1-2.537 2.538"></path><path fill="#fff" fill-opacity="0.6" d="M14.283 14.538a1.155 1.155 0 0 0 0 2.307c.636 0 1.154-.517 1.154-1.153s-.518-1.154-1.154-1.154M8.746 7.155a1.155 1.155 0 0 0 0 2.307c.636 0 1.153-.517 1.153-1.153s-.517-1.154-1.153-1.154"></path></svg> Best rates</li>
+                                                    <li class="mt-[18px] flex items-center gap-[14px] text-sm text-white/60"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" class="h-6 min-w-6"><path fill="#fff" fill-opacity="0.6" d="M6.328 11.344A6.335 6.335 0 0 0 0 17.672 6.335 6.335 0 0 0 6.328 24a6.335 6.335 0 0 0 6.328-6.328 6.335 6.335 0 0 0-6.328-6.328m2.794 5.56-3.281 3.28a.7.7 0 0 1-.994 0L3.44 18.779a.703.703 0 0 1 .995-.994l.909.91 2.784-2.785a.703.703 0 0 1 .994.994"></path><path fill="#fff" fill-opacity="0.6" d="M18.516 6.094a.703.703 0 0 1-.703-.703V0H7.733C6.571 0 5.625.946 5.625 2.11v7.86q.348-.032.703-.033a7.72 7.72 0 0 1 5.962 2.813h7.632a.703.703 0 0 1 0 1.406h-6.706c.44.858.723 1.808.814 2.813h5.892a.703.703 0 0 1 0 1.406H14.03A7.74 7.74 0 0 1 10.77 24h11.027c1.163 0 2.11-.946 2.11-2.11V6.095zm1.406 3.843H9.609a.703.703 0 0 1 0-1.406h10.313a.703.703 0 0 1 0 1.406"></path><path fill="#fff" fill-opacity="0.6" d="M19.219.412v4.275h4.275z"></path></svg> Low or no documentation <br> requirements</li>
+                                                    <li class="mt-5 flex items-center gap-[14px] text-sm text-white/60"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 21" class="h-6 min-w-6"><path fill="#fff" fill-opacity="0.6" fill-rule="evenodd" d="M0 4.286h24V2.524a2.5 2.5 0 0 0-.762-1.793A2.6 2.6 0 0 0 21.428 0H2.572C1.892 0 1.242.264.761.73A2.5 2.5 0 0 0 0 2.525zM6.61 16.779a5.85 5.85 0 0 1-.67-2.728v-3.526c0-.576.216-1.127.589-1.534.06-.067.394-.323.955-.575 1.213-.546 4.037-1.68 4.037-1.68.31-.124.655-.124.964.002s2.785 1.135 3.983 1.68c.553.252.883.506.943.573.373.407.589.958.589 1.534v3.508c0 .98-.242 1.923-.68 2.746h4.109c.679 0 1.329-.264 1.81-.731A2.5 2.5 0 0 0 24 14.255V6H0v8.255a2.5 2.5 0 0 0 .762 1.793c.48.467 1.13.73 1.81.73z" clip-rule="evenodd"></path><path fill="#fff" fill-opacity="0.6" fill-rule="evenodd" d="M12.018 7.589H12q-.153 0-.297.056S9.105 8.69 7.989 9.19c-.437.197-.705.385-.752.437-.279.306-.44.718-.44 1.15v3.256c0 1.517.678 2.937 1.804 3.82l2.39 1.871c.283.221.615.333.947.334h.015a1.54 1.54 0 0 0 .932-.327l2.43-1.877c1.14-.88 1.828-2.309 1.828-3.837v-3.24c0-.431-.161-.844-.44-1.15-.047-.052-.312-.238-.743-.435-1.102-.502-3.664-1.545-3.664-1.545a.8.8 0 0 0-.278-.058M9.67 14.64l1.69 1.44a.857.857 0 0 0 1.248-.145l2.059-2.812a.858.858 0 0 0-1.383-1.013l-1.514 2.068-.987-.842a.857.857 0 1 0-1.113 1.304" clip-rule="evenodd"></path></svg> 200+ payment methods</li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

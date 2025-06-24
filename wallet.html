@@ -754,7 +754,7 @@
     </script>
     <script src="firebase-config.js" type="module"></script>
     <script>
-      document.addEventListener('click', function (e) {
+    document.addEventListener('click', function (e) {
         const aside = document.querySelector('aside');
         if (aside && aside.classList.contains('open') && !aside.contains(e.target) && !e.target.classList.contains('burger')) {
           aside.classList.remove('open');
@@ -766,7 +766,10 @@
       const burger = document.getElementById("burger");
       const aside = document.querySelector("aside");
 
-      burger.addEventListener("click", () => {
+      if (!burger || !aside) return;
+
+      burger.addEventListener("click", function(e) {
+        e.stopPropagation();
         aside.classList.toggle("open");
       });
 

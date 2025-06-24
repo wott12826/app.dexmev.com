@@ -696,12 +696,12 @@
                                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                                         <div
                                                             class="flex items-center justify-center h-full w-full rounded-[8px] bg-dark">
-                                                            <div class="h-2.5 w-2.5 rounded-full bg-green"></div>
+                                                            <div id="status-indicator" class="h-2.5 w-2.5 rounded-full bg-green"></div>
                                                         </div>
                                                     </div>
-                                                </div><span class="ml-1.5 text-sm"
+                                                </div><span id="status-text" class="ml-1.5 text-sm"
                                                     style="color:#00ff00">Operational</span><button
-                                                    class="px-2.5 py-1"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    id="pause-button" class="px-2.5 py-1 hover:bg-gray-800 rounded transition-colors"><svg xmlns="http://www.w3.org/2000/svg"
                                                         width="1em" height="1em" fill="none" viewbox="0 0 9 10"
                                                         class="w-2.5">
                                                         <path fill="#fff" d="M0 10h2.857V0H0zM5.714 0v10h2.857V0z">
@@ -1265,6 +1265,74 @@ let currentEpoch = 807;
 let currentSupply = 531.2;
 let epochProgress = 4;
 
+// Переменные для управления статусом монитора
+let isMonitorPaused = false;
+let updateIntervals = [];
+
+// Функция для управления статусом монитора
+function toggleMonitorStatus() {
+    const statusIndicator = document.getElementById('status-indicator');
+    const statusText = document.getElementById('status-text');
+    const pauseButton = document.getElementById('pause-button');
+    
+    if (isMonitorPaused) {
+        // Возобновляем работу
+        isMonitorPaused = false;
+        statusIndicator.className = 'h-2.5 w-2.5 rounded-full bg-green';
+        statusText.textContent = 'Operational';
+        statusText.style.color = '#00ff00';
+        
+        // Меняем иконку на паузу
+        pauseButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewbox="0 0 9 10" class="w-2.5">
+            <path fill="#fff" d="M0 10h2.857V0H0zM5.714 0v10h2.857V0z"></path>
+        </svg>`;
+        
+        console.log('🟢 Monitor resumed - Operational');
+        
+        // Возобновляем обновления
+        startMonitorUpdates();
+        
+    } else {
+        // Останавливаем работу
+        isMonitorPaused = true;
+        statusIndicator.className = 'h-2.5 w-2.5 rounded-full bg-red-500';
+        statusText.textContent = 'Pause';
+        statusText.style.color = '#ff4444';
+        
+        // Меняем иконку на play
+        pauseButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewbox="0 0 24 24" class="w-2.5">
+            <path fill="#fff" d="M8 5v14l11-7z"></path>
+        </svg>`;
+        
+        console.log('🔴 Monitor paused - Pause');
+        
+        // Останавливаем обновления
+        stopMonitorUpdates();
+    }
+}
+
+// Функция для остановки всех обновлений
+function stopMonitorUpdates() {
+    updateIntervals.forEach(interval => {
+        clearInterval(interval);
+    });
+    updateIntervals = [];
+    console.log('⏸️ All monitor updates stopped');
+}
+
+// Функция для запуска обновлений
+function startMonitorUpdates() {
+    // Запускаем обновление Solana stats каждые 30 секунд
+    const solanaInterval = setInterval(updateSolanaStats, 30000);
+    updateIntervals.push(solanaInterval);
+    
+    // Запускаем обновление sandwich transactions каждые 10 секунд
+    const sandwichInterval = setInterval(fetchSandwichTxs, 10000);
+    updateIntervals.push(sandwichInterval);
+    
+    console.log('▶️ Monitor updates started');
+}
+
 // Функция для генерации реалистичных демо-данных
 function generateDemoData() {
   const now = Date.now();
@@ -1513,6 +1581,12 @@ async function fetchSandwichTxs() {
   try {
     console.log('🔄 Fetching sandwich transactions...');
     
+    // Проверяем, не стоит ли монитор на паузе
+    if (isMonitorPaused) {
+      console.log('⏸️ Sandwich transactions update skipped - monitor is paused');
+      return;
+    }
+    
     updateDemoData();
     
     // Обновляем данные каждые 10 секунд для демонстрации
@@ -1534,6 +1608,12 @@ async function fetchSandwichTxs() {
 
 async function updateSolanaStats() {
   console.log('🔄 Updating Solana stats...');
+  
+  // Проверяем, не стоит ли монитор на паузе
+  if (isMonitorPaused) {
+    console.log('⏸️ Solana stats update skipped - monitor is paused');
+    return;
+  }
   
   try {
     // Проверяем наличие элементов
@@ -1619,8 +1699,7 @@ async function updateSolanaStats() {
 
 // Запускаем обновление каждые 30 секунд
 console.log('🚀 Starting Solana stats updater with live demo data...');
-setInterval(updateSolanaStats, 30000);
-setInterval(fetchSandwichTxs, 10000);
+// startMonitorUpdates(); // Запускаем через startMonitorUpdates()
 
 // Запускаем первое обновление через 2 секунды после загрузки
 setTimeout(() => {
@@ -1637,6 +1716,18 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Принудительно рендерим монитор
   renderSandwichMonitor();
+  
+  // Добавляем обработчик для кнопки паузы
+  const pauseButton = document.getElementById('pause-button');
+  if (pauseButton) {
+    pauseButton.addEventListener('click', toggleMonitorStatus);
+    console.log('✅ Pause button event listener added');
+  } else {
+    console.error('❌ Pause button not found!');
+  }
+  
+  // Запускаем обновления
+  startMonitorUpdates();
   
   console.log('✅ Sandwich monitor initialized');
 });

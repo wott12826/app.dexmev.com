@@ -445,12 +445,15 @@
             </ul>
             
             <div style="margin-top: 20px;">
-                <button id="generateNewData" style="background: #B056FF; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">
-                    Generate New Data
-                </button>
-                <button id="refreshMonitor" style="background: #14F195; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; margin-left: 10px;">
-                    Refresh Monitor
-                </button>
+                <button id="generateNewData" style="background: #B056FF; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; margin-right: 10px;">Generate New Data</button>
+                <button id="pauseButton" style="background: #333; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Pause Monitor</button>
+            </div>
+            
+            <div style="margin-top: 10px; padding: 10px; background: #232323; border-radius: 8px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div id="statusIndicator" style="width: 12px; height: 12px; border-radius: 50%; background: #00ff00;"></div>
+                    <span id="statusText" style="color: #00ff00;">Operational</span>
+                </div>
             </div>
         </div>
         
@@ -612,6 +615,75 @@
     </div>
 
     <script>
+        let isMonitorPaused = false;
+        let updateInterval = null;
+        
+        function toggleMonitorStatus() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const pauseBtn = document.getElementById('pauseButton');
+            
+            if (isMonitorPaused) {
+                // Возобновляем работу
+                isMonitorPaused = false;
+                statusIndicator.style.background = '#00ff00';
+                statusText.textContent = 'Operational';
+                statusText.style.color = '#00ff00';
+                pauseBtn.textContent = 'Pause Monitor';
+                pauseBtn.style.background = '#333';
+                
+                // Запускаем обновления
+                startUpdates();
+                
+                console.log('🟢 Monitor resumed - Operational');
+            } else {
+                // Останавливаем работу
+                isMonitorPaused = true;
+                statusIndicator.style.background = '#ff4444';
+                statusText.textContent = 'Pause';
+                statusText.style.color = '#ff4444';
+                pauseBtn.textContent = 'Resume Monitor';
+                pauseBtn.style.background = '#14F195';
+                
+                // Останавливаем обновления
+                stopUpdates();
+                
+                console.log('🔴 Monitor paused - Pause');
+            }
+        }
+        
+        function startUpdates() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+            }
+            updateInterval = setInterval(() => {
+                if (!isMonitorPaused) {
+                    console.log('🔄 Auto-updating test data...');
+                    generateNewData();
+                }
+            }, 5000);
+        }
+        
+        function stopUpdates() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+                updateInterval = null;
+            }
+        }
+        
+        function generateNewData() {
+            console.log('🔄 Generating new test data...');
+            
+            // Обновляем данные
+            currentSlot = Math.floor(Math.random() * 1000000) + 200000000;
+            sandwichAllData = generateSandwichDemoCards(SANDWICH_TOTAL);
+            
+            // Перерендериваем монитор
+            renderSandwichMonitor();
+            
+            console.log('✅ New test data generated');
+        }
+        
         function updateScreenSize() {
             const width = window.innerWidth;
             document.getElementById('width').textContent = width;
@@ -633,178 +705,40 @@
                 screenSize.style.background = '#FFCC44';
                 screenSize.textContent = `Screen: ${width}px (Mobile)`;
             } else if (width <= 1024) {
-                screenSize.style.background = '#44AAFF';
+                screenSize.style.background = '#44FF44';
                 screenSize.textContent = `Screen: ${width}px (Tablet)`;
             } else {
-                screenSize.style.background = '#44FF44';
+                screenSize.style.background = '#B056FF';
                 screenSize.textContent = `Screen: ${width}px (Desktop)`;
             }
         }
         
+        // Initialize
         window.addEventListener('resize', updateScreenSize);
         updateScreenSize();
         
-        // Test functions for data generation
-        function randomAddress() {
-            const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-            let addr = '';
-            for (let i = 0; i < 8; i++) addr += chars[Math.floor(Math.random() * chars.length)];
-            return addr + '...';
-        }
-        
-        function randomName() {
-            const names = ['Kiln1', 'IMPULSE', 'FsT844w...', 'CABAL', 'meo', 'JOHN', 'CAVAL', 'Cabal', 'Cabal2', 'Impulse', 'K1', 'K2'];
-            return names[Math.floor(Math.random() * names.length)];
-        }
-        
-        function randomToken() {
-            const tokens = ['SOL', 'CABAL', 'meo', 'JOHN', 'ETH', 'BTC', 'USDC', 'LINK'];
-            return tokens[Math.floor(Math.random() * tokens.length)];
-        }
-        
-        function randomAmount() {
-            return (Math.random() * 10 + 0.5).toFixed(3);
-        }
-        
-        function randomBigAmount() {
-            return (Math.random() * 20000000 + 800000).toLocaleString('en-US', {maximumFractionDigits: 1});
-        }
-        
-        function randomDate() {
-            const now = new Date();
-            now.setSeconds(now.getSeconds() - Math.floor(Math.random() * 300));
-            return now.toLocaleDateString('en-GB') + ', ' + now.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit', second: '2-digit'});
-        }
-        
-        function generateNewSandwichData() {
-            console.log('🔄 Generating new sandwich data...');
-            
-            const newData = [];
-            let slot = 348639437;
-            
-            for (let i = 0; i < 5; i++) {
-                newData.push({
-                    slot: slot--,
-                    date: randomDate(),
-                    leader: randomName(),
-                    attacker: randomAddress(),
-                    program: 'pAMMBay...' + randomAddress().slice(0, 3),
-                    tokenA: randomToken(),
-                    amountA: randomAmount(),
-                    tokenB: randomToken(),
-                    amountB: randomAmount(),
-                    tokenC: randomToken(),
-                    amountC: randomBigAmount(),
-                    tokenA2: randomToken(),
-                    amountA2: randomAmount(),
-                    tokenB2: randomToken(),
-                    amountB2: randomAmount(),
-                    tokenC2: randomToken(),
-                    amountC2: randomBigAmount(),
-                });
-            }
-            
-            console.log('✅ Generated new data:', newData);
-            return newData;
-        }
-        
-        function updateTestCards() {
-            const newData = generateNewSandwichData();
-            const monitorOuter = document.querySelector('.sandwich-monitor-outer');
-            
-            if (monitorOuter) {
-                const cardsContainer = monitorOuter.querySelector('.space-y-3');
-                if (cardsContainer) {
-                    // Clear existing cards
-                    cardsContainer.innerHTML = '';
-                    
-                    // Add new cards
-                    newData.forEach((data, idx) => {
-                        const evenOddClass = (idx % 2 === 0) ? 'even' : 'odd';
-                        const searchIcon = `<svg width="16" height="16" fill="none" viewBox="0 0 18 18"><circle cx="8.5" cy="8.5" r="7.5" stroke="#14F195" stroke-width="2"/><path stroke="#14F195" stroke-width="2" stroke-linecap="round" d="M15.5 15.5 13 13"/></svg>`;
-                        const vaIcon = `<svg width="16" height="16" fill="none" viewBox="0 0 18 18"><circle cx="9" cy="9" r="8" stroke="#B056FF" stroke-width="2"/><text x="50%" y="55%" text-anchor="middle" fill="#B056FF" font-size="9" font-family="Arial" dy=".3em">VA</text></svg>`;
-                        const flashIcon = `<svg width="16" height="16" fill="none" viewBox="0 0 18 18"><path d="M7 2l-1 7h4l-1 7 6-9h-4l1-5-5 7h4z" fill="#9E9E9E"/></svg>`;
-                        const arrowIcon = `<svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M8 12h8m0 0-3-3m3 3-3 3" stroke="#B056FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-                        const userIcon = `<svg width="14" height="14" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="5" r="3" stroke="#fff" stroke-width="1.5"/><path d="M2 14c0-2.21 2.686-4 6-4s6 1.79 6 4" stroke="#fff" stroke-width="1.5"/></svg>`;
-                        
-                        const cardHTML = `
-                            <div class="sandwich-card ${evenOddClass} flex flex-row rounded-xl p-3 mb-3 items-stretch max-w-full" style="min-width:0;">
-                                <div class="sandwich-card-left flex flex-col min-w-[140px] max-w-[180px] pr-4 border-r border-[#B056FF] mr-4" style="flex-shrink:0;">
-                                    <div class="sandwich-slot text-[13px] font-semibold text-blue-400 cursor-pointer sandwich-text-truncate">${data.slot.toLocaleString()}</div>
-                                    <div class="sandwich-date text-xs text-secondary mb-1 sandwich-text-truncate">${data.date}</div>
-                                    <div class="sandwich-divider border-t border-[#333] my-1 w-3/4"></div>
-                                    <div class="sandwich-leader text-sm font-bold text-blue-200 mb-1 sandwich-text-truncate">${data.leader}</div>
-                                    <div class="flex items-center gap-1 mb-0.5 text-xs">
-                                        <span class="sandwich-label text-secondary">Attacker</span>
-                                        <span class="sandwich-addr text-blue-300 font-mono sandwich-text-truncate">${data.attacker}</span>
-                                    </div>
-                                    <div class="flex items-center gap-1 mb-0.5 text-xs">
-                                        <span class="sandwich-label text-secondary">Program</span>
-                                        <span class="sandwich-addr text-blue-300 font-mono sandwich-text-truncate">${data.program}</span>
-                                    </div>
-                                    <div class="sandwich-icons flex items-center gap-1 mt-1">
-                                        ${searchIcon}
-                                        ${vaIcon}
-                                        ${flashIcon}
-                                    </div>
-                                </div>
-                                <div class="sandwich-card-right flex-1 flex flex-col gap-1 justify-center min-w-0">
-                                    <div class="sandwich-blocks grid grid-cols-1 md:grid-cols-2 gap-1 w-full">
-                                        <div class="sandwich-block-row flex items-center gap-2 flex-wrap min-w-0">
-                                            ${searchIcon}
-                                            <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenA}</span>
-                                            <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountA}</span>
-                                            ${searchIcon}
-                                            <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenB}</span>
-                                            <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountB}</span>
-                                            <span class="sandwich-arrow mx-1">${arrowIcon}</span>
-                                            <span class="sandwich-userva flex items-center gap-1">${userIcon}<span class="text-xs text-[#B056FF]">→ VA</span></span>
-                                            <span class="sandwich-token2 text-xs text-secondary font-bold sandwich-text-truncate max-w-[60px]">${data.tokenC}</span>
-                                            <span class="sandwich-amount2 text-base font-bold text-white sandwich-text-truncate max-w-[100px]">${data.amountC}</span>
-                                        </div>
-                                        <div class="sandwich-block-row flex items-center gap-2 flex-wrap min-w-0">
-                                            ${searchIcon}
-                                            <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenA2}</span>
-                                            <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountA2}</span>
-                                            ${searchIcon}
-                                            <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenB2}</span>
-                                            <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountB2}</span>
-                                            <span class="sandwich-arrow mx-1">${arrowIcon}</span>
-                                            <span class="sandwich-userva flex items-center gap-1">${userIcon}<span class="text-xs text-[#B056FF]">→ VA</span></span>
-                                            <span class="sandwich-token2 text-xs text-secondary font-bold sandwich-text-truncate max-w-[60px]">${data.tokenC2}</span>
-                                            <span class="sandwich-amount2 text-base font-bold text-white sandwich-text-truncate max-w-[100px]">${data.amountC2}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        
-                        cardsContainer.innerHTML += cardHTML;
-                    });
-                    
-                    console.log('✅ Test cards updated successfully');
-                }
-            }
-        }
-        
-        // Add event listeners
         document.addEventListener('DOMContentLoaded', function() {
             const generateBtn = document.getElementById('generateNewData');
-            const refreshBtn = document.getElementById('refreshMonitor');
+            const pauseBtn = document.getElementById('pauseButton');
             
             if (generateBtn) {
                 generateBtn.addEventListener('click', function() {
                     console.log('🔄 Generate new data button clicked');
-                    updateTestCards();
+                    generateNewData();
                 });
             }
             
-            if (refreshBtn) {
-                refreshBtn.addEventListener('click', function() {
-                    console.log('🔄 Refresh monitor button clicked');
-                    location.reload();
+            if (pauseBtn) {
+                pauseBtn.addEventListener('click', function() {
+                    console.log('🔄 Pause monitor button clicked');
+                    toggleMonitorStatus();
                 });
             }
+            
+            // Запускаем автоматические обновления
+            startUpdates();
+            
+            console.log('✅ Test page initialized');
         });
     </script>
 </body>

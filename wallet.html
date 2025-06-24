@@ -254,241 +254,246 @@
                         <div class="flex w-full flex-col gap-[30px]">
                             <div class="w-[606px] mx-auto mt-[30px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                                 <div class="!p-[30px] h-full w-full rounded-[17px] bg-gd-main p-5">
-                                    <h2 class="text-center text-[32px] font-semibold">Deposit</h2><span
-                                        class="text-sm text-secondary">Your Trading Balance</span>
-                                    <div
-                                        class="mt-2 !rounded-[8px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
+                                    <!-- Tabs Navigation -->
+                                    <div class="flex gap-2 mb-6">
+                                      <!-- Deposit Tab -->
+                                      <button id="tab-deposit" class="tab-btn bg-gradient-to-br from-[#14F195] to-[#005330ca] text-green p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold tab-active">
+                                        Deposit
+                                      </button>
+                                      <!-- Withdrawal Tab -->
+                                      <button id="tab-withdrawal" class="tab-btn bg-gradient-to-br from-[#FF0040] to-[#6C001B] text-[#ff0040] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">
+                                        Withdrawal
+                                      </button>
+                                      <!-- Buy Solana Tab -->
+                                      <button id="tab-buy" class="tab-btn bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] text-[#00FFA3] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">
+                                        Buy Solana
+                                      </button>
+                                    </div>
+
+                                    <!-- Deposit Content -->
+                                    <div id="content-deposit" class="tab-content">
+                                        <h2 class="text-center text-[32px] font-semibold">Deposit</h2><span
+                                            class="text-sm text-secondary">Your Trading Balance</span>
                                         <div
-                                            class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
-                                            <div class="flex items-center gap-[14px]"><svg xmlns="http://www.w3.org/2000/svg"
-                                                    width="1em" height="1em" fill="none" viewbox="0 0 24 20"
-                                                    class="h-[19px] min-w-6">
-                                                    <path fill="url(#solana-without-bg_svg__a)"
-                                                        d="M3.923 14.949a.77.77 0 0 1 .548-.232h19.144a.41.41 0 0 1 .277.687L20.11 19.18a.77.77 0 0 1-.548.231H.42a.394.394 0 0 1-.278-.695z">
-                                                    </path>
-                                                    <path fill="url(#solana-without-bg_svg__b)"
-                                                        d="M3.922.821A.77.77 0 0 1 4.47.59h19.143A.386.386 0 0 1 24 .99a.4.4 0 0 1-.108.27l-3.782 3.791a.77.77 0 0 1-.548.232H.417a.41.41 0 0 1-.277-.687z">
-                                                    </path>
-                                                    <path fill="url(#solana-without-bg_svg__c)"
-                                                        d="M20.109 7.839a.77.77 0 0 0-.548-.232H.417a.41.41 0 0 0-.277.687l3.782 3.768a.77.77 0 0 0 .548.231h19.143a.394.394 0 0 0 .386-.401.4.4 0 0 0-.108-.27z">
-                                                    </path>
+                                            class="mt-2 !rounded-[8px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
+                                            <div
+                                                class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
+                                                <div class="flex items-center gap-[14px]"><svg xmlns="http://www.w3.org/2000/svg"
+                                                        width="1em" height="1em" fill="none" viewbox="0 0 24 20"
+                                                        class="h-[19px] min-w-6">
+                                                        <path fill="url(#solana-without-bg_svg__a)"
+                                                            d="M3.923 14.949a.77.77 0 0 1 .548-.232h19.144a.41.41 0 0 1 .277.687L20.11 19.18a.77.77 0 0 1-.548.231H.42a.394.394 0 0 1-.278-.695z">
+                                                        </path>
+                                                        <path fill="url(#solana-without-bg_svg__b)"
+                                                            d="M3.922.821A.77.77 0 0 1 4.47.59h19.143A.386.386 0 0 1 24 .99a.4.4 0 0 1-.108.27l-3.782 3.791a.77.77 0 0 1-.548.232H.417a.41.41 0 0 1-.277-.687z">
+                                                        </path>
+                                                        <path fill="url(#solana-without-bg_svg__c)"
+                                                            d="M20.109 7.839a.77.77 0 0 0-.548-.232H.417a.41.41 0 0 0-.277.687l3.782 3.768a.77.77 0 0 0 .548.231h19.143a.394.394 0 0 0 .386-.401.4.4 0 0 0-.108-.27z">
+                                                        </path>
+                                                        <defs>
+                                                            <lineargradient id="solana-without-bg_svg__a" x1="22.85" x2="8.142"
+                                                                y1="1.161" y2="22.721" gradientunits="userSpaceOnUse">
+                                                                <stop stop-color="#00FFA3"></stop>
+                                                                <stop offset="1" stop-color="#DC1FFF"></stop>
+                                                            </lineargradient>
+                                                            <lineargradient id="solana-without-bg_svg__b" x1="16.28" x2="1.572"
+                                                                y1="-3.324" y2="18.236" gradientunits="userSpaceOnUse">
+                                                                <stop stop-color="#00FFA3"></stop>
+                                                                <stop offset="1" stop-color="#DC1FFF"></stop>
+                                                            </lineargradient>
+                                                            <lineargradient id="solana-without-bg_svg__c" x1="19.553" x2="4.845"
+                                                                y1="-1.094" y2="20.467" gradientunits="userSpaceOnUse">
+                                                                <stop stop-color="#00FFA3"></stop>
+                                                                <stop offset="1" stop-color="#DC1FFF"></stop>
+                                                            </lineargradient>
+                                                        </defs>
+                                                    </svg>
+                                                    <div class="flex items-end leading-none"><span
+                                                            class="text-[32px] font-medium">0</span><span
+                                                            class="relative -top-[3px] ml-0.5 text-green">/ $<!-- -->0.00</span>
+                                                    </div>
+                                                </div><button
+                                                    class="w-[40px] h-[40px] !rounded-[6px] focus:outline-none active:scale-[97%] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                    <div
+                                                        class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                        <div
+                                                            class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                                fill="none" viewbox="0 0 20 20" class="min-h-5 min-w-5">
+                                                                <path fill="#14F195"
+                                                                    d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1">
+                                                                </path>
+                                                            </svg></div>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="mt-6"><span class="text-sm text-secondary">Address</span><button
+                                                class="mt-2.5 w-full inline" id="copyButton">
+                                                <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                                    <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                                        <div
+                                                            class="flex items-center !p-3 !pr-4 !rounded-[7px] h-full w-full rounded-[8px] bg-dark">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
+                                                                <path fill="#fff" fill-rule="evenodd" d="m13.89 4.809-.04-.024c-1.038-.599-1.873-1.081-2.583-1.386-.735-.315-1.423-.481-2.154-.358a3.8 3.8 0 0 0-.691.185c-.695.259-1.208.747-1.687 1.387-.291.39-.591.868-.923 1.428Q6.384 5.893 7 5.89h.67q.137-.207.267-.38c.393-.526.694-.762 1.01-.88a2.3 2.3 0 0 1 .414-.111c.332-.056.711-.001 1.314.257.544.234 1.198.6 2.089 1.114h3z" clip-rule="evenodd"></path>
+                                                                <path fill="#fff" fill-rule="evenodd" d="M7 5.89a4.75 4.75 0 0 0-4.75 4.75v6A4.75 4.75 0 0 0 7 21.39h10a4.75 4.75 0 0 0 4.744-4.5h.006v-6.499h-.006A4.75 4.75 0 0 0 17 5.89zm13.24 4.5a3.25 3.25 0 0 0-3.24-3H7a3.25 3.25 0 0 0-3.25 3.25v6A3.25 3.25 0 0 0 7 19.89h10a3.25 3.25 0 0 0 3.24-3h-3.72a3.25 3.25 0 1 1 0-6.5zm-5.47 3.25c0-.966.784-1.75 1.75-1.75h3.73v3.5h-3.73a1.75 1.75 0 0 1-1.75-1.75" clip-rule="evenodd"></path>
+                                                                <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
+                                                            </svg>
+                                                            <p class="ml-3 text-sm" id="walletFullAddr"></p>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 11 13" class="ml-auto h-[11px] w-[13px]">
+                                                                <path fill="#fff" d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z"></path>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <div
+                                                class="mx-auto mt-10 flex h-[182px] w-[182px] items-center justify-center rounded-md border-2">
+                                                <div id="qrCodeContainer" class="flex items-center justify-center w-full h-full">
+                                                    <div id="qrCode" class="bg-white p-2 rounded"></div>
+                                                </div>
+                                            </div>
+                                            <div class="relative mt-10 p-5"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
+                                                    height="1em" fill="none" viewbox="0 0 546 170"
+                                                    class="absolute left-0 top-0 min-h-[170px] min-w-[546px]">
+                                                    <rect width="545" height="169" x="0.5" y="0.5"
+                                                        stroke="url(#wallet-deposit_svg__a)" rx="7.5"></rect>
                                                     <defs>
-                                                        <lineargradient id="solana-without-bg_svg__a" x1="22.85" x2="8.142"
-                                                            y1="1.161" y2="22.721" gradientunits="userSpaceOnUse">
-                                                            <stop stop-color="#00FFA3"></stop>
-                                                            <stop offset="1" stop-color="#DC1FFF"></stop>
-                                                        </lineargradient>
-                                                        <lineargradient id="solana-without-bg_svg__b" x1="16.28" x2="1.572"
-                                                            y1="-3.324" y2="18.236" gradientunits="userSpaceOnUse">
-                                                            <stop stop-color="#00FFA3"></stop>
-                                                            <stop offset="1" stop-color="#DC1FFF"></stop>
-                                                        </lineargradient>
-                                                        <lineargradient id="solana-without-bg_svg__c" x1="19.553" x2="4.845"
-                                                            y1="-1.094" y2="20.467" gradientunits="userSpaceOnUse">
-                                                            <stop stop-color="#00FFA3"></stop>
-                                                            <stop offset="1" stop-color="#DC1FFF"></stop>
+                                                        <lineargradient id="wallet-deposit_svg__a" x1="124.091" x2="193.115"
+                                                            y1="37.01" y2="265.2" gradientunits="userSpaceOnUse">
+                                                            <stop stop-color="#343538"></stop>
+                                                            <stop offset="0.852" stop-color="#1F2023"></stop>
                                                         </lineargradient>
                                                     </defs>
                                                 </svg>
-                                                <div class="flex items-end leading-none"><span
-                                                        class="text-[32px] font-medium">0</span><span
-                                                        class="relative -top-[3px] ml-0.5 text-green">/ $<!-- -->0.00</span>
-                                                </div>
-                                            </div><button
-                                                class="w-[40px] h-[40px] !rounded-[6px] focus:outline-none active:scale-[97%] neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                                <div
-                                                    class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                                    <div
-                                                        class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                                            fill="none" viewbox="0 0 20 20" class="min-h-5 min-w-5">
-                                                            <path fill="#14F195"
-                                                                d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1">
-                                                            </path>
-                                                        </svg></div>
-                                                </div>
-                                            </button>
+                                                <ul class="text-sm">
+                                                    <li class="flex justify-between text-secondary"><span>Min deposit
+                                                            amount</span><span>0.003 SOL</span></li>
+                                                    <li class="mt-2.5 flex justify-between"><span>Expected arrival</span><span>1
+                                                            confirmations</span></li>
+                                                    <li class="mt-2.5 flex justify-between"><span>Minimum unlock</span><span>1
+                                                            confirmations</span></li>
+                                                </ul>
+                                                <p class="yellow-label-common mt-2.5 !leading-normal">Deposit Solana tokens to your
+                                                    personal crypto deposit address. Make sure you copy the address correctly as
+                                                    incorrect transfers can not be refunded.</p>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <!-- Withdrawal Content -->
+                                    <div id="content-withdrawal" class="tab-content hidden">
+                                      <!-- Баланс и сумма -->
+                                      <div class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
+                                        <div class="flex items-center gap-[14px]">
+                                          <!-- Solana SVG -->
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 20" class="h-[19px] min-w-6">
+                                            <!-- ...SVG paths... -->
+                                          </svg>
+                                          <div class="flex items-end leading-none">
+                                            <span class="text-[32px] font-medium" id="withdraw-balance">0</span>
+                                            <span class="relative -top-[3px] ml-0.5 text-green">/ $0.00</span>
+                                          </div>
+                                        </div>
+                                        <button class="w-[40px] h-[40px] !rounded-[6px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                          <div class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                            <div class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 20 20" class="min-h-5 min-w-5">
+                                                <path fill="#14F195" d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1"></path>
+                                          </svg>
+                                        </div>
+                                      </div>
+                                    </button>
+                                    <!-- Ввод суммы и проценты -->
                                     <div class="mt-[30px] !w-full w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                        <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                            <div class="flex gap-1 justify-between p-1 h-full w-full rounded-[8px] bg-dark">
-                                                <button
-                                                    class="bg-gradient-to-br from-[#14F195] to-[#005330ca] text-green p-px shadow-main !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                                    <div class="inline"><span
-                                                            class="bg-gd-main !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Deposit</span>
-                                                    </div>
-                                                </button><button
-                                                    class="bg-transparent p-0.5 !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                                    <div class="inline"><span
-                                                            class="bg-transparent text-secondary !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Withdrawal</span>
-                                                    </div>
-                                                </button><button
-                                                    class="bg-transparent p-0.5 !rounded-[6px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                                    <div class="inline"><span
-                                                            class="bg-transparent text-secondary !py-1 !px-[50px] !rounded-[5px] px-3 text-sm flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Buy
-                                                            Solana</span></div>
-                                                </button></div>
+                                      <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                        <div class="flex gap-2 p-2 h-full w-full rounded-[8px] bg-dark items-center">
+                                          <input id="withdraw-amount" class="ml-3 mr-auto w-32 text-sm bg-transparent border-none outline-none text-white" placeholder="0.00000" type="number" min="0" step="any">
+                                          <div class="flex gap-1">
+                                            <button class="percent-btn bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">25%</button>
+                                            <button class="percent-btn bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">50%</button>
+                                            <button class="percent-btn bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">75%</button>
+                                            <button class="percent-btn bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">100%</button>
+                                          </div>
                                         </div>
+                                      </div>
                                     </div>
-                                    <div class="mt-6"><span class="text-sm text-secondary">Address</span><button
-                                            class="mt-2.5 w-full inline" id="copyButton">
-                                            <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
-                                                <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                                    <div
-                                                        class="flex items-center !p-3 !pr-4 !rounded-[7px] h-full w-full rounded-[8px] bg-dark">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
-                                                            <path fill="#fff" fill-rule="evenodd" d="m13.89 4.809-.04-.024c-1.038-.599-1.873-1.081-2.583-1.386-.735-.315-1.423-.481-2.154-.358a3.8 3.8 0 0 0-.691.185c-.695.259-1.208.747-1.687 1.387-.291.39-.591.868-.923 1.428Q6.384 5.893 7 5.89h.67q.137-.207.267-.38c.393-.526.694-.762 1.01-.88a2.3 2.3 0 0 1 .414-.111c.332-.056.711-.001 1.314.257.544.234 1.198.6 2.089 1.114h3z" clip-rule="evenodd"></path>
-                                                            <path fill="#fff" fill-rule="evenodd" d="M7 5.89a4.75 4.75 0 0 0-4.75 4.75v6A4.75 4.75 0 0 0 7 21.39h10a4.75 4.75 0 0 0 4.744-4.5h.006v-6.499h-.006A4.75 4.75 0 0 0 17 5.89zm13.24 4.5a3.25 3.25 0 0 0-3.24-3H7a3.25 3.25 0 0 0-3.25 3.25v6A3.25 3.25 0 0 0 7 19.89h10a3.25 3.25 0 0 0 3.24-3h-3.72a3.25 3.25 0 1 1 0-6.5zm-5.47 3.25c0-.966.784-1.75 1.75-1.75h3.73v3.5h-3.73a1.75 1.75 0 0 1-1.75-1.75" clip-rule="evenodd"></path>
-                                                            <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
-                                                        </svg>
-                                                        <p class="ml-3 text-sm" id="walletFullAddr"></p>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 11 13" class="ml-auto h-[11px] w-[13px]">
-                                                            <path fill="#fff" d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z"></path>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </button>
-                                        <div
-                                            class="mx-auto mt-10 flex h-[182px] w-[182px] items-center justify-center rounded-md border-2">
-                                            <div id="qrCodeContainer" class="flex items-center justify-center w-full h-full">
-                                                <div id="qrCode" class="bg-white p-2 rounded"></div>
-                                            </div>
+                                    <!-- Ввод адреса -->
+                                    <span class="text-sm text-secondary mt-4 block">To wallet</span>
+                                    <div class="mt-2.5 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                      <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                        <div class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
+                                          <input id="withdraw-address" class="ml-3 mr-4 flex-1 text-sm bg-transparent border-none outline-none text-white" placeholder="Enter wallet" type="text">
                                         </div>
-                                        <div class="relative mt-10 p-5"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
-                                                height="1em" fill="none" viewbox="0 0 546 170"
-                                                class="absolute left-0 top-0 min-h-[170px] min-w-[546px]">
-                                                <rect width="545" height="169" x="0.5" y="0.5"
-                                                    stroke="url(#wallet-deposit_svg__a)" rx="7.5"></rect>
-                                                <defs>
-                                                    <lineargradient id="wallet-deposit_svg__a" x1="124.091" x2="193.115"
-                                                        y1="37.01" y2="265.2" gradientunits="userSpaceOnUse">
-                                                        <stop stop-color="#343538"></stop>
-                                                        <stop offset="0.852" stop-color="#1F2023"></stop>
-                                                    </lineargradient>
-                                                </defs>
-                                            </svg>
-                                            <ul class="text-sm">
-                                                <li class="flex justify-between text-secondary"><span>Min deposit
-                                                        amount</span><span>0.003 SOL</span></li>
-                                                <li class="mt-2.5 flex justify-between"><span>Expected arrival</span><span>1
-                                                        confirmations</span></li>
-                                                <li class="mt-2.5 flex justify-between"><span>Minimum unlock</span><span>1
-                                                        confirmations</span></li>
-                                            </ul>
-                                            <p class="yellow-label-common mt-2.5 !leading-normal">Deposit Solana tokens to your
-                                                personal crypto deposit address. Make sure you copy the address correctly as
-                                                incorrect transfers can not be refunded.</p>
-                                        </div>
+                                      </div>
                                     </div>
+                                    <!-- Чекбокс Save wallet -->
+                                    <label class="mt-5 flex items-center cursor-pointer select-none">
+                                      <input id="withdraw-save-wallet" type="checkbox" class="form-checkbox accent-pink-500 w-5 h-5">
+                                      <span class="!ml-[14px] text-sm text-pink-hot ml-2">Save wallet</span>
+                                    </label>
+                                    <!-- Кнопка Withdraw -->
+                                    <div class="">
+                                      <button id="withdraw-btn" class="bg-gradient-to-br from-[#FF0040] to-[#6C001B] p-px shadow-main w-full h-[50px] mt-9 active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                        <div class="inline">
+                                          <span class="bg-gd-red text-[22px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Withdraw</span>
+                                        </div>
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  <!-- Buy Solana Content -->
+                                  <div id="content-buy" class="tab-content hidden">
+                                    <!-- Баланс -->
+                                    <div class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
+                                      <div class="flex items-center gap-[14px]">
+                                        <!-- Solana SVG -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 20" class="h-[19px] min-w-6">
+                                          <!-- ...SVG paths... -->
+                                        </svg>
+                                        <div class="flex items-end leading-none">
+                                          <span class="text-[32px] font-medium" id="buy-balance">0</span>
+                                          <span class="relative -top-[3px] ml-0.5 text-green">/ $0.00</span>
+                                        </div>
+                                      </div>
+                                      <button class="w-[40px] h-[40px] !rounded-[6px] neumorphism-border-1 rounded-md p-px overflow-hidden">
+                                        <div class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                                          <div class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 20 20" class="min-h-5 min-w-5">
+                                              <path fill="#14F195" d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1"></path>
+                                        </svg>
+                                      </div>
+                                    </div>
+                                  </button>
+                                  <!-- Hero блок с картинкой и кнопкой -->
+                                  <div class="mt-[30px] relative h-[277px] w-full">
+                                    <img alt="Want crypto ?" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&w=3840&q=100" class="absolute h-full w-full inset-0 object-cover rounded-[17px]" style="color: transparent;">
+                                    <div class="relative px-7 py-5 z-10">
+                                      <h2 class="text-[34px] font-semibold">Want crypto?</h2>
+                                      <h3 class="mt-[9px] font-bold">Buy with:</h3>
+                                      <ul class="mt-[19px]">
+                                        <li class="flex items-center gap-[14px] text-sm text-white/60">Best rates</li>
+                                        <li class="mt-[18px] flex items-center gap-[14px] text-sm text-white/60">Low or no documentation requirements</li>
+                                        <li class="mt-5 flex items-center gap-[14px] text-sm text-white/60">200+ payment methods</li>
+                                      </ul>
+                                    </div>
+                                    <div class="relative">
+                                      <button id="buy-btn" class="bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] p-px shadow-main mt-[30px] w-full h-[50px] active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                        <div class="h-full rounded-[6px] bg-gd-main !rounded-[9px]">
+                                          <span class="bg-gd-text-sol bg-clip-text text-transparent flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Buy Solana</span>
+                                        </div>
+                                      </button>
+                                      <div class="pointer-events-none absolute bottom-[12px] left-[200px] min-h-9 text-sm leading-none">
+                                        <div class="text-center">Buy Solana</div>
+                                        <div class="mt-[4px] flex items-center justify-center">
+                                          <span class="ml-[5px] text-[#A7A8A9]">Onramper</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                                 </div>
                             </div>
-                            <section class="rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
-                                <div class="!p-0 overflow-hidden h-full w-full rounded-[17px] bg-gd-main p-5">
-                                    <div class="flex items-center justify-between p-5 pb-0">
-                                        <h2 class="font-semibold">User Transaction Live Stream</h2>
-                                        <p class="text-sm text-green">1 - 5 <span class="text-[#aeb9e1]">of <!-- -->0</span></p>
-                                    </div>
-                                    <div class="mt-3 h-px bg-gd-divider opacity-[32%]"></div>
-                                    <div class="relative mt-7 overflow-x-auto">
-                                        <table class="h-[340px] w-full">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal pl-5 pr-0">
-                                                            #<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Time<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Token<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Cost<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Revenue<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Profit<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Block<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Delay<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Dex<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <div class="mb-4 flex cursor-pointer items-center px-3 text-sm font-normal">
-                                                            Type<div><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15">
-                                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8">
-                                                                    </path>
-                                                                </svg></div>
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td colspan="10">
-                                                        <div class="h-[340px] flex items-center justify-center text-white text-3xl">
-                                                            Transactions not found</div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </section>
                         </div>
                     </div>
                 </div>
@@ -977,144 +982,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
 
-    <!-- Tabs Navigation -->
-    <div class="flex gap-2 mb-6">
-      <!-- Deposit Tab -->
-      <button id="tab-deposit" class="tab-btn bg-gradient-to-br from-[#14F195] to-[#005330ca] text-green p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">
-        Deposit
-      </button>
-      <!-- Withdrawal Tab -->
-      <button id="tab-withdrawal" class="tab-btn bg-gradient-to-br from-[#FF0040] to-[#6C001B] text-[#ff0040] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold tab-active">
-        Withdrawal
-      </button>
-      <!-- Buy Solana Tab -->
-      <button id="tab-buy" class="tab-btn bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] text-[#00FFA3] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">
-        Buy Solana
-      </button>
-    </div>
-
-    <!-- Deposit Content (скрыт по умолчанию) -->
-    <div id="content-deposit" class="tab-content hidden">
-      <div class="text-center text-gray-400">Deposit tab content here</div>
-    </div>
-
-    <!-- Withdrawal Content -->
-    <div id="content-withdrawal" class="tab-content">
-      <!-- Баланс и сумма -->
-      <div class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
-        <div class="flex items-center gap-[14px]">
-          <!-- Solana SVG -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 20" class="h-[19px] min-w-6">
-            <!-- ...SVG paths... -->
-          </svg>
-          <div class="flex items-end leading-none">
-            <span class="text-[32px] font-medium" id="withdraw-balance">0</span>
-            <span class="relative -top-[3px] ml-0.5 text-green">/ $0.00</span>
-          </div>
-        </div>
-        <button class="w-[40px] h-[40px] !rounded-[6px] neumorphism-border-1 rounded-md p-px overflow-hidden">
-          <div class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-            <div class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
-              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 20 20" class="min-h-5 min-w-5">
-                <path fill="#14F195" d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1"></path>
-          </svg>
-        </div>
-      </div>
-    </button>
-    <!-- Ввод суммы и проценты -->
-    <div class="mt-[30px] !w-full w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
-      <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-        <div class="flex gap-2 p-2 h-full w-full rounded-[8px] bg-dark items-center">
-          <input id="withdraw-amount" class="ml-3 mr-auto w-32 text-sm bg-transparent border-none outline-none text-white" placeholder="0.00000" type="number" min="0" step="any">
-          <div class="flex gap-1">
-            <button class="percent-btn bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">25%</button>
-            <button class="percent-btn bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">50%</button>
-            <button class="percent-btn bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">75%</button>
-            <button class="percent-btn bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%] text-xs text-white">100%</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Ввод адреса -->
-    <span class="text-sm text-secondary mt-4 block">To wallet</span>
-    <div class="mt-2.5 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
-      <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-        <div class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-          <input id="withdraw-address" class="ml-3 mr-4 flex-1 text-sm bg-transparent border-none outline-none text-white" placeholder="Enter wallet" type="text">
-        </div>
-      </div>
-    </div>
-    <!-- Чекбокс Save wallet -->
-    <label class="mt-5 flex items-center cursor-pointer select-none">
-      <input id="withdraw-save-wallet" type="checkbox" class="form-checkbox accent-pink-500 w-5 h-5">
-      <span class="!ml-[14px] text-sm text-pink-hot ml-2">Save wallet</span>
-    </label>
-    <!-- Кнопка Withdraw -->
-    <div class="">
-      <button id="withdraw-btn" class="bg-gradient-to-br from-[#FF0040] to-[#6C001B] p-px shadow-main w-full h-[50px] mt-9 active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-        <div class="inline">
-          <span class="bg-gd-red text-[22px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Withdraw</span>
-        </div>
-      </button>
-    </div>
-  </div>
-
-  <!-- Buy Solana Content (скрыт по умолчанию) -->
-  <div id="content-buy" class="tab-content hidden">
-    <!-- Баланс -->
-    <div class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
-      <div class="flex items-center gap-[14px]">
-        <!-- Solana SVG -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 20" class="h-[19px] min-w-6">
-          <!-- ...SVG paths... -->
-        </svg>
-        <div class="flex items-end leading-none">
-          <span class="text-[32px] font-medium" id="buy-balance">0</span>
-          <span class="relative -top-[3px] ml-0.5 text-green">/ $0.00</span>
-        </div>
-      </div>
-      <button class="w-[40px] h-[40px] !rounded-[6px] neumorphism-border-1 rounded-md p-px overflow-hidden">
-        <div class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-          <div class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 20 20" class="min-h-5 min-w-5">
-              <path fill="#14F195" d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1"></path>
-        </svg>
-      </div>
-    </div>
-  </button>
-  <!-- Hero блок с картинкой и кнопкой -->
-  <div class="mt-[30px] relative h-[277px] w-full">
-    <img alt="Want crypto ?" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&w=3840&q=100" class="absolute h-full w-full inset-0 object-cover rounded-[17px]" style="color: transparent;">
-    <div class="relative px-7 py-5 z-10">
-      <h2 class="text-[34px] font-semibold">Want crypto?</h2>
-      <h3 class="mt-[9px] font-bold">Buy with:</h3>
-      <ul class="mt-[19px]">
-        <li class="flex items-center gap-[14px] text-sm text-white/60">Best rates</li>
-        <li class="mt-[18px] flex items-center gap-[14px] text-sm text-white/60">Low or no documentation requirements</li>
-        <li class="mt-5 flex items-center gap-[14px] text-sm text-white/60">200+ payment methods</li>
-      </ul>
-    </div>
-    <div class="relative">
-      <button id="buy-btn" class="bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] p-px shadow-main mt-[30px] w-full h-[50px] active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-        <div class="h-full rounded-[6px] bg-gd-main !rounded-[9px]">
-          <span class="bg-gd-text-sol bg-clip-text text-transparent flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Buy Solana</span>
-        </div>
-      </button>
-      <div class="pointer-events-none absolute bottom-[12px] left-[200px] min-h-9 text-sm leading-none">
-        <div class="text-center">Buy Solana</div>
-        <div class="mt-[4px] flex items-center justify-center">
-          <span class="ml-[5px] text-[#A7A8A9]">Onramper</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+    
 <!-- JS: Управление вкладками и логика -->
 <script>
   // --- Tabs logic ---
   const tabs = ['deposit', 'withdrawal', 'buy'];
-  let currentTab = 'withdrawal';
+  let currentTab = 'deposit'; // Изменяем на deposit как активную по умолчанию
   let saveWallet = false;
 
   function showTab(tab) {
@@ -1133,45 +1006,58 @@ document.addEventListener('DOMContentLoaded', function() {
   const percentBtns = document.querySelectorAll('.percent-btn');
   const amountInput = document.getElementById('withdraw-amount');
   const balance = 100; // пример баланса, подставь свой
-  document.getElementById('withdraw-balance').textContent = balance;
+  if (document.getElementById('withdraw-balance')) {
+    document.getElementById('withdraw-balance').textContent = balance;
+  }
 
   percentBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const percent = parseInt(btn.textContent);
-      amountInput.value = ((balance * percent) / 100).toFixed(5);
+      if (amountInput) {
+        amountInput.value = ((balance * percent) / 100).toFixed(5);
+      }
     });
   });
 
-  document.getElementById('withdraw-save-wallet').addEventListener('change', e => {
-    saveWallet = e.target.checked;
-  });
-
-  document.getElementById('withdraw-btn').addEventListener('click', () => {
-    const amount = parseFloat(amountInput.value);
-    const toAddress = document.getElementById('withdraw-address').value.trim();
-    if (!amount || isNaN(amount) || amount <= 0) {
-      alert('Введите сумму для вывода');
-      return;
-    }
-    if (!toAddress) {
-      alert('Введите адрес получателя');
-      return;
-    }
-    console.log({
-      tab: 'withdrawal',
-      amount,
-      toAddress,
-      saveWallet
+  const withdrawSaveWallet = document.getElementById('withdraw-save-wallet');
+  if (withdrawSaveWallet) {
+    withdrawSaveWallet.addEventListener('change', e => {
+      saveWallet = e.target.checked;
     });
-  });
+  }
+
+  const withdrawBtn = document.getElementById('withdraw-btn');
+  if (withdrawBtn) {
+    withdrawBtn.addEventListener('click', () => {
+      const amount = parseFloat(amountInput.value);
+      const toAddress = document.getElementById('withdraw-address').value.trim();
+      if (!amount || isNaN(amount) || amount <= 0) {
+        alert('Введите сумму для вывода');
+        return;
+      }
+      if (!toAddress) {
+        alert('Введите адрес получателя');
+        return;
+      }
+      console.log({
+        tab: 'withdrawal',
+        amount,
+        toAddress,
+        saveWallet
+      });
+    });
+  }
 
   // --- Buy Solana logic ---
-  document.getElementById('buy-btn').addEventListener('click', () => {
-    console.log({
-      tab: 'buy',
-      amount: 0
+  const buyBtn = document.getElementById('buy-btn');
+  if (buyBtn) {
+    buyBtn.addEventListener('click', () => {
+      console.log({
+        tab: 'buy',
+        amount: 0
+      });
     });
-  });
+  }
 
   // --- Инициализация ---
   showTab(currentTab);

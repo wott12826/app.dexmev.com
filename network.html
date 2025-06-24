@@ -72,6 +72,11 @@
           transition: box-shadow 0.2s;
           box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
           border: 1px solid #232323;
+          max-width: 100%;
+          min-width: 0;
+          box-sizing: border-box;
+          word-break: break-word;
+          overflow: hidden;
         }
         .sandwich-card.even {
           background: #23232b !important; /* светлее */
@@ -229,10 +234,13 @@
         .sandwich-monitor-outer {
           background: #23232b !important; /* светло-серый фон блока */
           border-radius: 16px;
-          padding: 24px 18px;
+          padding: 24px 12px;
+          max-width: 100%;
+          box-sizing: border-box;
+          overflow-x: auto;
         }
-        .sandwich-monitor-outer .sandwich-card,
-        .sandwich-monitor-outer .sandwich-card * {
+        .sandwich-card,
+        .sandwich-card * {
           font-family: 'Courier New', Courier, monospace !important;
         }
         .sandwich-monitor-outer .sandwich-slot,
@@ -246,6 +254,17 @@
         .sandwich-monitor-outer .sandwich-token,
         .sandwich-monitor-outer .sandwich-token2 {
           color: #90ffb0;
+        }
+        @media (max-width: 600px) {
+          .sandwich-card {
+            flex-direction: column !important;
+            padding: 10px 4px !important;
+          }
+          .sandwich-card > * {
+            margin-right: 0 !important;
+            border-right: none !important;
+            padding-right: 0 !important;
+          }
         }
     </style>
 </head>

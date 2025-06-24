@@ -1036,10 +1036,8 @@
                     }
                 } catch (error) {
                     console.error('Network page - Error getting SOL balance:', error);
-                    // Fallback: показываем демо-баланс
-                    const demoBalance = (Math.random() * 10 + 0.1).toFixed(4);
-                    balanceElement.textContent = demoBalance;
-                    console.log('Network page - Using demo balance:', demoBalance);
+                    // Показываем 0 при ошибке, а не демо-баланс
+                    balanceElement.textContent = '0';
                 }
             } else {
                 balanceElement.textContent = '0';
@@ -1057,6 +1055,13 @@
                 walletText.textContent = 'Connect Wallet';
                 copyIcon.style.display = 'none';
                 disconnectBtn.style.display = 'none';
+                
+                // Сбрасываем баланс на 0
+                const balanceElement = document.getElementById('solBalance');
+                if (balanceElement) {
+                    balanceElement.textContent = '0';
+                    console.log('Network page - Balance reset to 0 (wallet disconnected)');
+                }
                 return;
             }
             
@@ -1086,6 +1091,13 @@
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
+                    
+                    // Сбрасываем баланс на 0
+                    const balanceElement = document.getElementById('solBalance');
+                    if (balanceElement) {
+                        balanceElement.textContent = '0';
+                        console.log('Network page - Balance reset to 0 (no wallet connected)');
+                    }
                 }
             } else {
                 console.log('Network page - Phantom wallet not available');
@@ -1093,6 +1105,13 @@
                 copyIcon.style.display = 'none';
                 disconnectBtn.style.display = 'none';
                 localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
+                
+                // Сбрасываем баланс на 0
+                const balanceElement = document.getElementById('solBalance');
+                if (balanceElement) {
+                    balanceElement.textContent = '0';
+                    console.log('Network page - Balance reset to 0 (Phantom not available)');
+                }
             }
         }
 
@@ -1106,7 +1125,13 @@
                     await window.solana.connect();
                     console.log('Network page - Successfully connected to Phantom wallet');
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-                    updateWalletBtn();
+                    
+                    // Обновляем UI и баланс
+                    await updateWalletBtn();
+                    
+                    // Дополнительно обновляем баланс сразу после подключения
+                    await getSolBalance();
+                    
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
                     console.log('Network page - Wallet state synchronized');
                 } catch (e) { 
@@ -1152,6 +1177,13 @@
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
+                    
+                    // Обновляем баланс на 0
+                    const balanceElement = document.getElementById('solBalance');
+                    if (balanceElement) {
+                        balanceElement.textContent = '0';
+                        console.log('Network page - Balance reset to 0 after disconnect');
+                    }
                     
                     // Синхронизируем с другими страницами
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
@@ -1737,7 +1769,24 @@ setTimeout(() => {
   console.log('🔄 Secondary sandwich monitor initialization...');
   renderSandwichMonitor();
 }, 1000);
-</script>
+
+        // Функция для периодического обновления баланса
+        function startBalanceUpdates() {
+            // Обновляем баланс каждые 30 секунд, если кошелек подключен
+            setInterval(async () => {
+                const isConnected = localStorage.getItem(WALLET_CONNECTED_KEY) === 'true';
+                if (isConnected && window.solana && window.solana.isPhantom && window.solana.publicKey) {
+                    console.log('Network page - Periodic balance update...');
+                    await getSolBalance();
+                }
+            }, 30000);
+        }
+
+        console.log('Network page - Initializing wallet state...');
+        updateWalletBtn();
+        startBalanceUpdates(); // Запускаем периодическое обновление баланса
+        console.log('Network page - Wallet initialization complete');
+    </script>
 
 <script>
 const API_URL = 'https://corsproxy.io/?https://www.validators.app/api/v1/stats/mainnet';

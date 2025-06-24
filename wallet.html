@@ -927,16 +927,11 @@ document.addEventListener('DOMContentLoaded', function() {
         function generateQRCode(address) {
             const qrContainer = document.getElementById('qrCode');
             if (!qrContainer) return;
-            
-            // Очищаем контейнер
             qrContainer.innerHTML = '';
-            
             if (!address || address === 'Phantom wallet не найден' || address === 'Ошибка подключения к Phantom') {
                 qrContainer.innerHTML = '<div class="text-center text-gray-500"><p>Подключите кошелек</p><p>для отображения QR кода</p></div>';
                 return;
             }
-            
-            // Создаем QR код с адресом кошелька
             QRCode.toCanvas(qrContainer, address, {
                 width: 150,
                 height: 150,
@@ -952,8 +947,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-        
-        // Функция для обновления QR кода при изменении адреса
+
         function updateQRCode() {
             const walletFullAddr = document.getElementById('walletFullAddr');
             if (walletFullAddr) {
@@ -961,12 +955,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 generateQRCode(address);
             }
         }
-        
+        window.updateQRCode = updateQRCode;
+
         // Обновляем QR код при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            // Небольшая задержка для того, чтобы адрес кошелька успел загрузиться
             setTimeout(updateQRCode, 1000);
-            
             // Наблюдаем за изменениями в элементе с адресом
             const walletFullAddr = document.getElementById('walletFullAddr');
             if (walletFullAddr) {
@@ -977,7 +970,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                 });
-                
                 observer.observe(walletFullAddr, {
                     childList: true,
                     characterData: true,
@@ -985,7 +977,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-        
         // Обновляем QR код при подключении/отключении кошелька
         window.addEventListener('storage', function(e) {
             if (e.key === 'wallet-connected' || e.key === 'wallet-state') {

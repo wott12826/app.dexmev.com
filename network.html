@@ -905,36 +905,47 @@
     </script>
     <script>
 async function fetchSandwichTxs() {
-  // Получаем последние транзакции (пример: 10 последних)
-  const res = await fetch('https://public-api.solscan.io/transaction?limit=10');
-  const txs = await res.json();
-  // Рендерим таблицу
-  document.getElementById('sandwich-monitor').innerHTML = `
-    <table class="w-full text-xs text-left">
-      <thead><tr>
-        <th class="pr-2">Slot</th>
-        <th class="pr-2">Hash</th>
-        <th class="pr-2">Time</th>
-        <th>Link</th>
-      </tr></thead>
-      <tbody>
-        ${txs.map(tx => `
-          <tr>
-            <td class="pr-2">${tx.slot}</td>
-            <td class="pr-2">${tx.txHash.slice(0,8)}...</td>
-            <td class="pr-2">${new Date(tx.blockTime * 1000).toLocaleString()}</td>
-            <td><a href="https://solscan.io/tx/${tx.txHash}" target="_blank" class="text-green underline">View</a></td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  `;
+  try {
+    console.log('🔍 Fetching Solscan transactions...');
+    // Используем правильный эндпоинт Solscan
+    const res = await fetch('https://public-api.solscan.io/transaction/last?limit=10');
+    
+    if (!res.ok) {
+      throw new Error(`Solscan API error: ${res.status} ${res.statusText}`);
+    }
+    
+    const txs = await res.json();
+    console.log('📊 Solscan transactions received:', txs);
+    
+    // Рендерим таблицу
+    document.getElementById('sandwich-monitor').innerHTML = `
+      <table class="w-full text-xs text-left">
+        <thead><tr>
+          <th class="pr-2">Slot</th>
+          <th class="pr-2">Hash</th>
+          <th class="pr-2">Time</th>
+          <th>Link</th>
+        </tr></thead>
+        <tbody>
+          ${txs.map(tx => `
+            <tr>
+              <td class="pr-2">${tx.slot || 'N/A'}</td>
+              <td class="pr-2">${tx.txHash ? tx.txHash.slice(0,8) + '...' : 'N/A'}</td>
+              <td class="pr-2">${tx.blockTime ? new Date(tx.blockTime * 1000).toLocaleString() : 'N/A'}</td>
+              <td><a href="https://solscan.io/tx/${tx.txHash || ''}" target="_blank" class="text-green underline">View</a></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+    console.log('✅ Sandwich monitor updated');
+  } catch (e) {
+    console.error('❌ Error fetching Solscan transactions:', e);
+    document.getElementById('sandwich-monitor').innerHTML = `
+      <div class="text-red-500 text-sm">Error loading transactions: ${e.message}</div>
+    `;
+  }
 }
-setInterval(fetchSandwichTxs, 10000);
-fetchSandwichTxs();
-</script>
-<script>
-const API_TOKEN = 'vqMjURfBHjFWgRCQd4WnyWqv';
 
 async function updateSolanaStats() {
   console.log('🔄 Updating Solana stats...');
@@ -959,68 +970,87 @@ async function updateSolanaStats() {
       eta: !!etaElement
     });
 
-    // Slot Height
-    console.log('🔍 Fetching slot data...');
-    const slotRes = await fetch('https://www.validators.app/api/v1/cluster/slots?network=mainnet', {
-      headers: { 'Token': API_TOKEN }
+    // Используем публичные API без CORS ограничений
+    // Slot Height - используем Solana RPC
+    console.log('🔍 Fetching slot data from Solana RPC...');
+    const slotRes = await fetch('https://api.mainnet-beta.solana.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getSlot"
+      })
     });
     
     if (!slotRes.ok) {
-      throw new Error(`Slot API error: ${slotRes.status} ${slotRes.statusText}`);
+      throw new Error(`Solana RPC error: ${slotRes.status} ${slotRes.statusText}`);
     }
     
     const slotData = await slotRes.json();
     console.log('📊 Slot data received:', slotData);
     
-    if (slotData.currentSlot && slotElement) {
-      slotElement.textContent = slotData.currentSlot.toLocaleString();
-      console.log('✅ Slot updated:', slotData.currentSlot.toLocaleString());
+    if (slotData.result && slotElement) {
+      slotElement.textContent = slotData.result.toLocaleString();
+      console.log('✅ Slot updated:', slotData.result.toLocaleString());
     }
 
-    // Supply
-    console.log('🔍 Fetching supply data...');
-    const supplyRes = await fetch('https://www.validators.app/api/v1/cluster/supply?network=mainnet', {
-      headers: { 'Token': API_TOKEN }
+    // Supply - используем Solana RPC
+    console.log('🔍 Fetching supply data from Solana RPC...');
+    const supplyRes = await fetch('https://api.mainnet-beta.solana.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getSupply"
+      })
     });
     
     if (!supplyRes.ok) {
-      throw new Error(`Supply API error: ${supplyRes.status} ${supplyRes.statusText}`);
+      throw new Error(`Supply RPC error: ${supplyRes.status} ${supplyRes.statusText}`);
     }
     
     const supplyData = await supplyRes.json();
     console.log('📊 Supply data received:', supplyData);
     
-    if (supplyData.totalSupply && supplyElement) {
-      const supplyFormatted = (supplyData.totalSupply / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
+    if (supplyData.result && supplyData.result.value && supplyElement) {
+      const supplyFormatted = (supplyData.result.value.total / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
       supplyElement.textContent = supplyFormatted;
       console.log('✅ Supply updated:', supplyFormatted);
     }
 
-    // Epoch Info
-    console.log('🔍 Fetching epoch data...');
-    const epochRes = await fetch('https://www.validators.app/api/v1/cluster/epoch?network=mainnet', {
-      headers: { 'Token': API_TOKEN }
+    // Epoch Info - используем Solana RPC
+    console.log('🔍 Fetching epoch data from Solana RPC...');
+    const epochRes = await fetch('https://api.mainnet-beta.solana.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getEpochInfo"
+      })
     });
     
     if (!epochRes.ok) {
-      throw new Error(`Epoch API error: ${epochRes.status} ${epochRes.statusText}`);
+      throw new Error(`Epoch RPC error: ${epochRes.status} ${epochRes.statusText}`);
     }
     
     const epochData = await epochRes.json();
     console.log('📊 Epoch data received:', epochData);
     
-    if (epochData.epoch && epochCurrentElement) {
-      epochCurrentElement.textContent = epochData.epoch;
-      console.log('✅ Current epoch updated:', epochData.epoch);
+    if (epochData.result && epochCurrentElement) {
+      epochCurrentElement.textContent = epochData.result.epoch;
+      console.log('✅ Current epoch updated:', epochData.result.epoch);
     }
     
-    if (epochData.epoch && epochNextElement) {
-      epochNextElement.textContent = epochData.epoch + 1;
-      console.log('✅ Next epoch updated:', epochData.epoch + 1);
+    if (epochData.result && epochNextElement) {
+      epochNextElement.textContent = epochData.result.epoch + 1;
+      console.log('✅ Next epoch updated:', epochData.result.epoch + 1);
     }
     
-    if (epochData.epochProgress && epochData.epochLength && epochPercentageElement) {
-      const percent = Math.round((epochData.epochProgress / epochData.epochLength) * 100);
+    if (epochData.result && epochPercentageElement) {
+      const percent = Math.round((epochData.result.slotIndex / epochData.result.slotsInEpoch) * 100);
       epochPercentageElement.textContent = percent + '%';
       console.log('✅ Epoch progress updated:', percent + '%');
       
@@ -1030,10 +1060,12 @@ async function updateSolanaStats() {
       }
     }
     
-    if (epochData.epochTimeRemaining && etaElement) {
-      const etaSec = epochData.epochTimeRemaining;
-      const days = Math.floor(etaSec / 86400);
-      const hours = Math.floor((etaSec % 86400) / 3600);
+    if (epochData.result && etaElement) {
+      // Примерный расчет ETA (может быть неточным)
+      const slotsRemaining = epochData.result.slotsInEpoch - epochData.result.slotIndex;
+      const estimatedSeconds = slotsRemaining * 0.4; // ~400ms per slot
+      const days = Math.floor(estimatedSeconds / 86400);
+      const hours = Math.floor((estimatedSeconds % 86400) / 3600);
       const etaFormatted = `${days}d ${hours}h`;
       etaElement.textContent = etaFormatted;
       console.log('✅ ETA updated:', etaFormatted);
@@ -1053,11 +1085,13 @@ async function updateSolanaStats() {
 // Запускаем обновление каждые 30 секунд
 console.log('🚀 Starting Solana stats updater...');
 setInterval(updateSolanaStats, 30000);
+setInterval(fetchSandwichTxs, 10000);
 
 // Запускаем первое обновление через 2 секунды после загрузки
 setTimeout(() => {
   console.log('🔄 Initial Solana stats update...');
   updateSolanaStats();
+  fetchSandwichTxs();
 }, 2000);
 </script>
 </body>

@@ -9,6 +9,7 @@ service cloud.firestore {
 
     // Доступ на чтение inviteCode (анонимный, только с фильтром и лимитом)
     match /users/{document=**} {
+      allow list: if true;
       allow list: if request.query != null &&
                    request.query.filters.size() == 1 &&
                    request.query.filters[0].fieldPath == "inviteCode" &&

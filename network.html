@@ -1394,6 +1394,8 @@ let sandwichPage = 1;
 let sandwichPerPage = 10;
 
 function generateSandwichDemoCards(count = SANDWICH_TOTAL) {
+  console.log('🔄 Generating sandwich demo cards:', count, 'records');
+  
   const cards = [];
   let slot = currentSlot;
   for (let i = 0; i < count; i++) {
@@ -1417,6 +1419,10 @@ function generateSandwichDemoCards(count = SANDWICH_TOTAL) {
       amountC2: randomBigAmount(),
     });
   }
+  
+  console.log('✅ Generated', cards.length, 'sandwich cards');
+  console.log('📋 Sample card:', cards[0]);
+  
   return cards;
 }
 
@@ -1424,11 +1430,26 @@ let sandwichAllData = generateSandwichDemoCards(SANDWICH_TOTAL);
 
 function renderSandwichMonitor() {
   const monitorElement = document.getElementById('sandwich-monitor');
-  if (!monitorElement) return;
+  if (!monitorElement) {
+    console.error('❌ Sandwich monitor element not found!');
+    return;
+  }
+  
+  console.log('🔄 Rendering sandwich monitor...');
+  
   // Пагинация
   const startIdx = (sandwichPage - 1) * sandwichPerPage;
   const endIdx = Math.min(startIdx + sandwichPerPage, SANDWICH_TOTAL);
   const pageData = sandwichAllData.slice(startIdx, endIdx);
+  
+  console.log('📊 Page data:', {
+    startIdx,
+    endIdx,
+    pageDataLength: pageData.length,
+    totalRecords: sandwichAllData.length,
+    currentPage: sandwichPage,
+    perPage: sandwichPerPage
+  });
 
   monitorElement.innerHTML = `
     <div class="sandwich-monitor-outer">
@@ -1466,6 +1487,8 @@ function renderSandwichMonitor() {
     </div>
   `;
 
+  console.log('✅ Sandwich monitor rendered successfully');
+
   // Навешиваем обработчики
   document.getElementById('sandwich-per-page').onchange = (e) => {
     sandwichPerPage = parseInt(e.target.value, 10);
@@ -1488,11 +1511,20 @@ function renderSandwichMonitor() {
 
 async function fetchSandwichTxs() {
   try {
+    console.log('🔄 Fetching sandwich transactions...');
+    
     updateDemoData();
-    // Можно обновлять только данные, не перерисовывать всю пагинацию
-    // sandwichAllData = generateSandwichDemoCards(SANDWICH_TOTAL); // если хотите обновлять все данные
+    
+    // Обновляем данные каждые 10 секунд для демонстрации
+    console.log('🔄 Regenerating sandwich data...');
+    sandwichAllData = generateSandwichDemoCards(SANDWICH_TOTAL);
+    
+    console.log('🔄 Rendering updated monitor...');
     renderSandwichMonitor();
+    
+    console.log('✅ Sandwich transactions updated successfully');
   } catch (e) {
+    console.error('❌ Error updating sandwich monitor:', e);
     const monitorElement = document.getElementById('sandwich-monitor');
     if (monitorElement) {
       monitorElement.innerHTML = `<div class="text-red-500 text-sm">Error updating monitor: ${e.message}</div>`;
@@ -1596,6 +1628,24 @@ setTimeout(() => {
   updateSolanaStats();
   fetchSandwichTxs();
 }, 2000);
+
+// Принудительно запускаем рендеринг sandwich monitor при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 DOM loaded, initializing sandwich monitor...');
+  console.log('📊 Sandwich data generated:', sandwichAllData.length, 'records');
+  console.log('📄 Current page:', sandwichPage, 'per page:', sandwichPerPage);
+  
+  // Принудительно рендерим монитор
+  renderSandwichMonitor();
+  
+  console.log('✅ Sandwich monitor initialized');
+});
+
+// Дополнительный вызов через 1 секунду для гарантии
+setTimeout(() => {
+  console.log('🔄 Secondary sandwich monitor initialization...');
+  renderSandwichMonitor();
+}, 1000);
 </script>
 
 <script>

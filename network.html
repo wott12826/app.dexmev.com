@@ -1416,7 +1416,7 @@ setTimeout(() => {
 </script>
 
 <script>
-const API_URL = 'https://www.validators.app/api/v1/stats/mainnet';
+const API_URL = 'https://corsproxy.io/?https://www.validators.app/api/v1/stats/mainnet';
 const API_KEY = 'Bearer vqMjURfBHjFWgRCQd4WnyWqv';
 
 async function fetchSolanaStats() {
@@ -1435,7 +1435,7 @@ async function fetchSolanaStats() {
 
     // Circulating Supply
     const supplyEl = document.getElementById('supply');
-    if (supplyEl) supplyEl.textContent = (Number(data.circulating_supply) / 1e6).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
+    if (supplyEl) supplyEl.textContent = (Number(data.circulating_supply) / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + ' SOL';
 
     // Epoch Current
     const epochCurrentEl = document.getElementById('epoch-current');
@@ -1446,10 +1446,10 @@ async function fetchSolanaStats() {
     if (epochNextEl) epochNextEl.textContent = Number(data.epoch) + 1;
 
     // Epoch Progress (проценты и прогресс-бар)
-    const epochProgressEl = document.getElementById('epoch-percentage-text');
+    const epochProgressEl = document.getElementById('epoch-progress');
+    if (epochProgressEl) epochProgressEl.textContent = Math.round(data.epoch_progress) + '%';
     const epochProgressBarEl = document.getElementById('epoch-progress-bar');
-    if (epochProgressEl) epochProgressEl.textContent = data.epoch_progress + '%';
-    if (epochProgressBarEl) epochProgressBarEl.style.width = data.epoch_progress + '%';
+    if (epochProgressBarEl) epochProgressBarEl.style.width = Math.round(data.epoch_progress) + '%';
 
     // ETA (расчёт: сколько осталось процентов, умножить на среднее время эпохи)
     const etaEl = document.getElementById('eta');

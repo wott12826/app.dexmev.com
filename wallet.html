@@ -813,6 +813,28 @@
         }
     });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Находим кнопку и элемент с адресом
+            const addressButton = document.querySelector('button.mt-2.5.w-full.inline');
+            const walletFullAddr = document.getElementById('walletFullAddr');
+        
+            if (addressButton && walletFullAddr) {
+                addressButton.addEventListener('click', function(e) {
+                    // Копируем адрес в буфер обмена
+                    const address = walletFullAddr.textContent.trim();
+                    if (address) {
+                        navigator.clipboard.writeText(address);
+                        // Визуальный отклик (по желанию)
+                        walletFullAddr.style.color = '#14F195';
+                        setTimeout(() => {
+                            walletFullAddr.style.color = '';
+                        }, 700);
+                    }
+                });
+            }
+        });
+        </script>
 </body>
 
 </html>

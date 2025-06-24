@@ -925,6 +925,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
+            // Добавляем логотип Solana в центр QR-кода
+            const logo = document.createElement('img');
+            logo.src = 'https://cryptologos.cc/logos/solana-sol-logo.png?v=026';
+            logo.alt = 'Solana';
+            logo.style.position = 'absolute';
+            logo.style.left = '50%';
+            logo.style.top = '50%';
+            logo.style.transform = 'translate(-50%, -50%)';
+            logo.style.width = '40px';
+            logo.style.height = '40px';
+            logo.style.borderRadius = '8px';
+            logo.style.background = '#fff';
+            logo.style.boxShadow = '0 0 4px #0002';
+            logo.style.padding = '4px';
+            qrContainer.style.position = 'relative';
+            qrContainer.appendChild(logo);
         }
 
         function updateQRCode() {

@@ -569,6 +569,36 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Improved Pagination -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-xs text-secondary w-full">
+                <div class="flex items-center gap-2">
+                    <span>Show</span>
+                    <select class="sandwich-select bg-[#232323] border border-[#333] rounded px-2 py-1 text-xs focus:outline-none focus:border-[#B056FF] transition-colors">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>per page</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="sandwich-pagination-btn bg-[#232323] hover:bg-[#333] px-3 py-1 rounded transition-colors opacity-50 cursor-not-allowed" disabled>
+                        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <span class="px-2">
+                        <span class="text-green">1 - 2</span>
+                        <span class="text-secondary"> of 2</span>
+                    </span>
+                    <button class="sandwich-pagination-btn bg-[#232323] hover:bg-[#333] px-3 py-1 rounded transition-colors opacity-50 cursor-not-allowed" disabled>
+                        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

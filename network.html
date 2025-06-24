@@ -73,18 +73,21 @@
           flex-direction: row;
           background: #181A1B;
           border-radius: 16px;
-          padding: 18px 20px 18px 20px;
-          margin-bottom: 14px;
+          padding: 12px 12px 12px 12px;
+          margin-bottom: 12px;
           align-items: stretch;
           max-width: 100%;
           min-width: 0;
         }
         .sandwich-card-left {
-          min-width: 170px;
-          max-width: 210px;
-          padding-right: 28px;
+          min-width: 0;
+          max-width: 180px;
+          flex-basis: 0;
+          flex-shrink: 1;
+          overflow: hidden;
+          padding-right: 18px;
           border-right: 2px solid #B056FF;
-          margin-right: 28px;
+          margin-right: 18px;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
@@ -140,6 +143,8 @@
           flex-direction: row;
           align-items: stretch;
           min-width: 0;
+          flex-basis: 0;
+          flex-shrink: 1;
         }
         .sandwich-blocks {
           display: flex;
@@ -154,6 +159,7 @@
           align-items: center;
           gap: 10px;
           min-width: 0;
+          overflow: hidden;
         }
         .sandwich-token {
           color: #9FFFB0;

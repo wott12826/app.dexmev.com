@@ -10,7 +10,8 @@ service cloud.firestore {
     match /users/{document=**} {
       allow read: if request.query.limit <= 10 && 
         request.query.filters.size() <= 1 &&
-        request.query.filters[0].fieldPath == "inviteCode";
+        request.query.filters[0].fieldPath == "inviteCode" &&
+        request.query.filters[0].op == "==";
     }
   }
 } 

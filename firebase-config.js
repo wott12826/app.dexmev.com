@@ -74,6 +74,8 @@ window.firebaseAuth = {
         console.log('Is first user:', isFirstUser);
       } catch (error) {
         console.log('Error checking if first user, assuming not first:', error);
+        // If we can't query users collection, we'll assume it's not the first user
+        // and require an invite code
         isFirstUser = false;
       }
       
@@ -84,9 +86,14 @@ window.firebaseAuth = {
         }
         
         // Check if invite code exists in Firestore
-        const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
-        if (!isValid) {
-          return { success: false, error: "Invalid invite code" };
+        try {
+          const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
+          if (!isValid) {
+            return { success: false, error: "Invalid invite code" };
+          }
+        } catch (error) {
+          console.error('Error checking invite code:', error);
+          return { success: false, error: "Unable to verify invite code. Please try again." };
         }
       }
       
@@ -111,6 +118,36 @@ window.firebaseAuth = {
       return { success: true, user: user };
     } catch (error) {
       console.error('Sign up error:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Special function for creating the first user (bypasses invite code check)
+  createFirstUser: async (email, password) => {
+    try {
+      console.log('Creating first user:', email);
+      
+      // Create user account
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log('First user account created:', user.uid);
+      
+      // Create user profile in Firestore
+      const newInviteCode = generateInviteCode();
+      const userProfile = {
+        email: user.email,
+        inviteCode: newInviteCode,
+        createdAt: new Date().toISOString(),
+        isFirstUser: true
+      };
+      
+      console.log('Creating first user profile:', userProfile);
+      await setDoc(doc(db, "users", user.uid), userProfile);
+      console.log('First user profile created successfully');
+      
+      return { success: true, user: user, inviteCode: newInviteCode };
+    } catch (error) {
+      console.error('Create first user error:', error);
       return { success: false, error: error.message };
     }
   },

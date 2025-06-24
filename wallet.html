@@ -329,8 +329,8 @@
                                                 </button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-6" id="copyWalletIcon"><span class="text-sm text-secondary">Address</span><button
-                                            class="mt-2.5 w-full inline">
+                                    <div class="mt-6"><span class="text-sm text-secondary">Address</span><button
+                                            class="mt-2.5 w-full inline" id="copyButton">
                                             <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
                                                 <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                                     <div
@@ -341,7 +341,7 @@
                                                             <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
                                                         </svg>
                                                         <p class="ml-3 text-sm" id="walletFullAddr"></p>
-                                                        <svg id=copyWalletIcon xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 11 13" class="ml-auto h-[11px] w-[13px]">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 11 13" class="ml-auto h-[11px] w-[13px]">
                                                             <path fill="#fff" d="M4 10.667a1.133 1.133 0 0 1-1.2-1.2v-7.6c0-.334.133-.667.4-.867.2-.2.533-.333.867-.333H9.6c.333 0 .667.133.867.333.266.266.333.533.333.867v7.6c0 .333-.067.666-.333.866-.2.2-.534.333-.867.333H4M1.8 13c-.333 0-.667-.133-.867-.334C.667 12.4.6 12.134.6 11.8V3.667c0-.2 0-.267.133-.4l.334-.134c.133 0 .266 0 .333.134.133.133.133.2.133.4v8l.067.2.2.066h6c.2 0 .333 0 .4.133.133.133.133.2.133.4 0 .134 0 .2-.133.334l-.333.133H1.733z"></path>
                                                         </svg>
                                                     </div>
@@ -573,6 +573,7 @@
         const walletBtn = document.getElementById('walletSolanaBtn');
         const walletText = document.getElementById('walletSolanaText');
         const copyIcon = document.getElementById('copyWalletIcon');
+        const copyButton = document.getElementById('copyButton');
         const disconnectBtn = document.getElementById('disconnectWalletBtn');
         const WALLET_STATE_KEY = 'wallet-event';
         const WALLET_CONNECTED_KEY = 'wallet-connected';
@@ -581,6 +582,7 @@
             walletBtn: !!walletBtn,
             walletText: !!walletText,
             copyIcon: !!copyIcon,
+            copyButton: !!copyButton,
             disconnectBtn: !!disconnectBtn
         });
 
@@ -686,7 +688,21 @@
                 console.log('Wallet page - No wallet address to copy');
             }
         });
-
+        copyButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            console.log('Wallet page - Copy icon clicked');
+            if (window.solana && window.solana.publicKey) {
+                const address = window.solana.publicKey.toString();
+                console.log('Wallet page - Copying address to clipboard:', address);
+                navigator.clipboard.writeText(address);
+                copyIcon.style.opacity = 0.5;
+                setTimeout(() => { copyIcon.style.opacity = 1; }, 500);
+                console.log('Wallet page - Address copied to clipboard');
+            } else {
+                console.log('Wallet page - No wallet address to copy');
+            }
+        });
+        
         disconnectBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
             console.log('Wallet page - Disconnect button clicked!');

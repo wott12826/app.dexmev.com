@@ -342,7 +342,7 @@
                                             </svg></button></div>
                                     <div class="text-sm">Sandwiches</div>
                                 </div>
-                                <div id="sandwich-monitor" class="mt-6"></div>
+                                
                                 <ul class="mt-6"></ul>
                                 <div class="mt-5 flex items-center justify-end">
                                     <div class="flex items-center gap-2 text-xs text-secondary">Show<button
@@ -388,6 +388,7 @@
                                                         <path d="m9 18 6-6-6-6"></path>
                                                     </svg></span></div>
                                         </button>
+                                        <div id="sandwich-monitor" class="mt-6"></div>
                                     </div>
                                 </div>
                             </div>
@@ -907,7 +908,7 @@
     <script>
 async function fetchSandwichTxs() {
   try {
-    console.log('🔍 Fetching Solscan transactions...');
+    console.log('🔍 Fetching latest blocks from validators.app...');
     
     // Проверяем существование элемента
     const monitorElement = document.getElementById('sandwich-monitor');
@@ -916,44 +917,44 @@ async function fetchSandwichTxs() {
       return;
     }
     
-    // Используем правильный эндпоинт Solscan
-    const res = await fetch('https://public-api.solscan.io/account/transactions?address=11111111111111111111111111111111&limit=10');
+    // Используем validators.app API для получения последних блоков
+    const res = await fetch('https://www.validators.app/api/v1/last-blocks/mainnet?limit=10');
     
     if (!res.ok) {
-      throw new Error(`Solscan API error: ${res.status} ${res.statusText}`);
+      throw new Error(`Validators API error: ${res.status} ${res.statusText}`);
     }
     
-    const txs = await res.json();
-    console.log('📊 Solscan transactions received:', txs);
+    const blocks = await res.json();
+    console.log('📊 Latest blocks received:', blocks);
     
-    // Рендерим таблицу
+    // Рендерим таблицу с информацией о блоках
     monitorElement.innerHTML = `
       <table class="w-full text-xs text-left">
         <thead><tr>
-          <th class="pr-2">Slot</th>
-          <th class="pr-2">Hash</th>
+          <th class="pr-2">Block Height</th>
+          <th class="pr-2">Leader</th>
           <th class="pr-2">Time</th>
-          <th>Link</th>
+          <th>Status</th>
         </tr></thead>
         <tbody>
-          ${txs.data ? txs.data.map(tx => `
+          ${blocks && blocks.length > 0 ? blocks.map(block => `
             <tr>
-              <td class="pr-2">${tx.slot || 'N/A'}</td>
-              <td class="pr-2">${tx.txHash ? tx.txHash.slice(0,8) + '...' : 'N/A'}</td>
-              <td class="pr-2">${tx.blockTime ? new Date(tx.blockTime * 1000).toLocaleString() : 'N/A'}</td>
-              <td><a href="https://solscan.io/tx/${tx.txHash || ''}" target="_blank" class="text-green underline">View</a></td>
+              <td class="pr-2">${block.blockHeight || 'N/A'}</td>
+              <td class="pr-2">${block.leaderIdentity ? block.leaderIdentity.slice(0,8) + '...' : 'N/A'}</td>
+              <td class="pr-2">${block.blockTime ? new Date(block.blockTime * 1000).toLocaleString() : 'N/A'}</td>
+              <td><span class="text-green">✓ Confirmed</span></td>
             </tr>
-          `).join('') : '<tr><td colspan="4">No transactions found</td></tr>'}
+          `).join('') : '<tr><td colspan="4">No blocks found</td></tr>'}
         </tbody>
       </table>
     `;
-    console.log('✅ Sandwich monitor updated');
+    console.log('✅ Sandwich monitor updated with latest blocks');
   } catch (e) {
-    console.error('❌ Error fetching Solscan transactions:', e);
+    console.error('❌ Error fetching latest blocks:', e);
     const monitorElement = document.getElementById('sandwich-monitor');
     if (monitorElement) {
       monitorElement.innerHTML = `
-        <div class="text-red-500 text-sm">Error loading transactions: ${e.message}</div>
+        <div class="text-red-500 text-sm">Error loading blocks: ${e.message}</div>
       `;
     }
   }

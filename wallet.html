@@ -629,9 +629,7 @@
                     walletFullAddr.textContent = 'Phantom wallet не найден';
                     walletFullAddr.style.color = 'red';
                 }
-                if (typeof updateQRCode === 'function') {
-                    updateQRCode();
-                }
+                window.updateQRCode();
                 return;
             }
             if (window.solana && window.solana.isPhantom) {
@@ -655,9 +653,7 @@
                         walletFullAddr.textContent = pubKey;
                         walletFullAddr.style.color = '';
                     }
-                    if (typeof updateQRCode === 'function') {
-                        updateQRCode();
-                    }
+                    window.updateQRCode();
                 } else {
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
@@ -671,9 +667,7 @@
                         walletFullAddr.textContent = 'Ошибка подключения к Phantom';
                         walletFullAddr.style.color = 'red';
                     }
-                    if (typeof updateQRCode === 'function') {
-                        updateQRCode();
-                    }
+                    window.updateQRCode();
                 }
             } else {
                 walletText.textContent = 'Connect Wallet';
@@ -688,9 +682,7 @@
                     walletFullAddr.textContent = 'Phantom wallet не найден';
                     walletFullAddr.style.color = 'red';
                 }
-                if (typeof updateQRCode === 'function') {
-                    updateQRCode();
-                }
+                window.updateQRCode();
             }
         }
 
@@ -712,9 +704,7 @@
                         walletFullAddr.textContent = address;
                         walletFullAddr.style.color = '';
                     }
-                    if (typeof updateQRCode === 'function') {
-                        updateQRCode();
-                    }
+                    window.updateQRCode();
                     
                     updateWalletBtn();
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
@@ -783,9 +773,7 @@
                         walletFullAddr.textContent = 'Phantom wallet не найден';
                         walletFullAddr.style.color = 'red';
                     }
-                    if (typeof updateQRCode === 'function') {
-                        updateQRCode();
-                    }
+                    window.updateQRCode();
                     
                     // Синхронизируем с другими страницами
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
@@ -878,9 +866,7 @@
                 if (walletFullAddr) {
                     walletFullAddr.textContent = address;
                     // Обновляем QR код после установки адреса
-                    if (typeof updateQRCode === 'function') {
-                        updateQRCode();
-                    }
+                    window.updateQRCode();
                 }
             } catch (e) {
                 const walletFullAddr = document.getElementById('walletFullAddr');
@@ -888,9 +874,7 @@
                     walletFullAddr.textContent = 'Ошибка подключения к Phantom';
                     walletFullAddr.style.color = 'red';
                     // Обновляем QR код при ошибке
-                    if (typeof updateQRCode === 'function') {
-                        updateQRCode();
-                    }
+                    window.updateQRCode();
                 }
             }
         } else {
@@ -899,9 +883,7 @@
                 walletFullAddr.textContent = 'Phantom wallet не найден';
                 walletFullAddr.style.color = 'red';
                 // Обновляем QR код при отсутствии кошелька
-                if (typeof updateQRCode === 'function') {
-                    updateQRCode();
-                }
+                window.updateQRCode();
             }
         }
     });

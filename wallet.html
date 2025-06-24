@@ -53,11 +53,12 @@
         }
       }
     </style>
+        <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
 </head>
 
 <body class="antialiased">
     <!-- QR Code Library: ДОЛЖЕН БЫТЬ ПЕРВЫМ! -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <button id="burger">☰</button>
     <div class="mx-auto flex min-h-screen max-w-full sm:max-w-[1440px] overflow-hidden rounded-lg">
         <aside class="min-w-[140px] bg-gd-main shadow-main"><a href="index.htm"><img alt="logo" loading="lazy"
@@ -905,7 +906,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
     <!-- QR Code Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
         function generateQRCode(address) {
             const qrContainer = document.getElementById('qrCode');

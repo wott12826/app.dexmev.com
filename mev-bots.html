@@ -1304,6 +1304,60 @@
       });
     });
     </script>
+    <script>
+const API_URL = 'https://corsproxy.io/?https://www.validators.app/api/v1/stats/mainnet';
+const API_KEY = 'Bearer vqMjURfBHjFWgRCQd4WnyWqv';
+
+async function fetchSolanaStats() {
+  try {
+    const response = await fetch(API_URL, {
+      headers: {
+        'Authorization': API_KEY
+      }
+    });
+    if (!response.ok) throw new Error('API error');
+    const data = await response.json();
+
+    // Slot Height
+    const slotEl = document.getElementById('slot-height');
+    if (slotEl) slotEl.textContent = Number(data.slot_height).toLocaleString();
+
+    // Circulating Supply
+    const supplyEl = document.getElementById('supply');
+    if (supplyEl) supplyEl.textContent = (Number(data.circulating_supply) / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
+
+    // Epoch Current
+    const epochCurrentEl = document.getElementById('epoch-current');
+    if (epochCurrentEl) epochCurrentEl.textContent = data.epoch;
+
+    // Epoch Next
+    const epochNextEl = document.getElementById('epoch-next');
+    if (epochNextEl) epochNextEl.textContent = Number(data.epoch) + 1;
+
+    // Epoch Progress (проценты и прогресс-бар)
+    const epochProgressEl = document.getElementById('epoch-percentage-text');
+    if (epochProgressEl) epochProgressEl.textContent = Math.round(data.epoch_progress) + '%';
+    const epochProgressBarEl = document.getElementById('epoch-progress-bar');
+    if (epochProgressBarEl) epochProgressBarEl.style.width = Math.round(data.epoch_progress) + '%';
+
+    // ETA (расчёт: сколько осталось процентов, умножить на среднее время эпохи)
+    const etaEl = document.getElementById('eta');
+    if (etaEl) {
+      // На Solana средняя эпоха ~2.3 дня (198000 секунд)
+      const percentLeft = 100 - parseFloat(data.epoch_progress);
+      const secondsLeft = percentLeft / 100 * 198000;
+      const days = Math.floor(secondsLeft / 86400);
+      const hours = Math.floor((secondsLeft % 86400) / 3600);
+      etaEl.textContent = `${days}d ${hours}h`;
+    }
+  } catch (error) {
+    console.error('Failed to fetch Solana stats:', error);
+  }
+}
+
+fetchSolanaStats();
+setInterval(fetchSolanaStats, 10000);
+</script>
 </body>
 
 </html>

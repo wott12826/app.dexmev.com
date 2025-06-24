@@ -1446,7 +1446,7 @@ async function fetchSolanaStats() {
     if (epochNextEl) epochNextEl.textContent = Number(data.epoch) + 1;
 
     // Epoch Progress (проценты и прогресс-бар)
-    const epochProgressEl = document.getElementById('epoch-progress');
+    const epochProgressEl = document.getElementById('epoch-percentage-text');
     if (epochProgressEl) epochProgressEl.textContent = Math.round(data.epoch_progress) + '%';
     const epochProgressBarEl = document.getElementById('epoch-progress-bar');
     if (epochProgressBarEl) epochProgressBarEl.style.width = Math.round(data.epoch_progress) + '%';

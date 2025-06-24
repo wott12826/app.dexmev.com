@@ -254,23 +254,11 @@
                         <div class="flex w-full flex-col gap-[30px]">
                             <div class="w-[606px] mx-auto mt-[30px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
                                 <div class="!p-[30px] h-full w-full rounded-[17px] bg-gd-main p-5">
-                                    <!-- Tabs Navigation -->
                                     <div class="flex gap-2 mb-6">
-                                      <!-- Deposit Tab -->
-                                      <button id="tab-deposit" class="tab-btn bg-gradient-to-br from-[#14F195] to-[#005330ca] text-green p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold tab-active">
-                                        Deposit
-                                      </button>
-                                      <!-- Withdrawal Tab -->
-                                      <button id="tab-withdrawal" class="tab-btn bg-gradient-to-br from-[#FF0040] to-[#6C001B] text-[#ff0040] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">
-                                        Withdrawal
-                                      </button>
-                                      <!-- Buy Solana Tab -->
-                                      <button id="tab-buy" class="tab-btn bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] text-[#00FFA3] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">
-                                        Buy Solana
-                                      </button>
+                                      <button id="tab-deposit" class="tab-btn bg-gradient-to-br from-[#14F195] to-[#005330ca] text-green p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold tab-active">Deposit</button>
+                                      <button id="tab-withdrawal" class="tab-btn bg-gradient-to-br from-[#FF0040] to-[#6C001B] text-[#ff0040] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">Withdrawal</button>
+                                      <button id="tab-buy" class="tab-btn bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] text-[#00FFA3] p-px shadow-main rounded-[10px] transition-opacity hover:opacity-100 active:scale-[97%] px-6 py-2 font-semibold">Buy Solana</button>
                                     </div>
-
-                                    <!-- Deposit Content -->
                                     <div id="content-deposit" class="tab-content">
                                         <h2 class="text-center text-[32px] font-semibold">Deposit</h2><span
                                             class="text-sm text-secondary">Your Trading Balance</span>
@@ -380,13 +368,9 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Withdrawal Content -->
                                     <div id="content-withdrawal" class="tab-content hidden">
-                                      <!-- Баланс и сумма -->
                                       <div class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
                                         <div class="flex items-center gap-[14px]">
-                                          <!-- Solana SVG -->
                                           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 20" class="h-[19px] min-w-6">
                                             <!-- ...SVG paths... -->
                                           </svg>
@@ -404,7 +388,6 @@
                                         </div>
                                       </div>
                                     </button>
-                                    <!-- Ввод суммы и проценты -->
                                     <div class="mt-[30px] !w-full w-fit neumorphism-border-1 rounded-md p-px overflow-hidden">
                                       <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                         <div class="flex gap-2 p-2 h-full w-full rounded-[8px] bg-dark items-center">
@@ -418,7 +401,6 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <!-- Ввод адреса -->
                                     <span class="text-sm text-secondary mt-4 block">To wallet</span>
                                     <div class="mt-2.5 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
                                       <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
@@ -427,12 +409,10 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <!-- Чекбокс Save wallet -->
                                     <label class="mt-5 flex items-center cursor-pointer select-none">
                                       <input id="withdraw-save-wallet" type="checkbox" class="form-checkbox accent-pink-500 w-5 h-5">
                                       <span class="!ml-[14px] text-sm text-pink-hot ml-2">Save wallet</span>
                                     </label>
-                                    <!-- Кнопка Withdraw -->
                                     <div class="">
                                       <button id="withdraw-btn" class="bg-gradient-to-br from-[#FF0040] to-[#6C001B] p-px shadow-main w-full h-[50px] mt-9 active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                         <div class="inline">
@@ -441,13 +421,9 @@
                                       </button>
                                     </div>
                                   </div>
-
-                                  <!-- Buy Solana Content -->
                                   <div id="content-buy" class="tab-content hidden">
-                                    <!-- Баланс -->
                                     <div class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
                                       <div class="flex items-center gap-[14px]">
-                                        <!-- Solana SVG -->
                                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 20" class="h-[19px] min-w-6">
                                           <!-- ...SVG paths... -->
                                         </svg>
@@ -461,37 +437,37 @@
                                           <div class="flex items-center justify-center !rounded-[4px] h-full w-full rounded-[8px] bg-dark">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 20 20" class="min-h-5 min-w-5">
                                               <path fill="#14F195" d="M1 2a1 1 0 0 1 1 1v1.004A10.02 10.02 0 0 1 10 0a9.946 9.946 0 0 1 9.753 7.778 1 1 0 0 1-1.951.444A7.955 7.955 0 0 0 10 2C7.115 2 4.498 3.566 3.086 6H5a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1M19 18a1 1 0 0 1-1-1v-1.025A9.92 9.92 0 0 1 10 20a9.946 9.946 0 0 1-9.753-7.778 1 1 0 0 1 1.951-.444A7.955 7.955 0 0 0 10 18c2.886 0 5.478-1.527 6.908-4H15a1 1 0 1 1 0-2h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1"></path>
-                                        </svg>
-                                      </div>
-                                    </div>
-                                  </button>
-                                  <!-- Hero блок с картинкой и кнопкой -->
-                                  <div class="mt-[30px] relative h-[277px] w-full">
-                                    <img alt="Want crypto ?" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&w=3840&q=100" class="absolute h-full w-full inset-0 object-cover rounded-[17px]" style="color: transparent;">
-                                    <div class="relative px-7 py-5 z-10">
-                                      <h2 class="text-[34px] font-semibold">Want crypto?</h2>
-                                      <h3 class="mt-[9px] font-bold">Buy with:</h3>
-                                      <ul class="mt-[19px]">
-                                        <li class="flex items-center gap-[14px] text-sm text-white/60">Best rates</li>
-                                        <li class="mt-[18px] flex items-center gap-[14px] text-sm text-white/60">Low or no documentation requirements</li>
-                                        <li class="mt-5 flex items-center gap-[14px] text-sm text-white/60">200+ payment methods</li>
-                                      </ul>
-                                    </div>
-                                    <div class="relative">
-                                      <button id="buy-btn" class="bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] p-px shadow-main mt-[30px] w-full h-[50px] active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                                        <div class="h-full rounded-[6px] bg-gd-main !rounded-[9px]">
-                                          <span class="bg-gd-text-sol bg-clip-text text-transparent flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Buy Solana</span>
+                                            </svg>
+                                          </div>
                                         </div>
                                       </button>
-                                      <div class="pointer-events-none absolute bottom-[12px] left-[200px] min-h-9 text-sm leading-none">
-                                        <div class="text-center">Buy Solana</div>
-                                        <div class="mt-[4px] flex items-center justify-center">
-                                          <span class="ml-[5px] text-[#A7A8A9]">Onramper</span>
+                                    </div>
+                                    <div class="mt-[30px] relative h-[277px] w-full">
+                                      <img alt="Want crypto ?" src="/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fad-want-crypto.6765a0e2.png&w=3840&q=100" class="absolute h-full w-full inset-0 object-cover rounded-[17px]" style="color: transparent;">
+                                      <div class="relative px-7 py-5 z-10">
+                                        <h2 class="text-[34px] font-semibold">Want crypto?</h2>
+                                        <h3 class="mt-[9px] font-bold">Buy with:</h3>
+                                        <ul class="mt-[19px]">
+                                          <li class="flex items-center gap-[14px] text-sm text-white/60">Best rates</li>
+                                          <li class="mt-[18px] flex items-center gap-[14px] text-sm text-white/60">Low or no documentation requirements</li>
+                                          <li class="mt-5 flex items-center gap-[14px] text-sm text-white/60">200+ payment methods</li>
+                                        </ul>
+                                      </div>
+                                      <div class="relative">
+                                        <button id="buy-btn" class="bg-gradient-to-bl from-[#00FFA3] to-[#DC1FFF] p-px shadow-main mt-[30px] w-full h-[50px] active:!scale-[99%] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                          <div class="h-full rounded-[6px] bg-gd-main !rounded-[9px]">
+                                            <span class="bg-gd-text-sol bg-clip-text text-transparent flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Buy Solana</span>
+                                          </div>
+                                        </button>
+                                        <div class="pointer-events-none absolute bottom-[12px] left-[200px] min-h-9 text-sm leading-none">
+                                          <div class="text-center">Buy Solana</div>
+                                          <div class="mt-[4px] flex items-center justify-center">
+                                            <span class="ml-[5px] text-[#A7A8A9]">Onramper</span>
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
                                 </div>
                             </div>
                         </div>

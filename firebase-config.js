@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -48,7 +48,11 @@ window.firebaseAuth = {
         return false;
       }
       
-      const q = query(collection(db, "users"), where("inviteCode", "==", inviteCode.trim()));
+      const q = query(
+        collection(db, "users"),
+        where("inviteCode", "==", inviteCode.trim()),
+        limit(1)
+      );
       const querySnapshot = await getDocs(q);
       const exists = !querySnapshot.empty;
       console.log('Invite code exists:', exists);

@@ -98,6 +98,64 @@
             
             const signupForm = getProtectedElement('#signupForm');
             const errorMessage = getProtectedElement('#errorMessage');
+            const inviteCodeInput = getProtectedElement('#inviteCode');
+            
+            // Real-time invite code validation
+            let validationTimeout;
+            if (inviteCodeInput) {
+                inviteCodeInput.addEventListener('input', function() {
+                    clearTimeout(validationTimeout);
+                    const inviteCode = this.value.trim();
+                    
+                    // Clear previous validation messages
+                    const existingValidation = document.getElementById('inviteCodeValidation');
+                    if (existingValidation) {
+                        existingValidation.remove();
+                    }
+                    
+                    if (inviteCode.length === 0) {
+                        return;
+                    }
+                    
+                    // Add loading indicator
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.id = 'inviteCodeValidation';
+                    loadingDiv.className = 'text-blue-500 text-sm mt-1';
+                    loadingDiv.textContent = 'Checking invite code...';
+                    inviteCodeInput.parentElement.parentElement.parentElement.appendChild(loadingDiv);
+                    
+                    // Debounce validation
+                    validationTimeout = setTimeout(async () => {
+                        try {
+                            // Wait for Firebase to be loaded
+                            while (!window.firebaseAuth) {
+                                await new Promise(resolve => setTimeout(resolve, 100));
+                            }
+                            
+                            const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
+                            
+                            // Update validation message
+                            const validationDiv = document.getElementById('inviteCodeValidation');
+                            if (validationDiv) {
+                                if (isValid) {
+                                    validationDiv.className = 'text-green-500 text-sm mt-1';
+                                    validationDiv.textContent = '✓ Valid invite code';
+                                } else {
+                                    validationDiv.className = 'text-red-500 text-sm mt-1';
+                                    validationDiv.textContent = '✗ Invalid invite code';
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Error validating invite code:', error);
+                            const validationDiv = document.getElementById('inviteCodeValidation');
+                            if (validationDiv) {
+                                validationDiv.className = 'text-yellow-500 text-sm mt-1';
+                                validationDiv.textContent = 'Unable to verify invite code';
+                            }
+                        }
+                    }, 500);
+                });
+            }
             
             if (signupForm) {
                 signupForm.addEventListener('submit', async function(e) {

@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - users can read/write their own documents
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Allow querying users collection to check invite codes (no auth required for signup)
+    match /users/{document=**} {
+      allow read: if request.query.limit <= 10 && 
+        request.query.filters.size() <= 1 &&
+        request.query.filters[0].fieldPath == "inviteCode";
+    }
+  }
+} 

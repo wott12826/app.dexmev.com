@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invite Code Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .container {
+            background-color: #2a2a2a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: #ff6b6b;
+            margin-top: 10px;
+        }
+        .success {
+            color: #51cf66;
+            margin-top: 10px;
+        }
+        .status {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .validation {
+            margin-top: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Invite Code System Test</h1>
+        
+        <div class="status" id="authStatus">
+            <strong>Auth Status:</strong> <span id="statusText">Checking...</span>
+        </div>
+        
+        <div id="loginForm">
+            <h2>Sign In</h2>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button onclick="signIn()">Sign In</button>
+            <button onclick="signUp()">Sign Up</button>
+            <div id="errorMessage" class="error"></div>
+        </div>
+        
+        <div id="userInfo" style="display: none;">
+            <h2>User Information</h2>
+            <p><strong>Email:</strong> <span id="userEmail"></span></p>
+            <p><strong>UID:</strong> <span id="userUid"></span></p>
+            <p><strong>Your Invite Code:</strong> <span id="userInviteCode"></span></p>
+            <button onclick="signOut()">Sign Out</button>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3>Test Invite Code Validation</h3>
+            <div class="form-group">
+                <label for="testInviteCode">Enter Invite Code to Test:</label>
+                <input type="text" id="testInviteCode" placeholder="Enter invite code to validate">
+                <div id="validationResult" class="validation"></div>
+            </div>
+            <button onclick="testInviteCode()">Test Invite Code</button>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3>Navigation</h3>
+            <button onclick="window.location.href='signin.html'">Go to Sign In Page</button>
+            <button onclick="window.location.href='signup.html'">Go to Sign Up Page</button>
+            <button onclick="window.location.href='dashboard.html'">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Firebase Configuration -->
+    <script type="module" src="firebase-config.js"></script>
+    
+    <script>
+        let currentUser = null;
+        
+        // Wait for Firebase to load
+        async function waitForFirebase() {
+            while (!window.firebaseAuth) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
+        
+        // Update UI based on auth state
+        function updateUI(user) {
+            const loginForm = document.getElementById('loginForm');
+            const userInfo = document.getElementById('userInfo');
+            const statusText = document.getElementById('statusText');
+            
+            if (user) {
+                currentUser = user;
+                loginForm.style.display = 'none';
+                userInfo.style.display = 'block';
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('userUid').textContent = user.uid;
+                statusText.textContent = `Signed in as ${user.email}`;
+                statusText.style.color = '#51cf66';
+                
+                // Load user's invite code
+                loadUserInviteCode(user.uid);
+            } else {
+                currentUser = null;
+                loginForm.style.display = 'block';
+                userInfo.style.display = 'none';
+                statusText.textContent = 'Not signed in';
+                statusText.style.color = '#ff6b6b';
+            }
+        }
+        
+        // Load user's invite code
+        async function loadUserInviteCode(userId) {
+            try {
+                await waitForFirebase();
+                const result = await window.firebaseAuth.getUserProfile(userId);
+                if (result.success && result.data.inviteCode) {
+                    document.getElementById('userInviteCode').textContent = result.data.inviteCode;
+                } else {
+                    document.getElementById('userInviteCode').textContent = 'Error loading code';
+                }
+            } catch (error) {
+                console.error('Error loading invite code:', error);
+                document.getElementById('userInviteCode').textContent = 'Error loading code';
+            }
+        }
+        
+        // Test invite code validation
+        async function testInviteCode() {
+            const inviteCode = document.getElementById('testInviteCode').value.trim();
+            const resultDiv = document.getElementById('validationResult');
+            
+            if (!inviteCode) {
+                resultDiv.textContent = 'Please enter an invite code';
+                resultDiv.style.color = '#ff6b6b';
+                return;
+            }
+            
+            try {
+                await waitForFirebase();
+                resultDiv.textContent = 'Checking...';
+                resultDiv.style.color = '#007bff';
+                
+                const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
+                
+                if (isValid) {
+                    resultDiv.textContent = '✓ Valid invite code';
+                    resultDiv.style.color = '#51cf66';
+                } else {
+                    resultDiv.textContent = '✗ Invalid invite code';
+                    resultDiv.style.color = '#ff6b6b';
+                }
+            } catch (error) {
+                resultDiv.textContent = 'Error checking invite code: ' + error.message;
+                resultDiv.style.color = '#ff6b6b';
+            }
+        }
+        
+        // Sign in function
+        async function signIn() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            if (!email || !password) {
+                errorDiv.textContent = 'Please enter email and password';
+                return;
+            }
+            
+            try {
+                await waitForFirebase();
+                const result = await window.firebaseAuth.signIn(email, password);
+                
+                if (result.success) {
+                    errorDiv.textContent = '';
+                    updateUI(result.user);
+                } else {
+                    errorDiv.textContent = 'Sign in failed: ' + result.error;
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Error: ' + error.message;
+            }
+        }
+        
+        // Sign up function
+        async function signUp() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            if (!email || !password) {
+                errorDiv.textContent = 'Please enter email and password';
+                return;
+            }
+            
+            try {
+                await waitForFirebase();
+                // For testing, we'll use a dummy invite code or check if it's the first user
+                const result = await window.firebaseAuth.signUp(email, password, '');
+                
+                if (result.success) {
+                    errorDiv.textContent = '';
+                    updateUI(result.user);
+                } else {
+                    errorDiv.textContent = 'Sign up failed: ' + result.error;
+                }
+            } catch (error) {
+                errorDiv.textContent = 'Error: ' + error.message;
+            }
+        }
+        
+        // Sign out function
+        async function signOut() {
+            try {
+                await waitForFirebase();
+                await window.firebaseAuth.signOut();
+                updateUI(null);
+            } catch (error) {
+                console.error('Sign out error:', error);
+            }
+        }
+        
+        // Initialize auth state listener
+        document.addEventListener('DOMContentLoaded', async function() {
+            await waitForFirebase();
+            
+            window.firebaseAuth.onAuthStateChanged((user) => {
+                updateUI(user);
+            });
+        });
+    </script>
+</body>
+</html> 

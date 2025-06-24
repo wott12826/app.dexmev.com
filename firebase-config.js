@@ -27,15 +27,34 @@ const generateInviteCode = () => {
   return Math.random().toString(36).substring(2, 10).toUpperCase();
 };
 
+// Helper function to check if user is authenticated
+const ensureAuthenticated = () => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("User must be authenticated to perform this operation");
+  }
+  return user;
+};
+
 // Authentication functions
 window.firebaseAuth = {
-  // Check if invite code exists
+  // Check if invite code exists in Firestore (no auth required)
   checkInviteCode: async (inviteCode) => {
     try {
-      const q = query(collection(db, "users"), where("inviteCode", "==", inviteCode));
+      console.log('Checking invite code:', inviteCode);
+      
+      if (!inviteCode || inviteCode.trim() === '') {
+        console.log('No invite code provided');
+        return false;
+      }
+      
+      const q = query(collection(db, "users"), where("inviteCode", "==", inviteCode.trim()));
       const querySnapshot = await getDocs(q);
-      return !querySnapshot.empty;
+      const exists = !querySnapshot.empty;
+      console.log('Invite code exists:', exists);
+      return exists;
     } catch (error) {
+      console.error('Error checking invite code:', error);
       return false;
     }
   },
@@ -43,31 +62,55 @@ window.firebaseAuth = {
   // Sign up with email and password
   signUp: async (email, password, inviteCode) => {
     try {
-      // Проверяем invite code только если это не первый пользователь
+      console.log('Starting sign up process for:', email);
+      console.log('Invite code provided:', inviteCode);
+      
+      // Check if this is the first user by trying to query users collection
       let isFirstUser = false;
-      const q = query(collection(db, "users"));
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        isFirstUser = true;
+      try {
+        const q = query(collection(db, "users"));
+        const querySnapshot = await getDocs(q);
+        isFirstUser = querySnapshot.empty;
+        console.log('Is first user:', isFirstUser);
+      } catch (error) {
+        console.log('Error checking if first user, assuming not first:', error);
+        isFirstUser = false;
       }
+      
+      // If not the first user, invite code is required
       if (!isFirstUser) {
-        // Если не первый пользователь, invite code обязателен
+        if (!inviteCode || inviteCode.trim() === '') {
+          return { success: false, error: "Invite code is required" };
+        }
+        
+        // Check if invite code exists in Firestore
         const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
         if (!isValid) {
           return { success: false, error: "Invalid invite code" };
         }
       }
+      
+      // Create user account
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      // Create a user profile in Firestore with a new invite code
+      console.log('User account created:', user.uid);
+      
+      // Create user profile in Firestore
       const newInviteCode = generateInviteCode();
-      await setDoc(doc(db, "users", user.uid), {
+      const userProfile = {
         email: user.email,
         inviteCode: newInviteCode,
-        ...(isFirstUser ? {} : { invitedBy: inviteCode })
-      });
+        createdAt: new Date().toISOString(),
+        ...(isFirstUser ? {} : { invitedBy: inviteCode.trim() })
+      };
+      
+      console.log('Creating user profile:', userProfile);
+      await setDoc(doc(db, "users", user.uid), userProfile);
+      console.log('User profile created successfully');
+      
       return { success: true, user: user };
     } catch (error) {
+      console.error('Sign up error:', error);
       return { success: false, error: error.message };
     }
   },
@@ -75,9 +118,12 @@ window.firebaseAuth = {
   // Sign in with email and password
   signIn: async (email, password) => {
     try {
+      console.log('Signing in:', email);
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Sign in successful:', userCredential.user.uid);
       return { success: true, user: userCredential.user };
     } catch (error) {
+      console.error('Sign in error:', error);
       return { success: false, error: error.message };
     }
   },
@@ -85,9 +131,12 @@ window.firebaseAuth = {
   // Sign out
   signOut: async () => {
     try {
+      console.log('Signing out');
       await signOut(auth);
+      console.log('Sign out successful');
       return { success: true };
     } catch (error) {
+      console.error('Sign out error:', error);
       return { success: false, error: error.message };
     }
   },
@@ -95,10 +144,8 @@ window.firebaseAuth = {
   // Update email
   updateEmail: async (newEmail, currentPassword) => {
     try {
-      const user = auth.currentUser;
-      if (!user) {
-        return { success: false, error: "No user is currently signed in" };
-      }
+      const user = ensureAuthenticated();
+      console.log('Updating email for user:', user.uid);
 
       // Re-authenticate user before updating email
       const credential = EmailAuthProvider.credential(user.email, currentPassword);
@@ -106,8 +153,10 @@ window.firebaseAuth = {
       
       // Update email
       await updateEmail(user, newEmail);
+      console.log('Email updated successfully');
       return { success: true };
     } catch (error) {
+      console.error('Update email error:', error);
       return { success: false, error: error.message };
     }
   },
@@ -115,10 +164,8 @@ window.firebaseAuth = {
   // Update password
   updatePassword: async (newPassword, currentPassword) => {
     try {
-      const user = auth.currentUser;
-      if (!user) {
-        return { success: false, error: "No user is currently signed in" };
-      }
+      const user = ensureAuthenticated();
+      console.log('Updating password for user:', user.uid);
 
       // Re-authenticate user before updating password
       const credential = EmailAuthProvider.credential(user.email, currentPassword);
@@ -126,8 +173,10 @@ window.firebaseAuth = {
       
       // Update password
       await updatePassword(user, newPassword);
+      console.log('Password updated successfully');
       return { success: true };
     } catch (error) {
+      console.error('Update password error:', error);
       return { success: false, error: error.message };
     }
   },
@@ -135,32 +184,37 @@ window.firebaseAuth = {
   // Get user profile from Firestore, create if it doesn't exist
   getUserProfile: async (userId) => {
     try {
+      const user = ensureAuthenticated();
+      console.log('Getting profile for user:', userId);
+      
       const userDocRef = doc(db, "users", userId);
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
         let userData = userDoc.data();
+        console.log('User profile found:', userData);
+        
         if (!userData.inviteCode) {
           const newInviteCode = generateInviteCode();
           await setDoc(userDocRef, { inviteCode: newInviteCode }, { merge: true });
           userData.inviteCode = newInviteCode;
+          console.log('Generated new invite code:', newInviteCode);
         }
         return { success: true, data: userData };
       } else {
-        const user = auth.currentUser;
-        if (user && user.uid === userId) {
-          const newInviteCode = generateInviteCode();
-          const newUserProfile = {
-            email: user.email,
-            inviteCode: newInviteCode
-          };
-          await setDoc(userDocRef, newUserProfile);
-          return { success: true, data: newUserProfile };
-        } else {
-          return { success: false, error: "User not found or UID mismatch." };
-        }
+        console.log('User profile not found, creating new one');
+        const newInviteCode = generateInviteCode();
+        const newUserProfile = {
+          email: user.email,
+          inviteCode: newInviteCode,
+          createdAt: new Date().toISOString()
+        };
+        await setDoc(userDocRef, newUserProfile);
+        console.log('New user profile created:', newUserProfile);
+        return { success: true, data: newUserProfile };
       }
     } catch (error) {
+      console.error('Get user profile error:', error);
       return { success: false, error: error.message };
     }
   },
@@ -178,6 +232,7 @@ window.firebaseAuth = {
 
 // Check if user is already signed in
 firebaseAuth.onAuthStateChanged((user) => {
+  console.log('Auth state changed:', user ? user.uid : 'No user');
   if (user) {
     // User is signed in, redirect to dashboard
     if (window.location.pathname.includes('signin.html') || window.location.pathname.includes('signup.html')) {

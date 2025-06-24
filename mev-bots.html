@@ -1271,6 +1271,39 @@
         });
     </script>
     <script src="firebase-config.js" type="module"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const burger = document.getElementById("burger");
+      const aside = document.querySelector("aside");
+
+      if (!burger || !aside) return;
+
+      burger.addEventListener("click", function(e) {
+        e.stopPropagation();
+        aside.classList.toggle("open");
+      });
+
+      function handleResize() {
+        if (window.innerWidth > 768) {
+          aside.classList.remove("open");
+        }
+      }
+
+      window.addEventListener("resize", handleResize);
+      handleResize();
+
+      document.addEventListener("click", function(e) {
+        if (
+          window.innerWidth <= 768 &&
+          aside.classList.contains("open") &&
+          !aside.contains(e.target) &&
+          e.target !== burger
+        ) {
+          aside.classList.remove("open");
+        }
+      });
+    });
+    </script>
 </body>
 
 </html>

@@ -813,6 +813,19 @@
         }
     });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addressButton = document.querySelector('button.mt-2.5.w-full.inline');
+    const copyIcon = document.getElementById('copyWalletIcon');
+    if (addressButton && copyIcon) {
+        addressButton.addEventListener('click', function(e) {
+            // Не дублируем клик, если клик был именно по иконке
+            if (e.target === copyIcon) return;
+            copyIcon.click();
+        });
+    }
+});
+</script>
 </body>
 
 </html>

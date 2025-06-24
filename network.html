@@ -69,16 +69,19 @@
           }
         }
         .sandwich-card {
-          display: flex;
-          flex-direction: row;
-          background: #181A1B;
-          border-radius: 16px;
-          padding: 12px 12px 12px 12px;
-          margin-bottom: 12px;
-          align-items: stretch;
-          max-width: 100%;
-          min-width: 0;
-          overflow: hidden;
+          transition: box-shadow 0.2s;
+          box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+          border: 1px solid #232323;
+        }
+        .sandwich-card.even {
+          background: #23232b !important; /* светлее */
+        }
+        .sandwich-card.odd {
+          background: #181A1B !important; /* темнее */
+        }
+        .sandwich-card:hover {
+          box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18);
+          border-color: #444;
         }
         .sandwich-card-left {
           min-width: 0;
@@ -224,11 +227,9 @@
           margin-right: 2px;
         }
         .sandwich-monitor-outer {
-          background: rgba(0,0,0,0.6);
-          border-radius: 12px;
-          padding: 20px;
-          font-family: 'Courier New', Courier, monospace;
-          color: #eaffea;
+          background: #23232b !important; /* светло-серый фон блока */
+          border-radius: 16px;
+          padding: 24px 18px;
         }
         .sandwich-monitor-outer .sandwich-card,
         .sandwich-monitor-outer .sandwich-card * {
@@ -1162,7 +1163,8 @@ function randomDate() {
   return now.toLocaleDateString('en-GB') + ', ' + now.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit', second: '2-digit'});
 }
 
-function sandwichCard(data) {
+function sandwichCard(data, idx) {
+  const evenOddClass = (idx % 2 === 0) ? 'even' : 'odd';
   // SVGs
   const searchIcon = `<svg width="16" height="16" fill="none" viewBox="0 0 18 18"><circle cx="8.5" cy="8.5" r="7.5" stroke="#14F195" stroke-width="2"/><path stroke="#14F195" stroke-width="2" stroke-linecap="round" d="M15.5 15.5 13 13"/></svg>`;
   const vaIcon = `<svg width="16" height="16" fill="none" viewBox="0 0 18 18"><circle cx="9" cy="9" r="8" stroke="#B056FF" stroke-width="2"/><text x="50%" y="55%" text-anchor="middle" fill="#B056FF" font-size="9" font-family="Arial" dy=".3em">VA</text></svg>`;
@@ -1171,7 +1173,7 @@ function sandwichCard(data) {
   const userIcon = `<svg width="14" height="14" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="5" r="3" stroke="#fff" stroke-width="1.5"/><path d="M2 14c0-2.21 2.686-4 6-4s6 1.79 6 4" stroke="#fff" stroke-width="1.5"/></svg>`;
 
   return `
-  <div class="flex flex-row bg-[#181A1B] rounded-xl p-3 mb-3 items-stretch max-w-full" style="min-width:0;">
+  <div class="sandwich-card ${evenOddClass} flex flex-row rounded-xl p-3 mb-3 items-stretch max-w-full" style="min-width:0;">
     <div class="flex flex-col min-w-[140px] max-w-[180px] pr-4 border-r border-[#B056FF] mr-4" style="flex-shrink:0;">
       <div class="text-[13px] font-semibold text-blue-400 cursor-pointer truncate">${data.slot.toLocaleString()}</div>
       <div class="text-xs text-secondary mb-1 truncate">${data.date}</div>
@@ -1267,7 +1269,7 @@ function renderSandwichMonitor() {
   monitorElement.innerHTML = `
     <div class="sandwich-monitor-outer">
       <div>
-        ${pageData.map(sandwichCard).join('')}
+        ${pageData.map((data, idx) => sandwichCard(data, idx)).join('')}
       </div>
       <div class="flex items-center gap-2 text-xs text-secondary mt-4">
         Show <select id="sandwich-per-page" class="bg-[#232323] border border-[#333] rounded px-1 py-0.5 text-xs">
@@ -1469,6 +1471,7 @@ async function fetchSolanaStats() {
 fetchSolanaStats();
 setInterval(fetchSolanaStats, 5000);
 </script>
+
 </body>
 
 </html>

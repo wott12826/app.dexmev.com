@@ -213,6 +213,29 @@
           align-items: center;
           margin-right: 2px;
         }
+        .sandwich-monitor-outer {
+          background: rgba(0,0,0,0.6);
+          border-radius: 12px;
+          padding: 20px;
+          font-family: 'Courier New', Courier, monospace;
+          color: #eaffea;
+        }
+        .sandwich-monitor-outer .sandwich-card,
+        .sandwich-monitor-outer .sandwich-card * {
+          font-family: 'Courier New', Courier, monospace !important;
+        }
+        .sandwich-monitor-outer .sandwich-slot,
+        .sandwich-monitor-outer .sandwich-leader {
+          color: #90ffb0;
+        }
+        .sandwich-monitor-outer .sandwich-amount,
+        .sandwich-monitor-outer .sandwich-amount2 {
+          color: #fff;
+        }
+        .sandwich-monitor-outer .sandwich-token,
+        .sandwich-monitor-outer .sandwich-token2 {
+          color: #90ffb0;
+        }
     </style>
 </head>
 
@@ -1232,20 +1255,21 @@ function renderSandwichMonitor() {
   const pageData = sandwichAllData.slice(startIdx, endIdx);
 
   monitorElement.innerHTML = `
-    <div>
-      ${pageData.map(sandwichCard).join('')}
-    </div>
-    <div class="text-xs text-blue-500 mt-2">🔄 Live demo data (updating every 10s)</div>
-    <div class="flex items-center gap-2 text-xs text-secondary mt-4">
-      Show <select id="sandwich-per-page" class="bg-[#232323] border border-[#333] rounded px-1 py-0.5 text-xs">
-        <option value="5" ${sandwichPerPage==5?'selected':''}>5</option>
-        <option value="10" ${sandwichPerPage==10?'selected':''}>10</option>
-        <option value="20" ${sandwichPerPage==20?'selected':''}>20</option>
-        <option value="50" ${sandwichPerPage==50?'selected':''}>50</option>
-      </select> per page
-      <button id="sandwich-prev" class="ml-2 bg-[#232323] px-2 py-1 rounded" ${sandwichPage==1?'disabled':''}>&lt;</button>
-      <span class="ml-2">item <span class="text-green">${startIdx+1} - ${endIdx}</span> <span class="text-secondary">of ${SANDWICH_TOTAL}</span></span>
-      <button id="sandwich-next" class="ml-2 bg-[#232323] px-2 py-1 rounded" ${(endIdx)>=SANDWICH_TOTAL?'disabled':''}>&gt;</button>
+    <div class="sandwich-monitor-outer">
+      <div>
+        ${pageData.map(sandwichCard).join('')}
+      </div>
+      <div class="flex items-center gap-2 text-xs text-secondary mt-4">
+        Show <select id="sandwich-per-page" class="bg-[#232323] border border-[#333] rounded px-1 py-0.5 text-xs">
+          <option value="5" ${sandwichPerPage==5?'selected':''}>5</option>
+          <option value="10" ${sandwichPerPage==10?'selected':''}>10</option>
+          <option value="20" ${sandwichPerPage==20?'selected':''}>20</option>
+          <option value="50" ${sandwichPerPage==50?'selected':''}>50</option>
+        </select> per page
+        <button id="sandwich-prev" class="ml-2 bg-[#232323] px-2 py-1 rounded" ${sandwichPage==1?'disabled':''}>&lt;</button>
+        <span class="ml-2">item <span class="text-green">${startIdx+1} - ${endIdx}</span> <span class="text-secondary">of ${SANDWICH_TOTAL}</span></span>
+        <button id="sandwich-next" class="ml-2 bg-[#232323] px-2 py-1 rounded" ${(endIdx)>=SANDWICH_TOTAL?'disabled':''}>&gt;</button>
+      </div>
     </div>
   `;
 

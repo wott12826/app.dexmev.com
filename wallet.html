@@ -350,6 +350,9 @@
                                         </button>
                                         <div
                                             class="mx-auto mt-10 flex h-[182px] w-[182px] items-center justify-center rounded-md border-2">
+                                            <div id="qrCodeContainer" class="flex items-center justify-center w-full h-full">
+                                                <div id="qrCode" class="bg-white p-2 rounded"></div>
+                                            </div>
                                         </div>
                                         <div class="relative mt-10 p-5"><svg xmlns="http://www.w3.org/2000/svg" width="1em"
                                                 height="1em" fill="none" viewbox="0 0 546 170"
@@ -619,6 +622,16 @@
                 copyIcon.style.display = 'none';
                 disconnectBtn.style.display = 'none';
                 document.getElementById('solBalance').textContent = '0';
+                
+                // Обновляем полный адрес и QR код
+                const walletFullAddr = document.getElementById('walletFullAddr');
+                if (walletFullAddr) {
+                    walletFullAddr.textContent = 'Phantom wallet не найден';
+                    walletFullAddr.style.color = 'red';
+                }
+                if (typeof updateQRCode === 'function') {
+                    updateQRCode();
+                }
                 return;
             }
             if (window.solana && window.solana.isPhantom) {
@@ -635,12 +648,32 @@
                     disconnectBtn.style.display = 'inline-block';
                     localStorage.setItem('wallet-connected', 'true');
                     await getSolBalance();
+                    
+                    // Обновляем полный адрес и QR код
+                    const walletFullAddr = document.getElementById('walletFullAddr');
+                    if (walletFullAddr) {
+                        walletFullAddr.textContent = pubKey;
+                        walletFullAddr.style.color = '';
+                    }
+                    if (typeof updateQRCode === 'function') {
+                        updateQRCode();
+                    }
                 } else {
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
                     localStorage.setItem('wallet-connected', 'false');
                     document.getElementById('solBalance').textContent = '0';
+                    
+                    // Обновляем полный адрес и QR код
+                    const walletFullAddr = document.getElementById('walletFullAddr');
+                    if (walletFullAddr) {
+                        walletFullAddr.textContent = 'Ошибка подключения к Phantom';
+                        walletFullAddr.style.color = 'red';
+                    }
+                    if (typeof updateQRCode === 'function') {
+                        updateQRCode();
+                    }
                 }
             } else {
                 walletText.textContent = 'Connect Wallet';
@@ -648,6 +681,16 @@
                 disconnectBtn.style.display = 'none';
                 localStorage.setItem('wallet-connected', 'false');
                 document.getElementById('solBalance').textContent = '0';
+                
+                // Обновляем полный адрес и QR код
+                const walletFullAddr = document.getElementById('walletFullAddr');
+                if (walletFullAddr) {
+                    walletFullAddr.textContent = 'Phantom wallet не найден';
+                    walletFullAddr.style.color = 'red';
+                }
+                if (typeof updateQRCode === 'function') {
+                    updateQRCode();
+                }
             }
         }
 
@@ -661,6 +704,18 @@
                     await window.solana.connect();
                     console.log('Wallet page - Successfully connected to Phantom wallet');
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
+                    
+                    // Обновляем полный адрес и QR код
+                    const address = window.solana.publicKey.toString();
+                    const walletFullAddr = document.getElementById('walletFullAddr');
+                    if (walletFullAddr) {
+                        walletFullAddr.textContent = address;
+                        walletFullAddr.style.color = '';
+                    }
+                    if (typeof updateQRCode === 'function') {
+                        updateQRCode();
+                    }
+                    
                     updateWalletBtn();
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
                     console.log('Wallet page - Wallet state synchronized');
@@ -721,6 +776,16 @@
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
+                    
+                    // Обновляем полный адрес и QR код
+                    const walletFullAddr = document.getElementById('walletFullAddr');
+                    if (walletFullAddr) {
+                        walletFullAddr.textContent = 'Phantom wallet не найден';
+                        walletFullAddr.style.color = 'red';
+                    }
+                    if (typeof updateQRCode === 'function') {
+                        updateQRCode();
+                    }
                     
                     // Синхронизируем с другими страницами
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
@@ -812,12 +877,20 @@
                 const walletFullAddr = document.getElementById('walletFullAddr');
                 if (walletFullAddr) {
                     walletFullAddr.textContent = address;
+                    // Обновляем QR код после установки адреса
+                    if (typeof updateQRCode === 'function') {
+                        updateQRCode();
+                    }
                 }
             } catch (e) {
                 const walletFullAddr = document.getElementById('walletFullAddr');
                 if (walletFullAddr) {
                     walletFullAddr.textContent = 'Ошибка подключения к Phantom';
                     walletFullAddr.style.color = 'red';
+                    // Обновляем QR код при ошибке
+                    if (typeof updateQRCode === 'function') {
+                        updateQRCode();
+                    }
                 }
             }
         } else {
@@ -825,6 +898,10 @@
             if (walletFullAddr) {
                 walletFullAddr.textContent = 'Phantom wallet не найден';
                 walletFullAddr.style.color = 'red';
+                // Обновляем QR код при отсутствии кошелька
+                if (typeof updateQRCode === 'function') {
+                    updateQRCode();
+                }
             }
         }
     });
@@ -842,6 +919,80 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        // Функция для генерации QR кода
+        function generateQRCode(address) {
+            const qrContainer = document.getElementById('qrCode');
+            if (!qrContainer) return;
+            
+            // Очищаем контейнер
+            qrContainer.innerHTML = '';
+            
+            if (!address || address === 'Phantom wallet не найден' || address === 'Ошибка подключения к Phantom') {
+                qrContainer.innerHTML = '<div class="text-center text-gray-500"><p>Подключите кошелек</p><p>для отображения QR кода</p></div>';
+                return;
+            }
+            
+            // Создаем QR код с адресом кошелька
+            QRCode.toCanvas(qrContainer, address, {
+                width: 150,
+                height: 150,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#FFFFFF'
+                }
+            }, function (error) {
+                if (error) {
+                    console.error('Ошибка генерации QR кода:', error);
+                    qrContainer.innerHTML = '<div class="text-center text-red-500"><p>Ошибка генерации</p><p>QR кода</p></div>';
+                }
+            });
+        }
+        
+        // Функция для обновления QR кода при изменении адреса
+        function updateQRCode() {
+            const walletFullAddr = document.getElementById('walletFullAddr');
+            if (walletFullAddr) {
+                const address = walletFullAddr.textContent;
+                generateQRCode(address);
+            }
+        }
+        
+        // Обновляем QR код при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Небольшая задержка для того, чтобы адрес кошелька успел загрузиться
+            setTimeout(updateQRCode, 1000);
+            
+            // Наблюдаем за изменениями в элементе с адресом
+            const walletFullAddr = document.getElementById('walletFullAddr');
+            if (walletFullAddr) {
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'childList' || mutation.type === 'characterData') {
+                            updateQRCode();
+                        }
+                    });
+                });
+                
+                observer.observe(walletFullAddr, {
+                    childList: true,
+                    characterData: true,
+                    subtree: true
+                });
+            }
+        });
+        
+        // Обновляем QR код при подключении/отключении кошелька
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'wallet-connected' || e.key === 'wallet-state') {
+                setTimeout(updateQRCode, 500);
+            }
+        });
+    </script>
 
 </body>
 

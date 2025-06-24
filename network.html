@@ -342,6 +342,7 @@
                                             </svg></button></div>
                                     <div class="text-sm">Sandwiches</div>
                                 </div>
+                                <div id="sandwich-monitor" class="mt-6"></div>
                                 <ul class="mt-6"></ul>
                                 <div class="mt-5 flex items-center justify-end">
                                     <div class="flex items-center gap-2 text-xs text-secondary">Show<button
@@ -907,8 +908,16 @@
 async function fetchSandwichTxs() {
   try {
     console.log('🔍 Fetching Solscan transactions...');
+    
+    // Проверяем существование элемента
+    const monitorElement = document.getElementById('sandwich-monitor');
+    if (!monitorElement) {
+      console.warn('⚠️ Sandwich monitor element not found');
+      return;
+    }
+    
     // Используем правильный эндпоинт Solscan
-    const res = await fetch('https://public-api.solscan.io/transaction/last?limit=10');
+    const res = await fetch('https://public-api.solscan.io/account/transactions?address=11111111111111111111111111111111&limit=10');
     
     if (!res.ok) {
       throw new Error(`Solscan API error: ${res.status} ${res.statusText}`);
@@ -918,7 +927,7 @@ async function fetchSandwichTxs() {
     console.log('📊 Solscan transactions received:', txs);
     
     // Рендерим таблицу
-    document.getElementById('sandwich-monitor').innerHTML = `
+    monitorElement.innerHTML = `
       <table class="w-full text-xs text-left">
         <thead><tr>
           <th class="pr-2">Slot</th>
@@ -927,23 +936,26 @@ async function fetchSandwichTxs() {
           <th>Link</th>
         </tr></thead>
         <tbody>
-          ${txs.map(tx => `
+          ${txs.data ? txs.data.map(tx => `
             <tr>
               <td class="pr-2">${tx.slot || 'N/A'}</td>
               <td class="pr-2">${tx.txHash ? tx.txHash.slice(0,8) + '...' : 'N/A'}</td>
               <td class="pr-2">${tx.blockTime ? new Date(tx.blockTime * 1000).toLocaleString() : 'N/A'}</td>
               <td><a href="https://solscan.io/tx/${tx.txHash || ''}" target="_blank" class="text-green underline">View</a></td>
             </tr>
-          `).join('')}
+          `).join('') : '<tr><td colspan="4">No transactions found</td></tr>'}
         </tbody>
       </table>
     `;
     console.log('✅ Sandwich monitor updated');
   } catch (e) {
     console.error('❌ Error fetching Solscan transactions:', e);
-    document.getElementById('sandwich-monitor').innerHTML = `
-      <div class="text-red-500 text-sm">Error loading transactions: ${e.message}</div>
-    `;
+    const monitorElement = document.getElementById('sandwich-monitor');
+    if (monitorElement) {
+      monitorElement.innerHTML = `
+        <div class="text-red-500 text-sm">Error loading transactions: ${e.message}</div>
+      `;
+    }
   }
 }
 
@@ -970,10 +982,12 @@ async function updateSolanaStats() {
       eta: !!etaElement
     });
 
-    // Используем публичные API без CORS ограничений
+    // Используем публичный Solana RPC endpoint
+    const RPC_URL = 'https://solana-api.projectserum.com';
+    
     // Slot Height - используем Solana RPC
     console.log('🔍 Fetching slot data from Solana RPC...');
-    const slotRes = await fetch('https://api.mainnet-beta.solana.com', {
+    const slotRes = await fetch(RPC_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -997,7 +1011,7 @@ async function updateSolanaStats() {
 
     // Supply - используем Solana RPC
     console.log('🔍 Fetching supply data from Solana RPC...');
-    const supplyRes = await fetch('https://api.mainnet-beta.solana.com', {
+    const supplyRes = await fetch(RPC_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1022,7 +1036,7 @@ async function updateSolanaStats() {
 
     // Epoch Info - используем Solana RPC
     console.log('🔍 Fetching epoch data from Solana RPC...');
-    const epochRes = await fetch('https://api.mainnet-beta.solana.com', {
+    const epochRes = await fetch(RPC_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

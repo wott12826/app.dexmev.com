@@ -913,7 +913,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 qrContainer.innerHTML = '<div class="text-center text-gray-500"><p>Подключите кошелек</p><p>для отображения QR кода</p></div>';
                 return;
             }
-            QRCode.toCanvas(qrContainer, address, {
+            // Формируем Solana URI для пополнения
+            const label = 'DM Wallet';
+            const message = 'Top up my wallet';
+            // Если нужно, можно добавить сумму: const amount = 0.5;
+            // const url = `solana:${address}?amount=${amount}&label=${encodeURIComponent(label)}&message=${encodeURIComponent(message)}`;
+            const url = `solana:${address}?label=${encodeURIComponent(label)}&message=${encodeURIComponent(message)}`;
+            QRCode.toCanvas(qrContainer, url, {
                 width: 150,
                 height: 150,
                 margin: 2,

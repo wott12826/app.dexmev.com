@@ -903,6 +903,36 @@
       });
     });
     </script>
+    <script>
+async function fetchSandwichTxs() {
+  // Получаем последние транзакции (пример: 10 последних)
+  const res = await fetch('https://public-api.solscan.io/transaction?limit=10');
+  const txs = await res.json();
+  // Рендерим таблицу
+  document.getElementById('sandwich-monitor').innerHTML = `
+    <table class="w-full text-xs text-left">
+      <thead><tr>
+        <th class="pr-2">Slot</th>
+        <th class="pr-2">Hash</th>
+        <th class="pr-2">Time</th>
+        <th>Link</th>
+      </tr></thead>
+      <tbody>
+        ${txs.map(tx => `
+          <tr>
+            <td class="pr-2">${tx.slot}</td>
+            <td class="pr-2">${tx.txHash.slice(0,8)}...</td>
+            <td class="pr-2">${new Date(tx.blockTime * 1000).toLocaleString()}</td>
+            <td><a href="https://solscan.io/tx/${tx.txHash}" target="_blank" class="text-green underline">View</a></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+setInterval(fetchSandwichTxs, 10000);
+fetchSandwichTxs();
+</script>
 </body>
 
 </html>

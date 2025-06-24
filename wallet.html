@@ -923,7 +923,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- QR Code Library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
-        // Функция для генерации QR кода
         function generateQRCode(address) {
             const qrContainer = document.getElementById('qrCode');
             if (!qrContainer) return;
@@ -957,10 +956,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         window.updateQRCode = updateQRCode;
 
-        // Обновляем QR код при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(updateQRCode, 1000);
-            // Наблюдаем за изменениями в элементе с адресом
             const walletFullAddr = document.getElementById('walletFullAddr');
             if (walletFullAddr) {
                 const observer = new MutationObserver(function(mutations) {
@@ -977,7 +974,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-        // Обновляем QR код при подключении/отключении кошелька
         window.addEventListener('storage', function(e) {
             if (e.key === 'wallet-connected' || e.key === 'wallet-state') {
                 setTimeout(updateQRCode, 500);

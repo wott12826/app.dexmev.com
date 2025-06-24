@@ -268,35 +268,192 @@
         .sandwich-token, .sandwich-token2, .sandwich-amount, .sandwich-amount2 {
   white-space: nowrap;
 }
-        @media (max-width: 600px) {
+        
+        /* Улучшенная адаптивность для мобильных устройств */
+        @media (max-width: 768px) {
           .sandwich-card {
             flex-direction: column !important;
-            padding: 10px 4px !important;
+            padding: 12px 8px !important;
+            gap: 12px !important;
           }
-          .sandwich-card > * {
-            margin-right: 0 !important;
+          .sandwich-card-left {
             border-right: none !important;
+            margin-right: 0 !important;
             padding-right: 0 !important;
+            border-bottom: 2px solid #B056FF !important;
+            margin-bottom: 12px !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            flex: none !important;
+          }
+          .sandwich-card-right {
+            padding-left: 0 !important;
+            width: 100% !important;
+          }
+          .sandwich-block-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+          }
+          .sandwich-token, .sandwich-token2, .sandwich-amount, .sandwich-amount2 {
+            white-space: normal !important;
+            word-break: break-word !important;
+          }
+          .sandwich-monitor-outer {
+            padding: 16px 8px !important;
           }
         }
-        @media (max-width: 900px) {
-  .sandwich-card {
-    flex-direction: column;
-    padding: 12px 6px;
-  }
-  .sandwich-card-left {
-    border-right: none;
-    margin-right: 0;
-    padding-right: 0;
-    border-bottom: 2px solid #B056FF;
-    margin-bottom: 10px;
-    max-width: 100%;
-    width: 100%;
-  }
-  .sandwich-card-right {
-    padding-left: 0;
-  }
-}
+        
+        @media (max-width: 480px) {
+          .sandwich-card {
+            padding: 10px 6px !important;
+            margin-bottom: 12px !important;
+          }
+          .sandwich-slot {
+            font-size: 14px !important;
+          }
+          .sandwich-leader {
+            font-size: 14px !important;
+          }
+          .sandwich-token, .sandwich-token2 {
+            font-size: 12px !important;
+          }
+          .sandwich-amount, .sandwich-amount2 {
+            font-size: 14px !important;
+          }
+          .sandwich-addr {
+            font-size: 11px !important;
+          }
+          .sandwich-label {
+            font-size: 11px !important;
+          }
+        }
+        
+        @media (max-width: 360px) {
+          .sandwich-card {
+            padding: 8px 4px !important;
+          }
+          .sandwich-slot {
+            font-size: 13px !important;
+          }
+          .sandwich-leader {
+            font-size: 13px !important;
+          }
+          .sandwich-token, .sandwich-token2 {
+            font-size: 11px !important;
+          }
+          .sandwich-amount, .sandwich-amount2 {
+            font-size: 13px !important;
+          }
+        }
+        
+        /* Улучшенная обработка длинного текста */
+        .sandwich-text-truncate {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 100%;
+        }
+        
+        .sandwich-text-wrap {
+          word-wrap: break-word;
+          word-break: break-word;
+          hyphens: auto;
+        }
+        
+        /* Адаптивные размеры для разных экранов */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .sandwich-card-left {
+            min-width: 140px;
+            max-width: 160px;
+            flex: 0 0 150px;
+          }
+        }
+        
+        @media (min-width: 1025px) {
+          .sandwich-card-left {
+            min-width: 160px;
+            max-width: 200px;
+            flex: 0 0 180px;
+          }
+        }
+        
+        /* Дополнительные улучшения для очень маленьких экранов */
+        @media (max-width: 320px) {
+          .sandwich-card {
+            padding: 6px 3px !important;
+            margin-bottom: 8px !important;
+          }
+          .sandwich-slot {
+            font-size: 12px !important;
+          }
+          .sandwich-leader {
+            font-size: 12px !important;
+          }
+          .sandwich-token, .sandwich-token2 {
+            font-size: 10px !important;
+          }
+          .sandwich-amount, .sandwich-amount2 {
+            font-size: 12px !important;
+          }
+          .sandwich-addr {
+            font-size: 10px !important;
+          }
+          .sandwich-label {
+            font-size: 10px !important;
+          }
+          .sandwich-monitor-outer {
+            padding: 12px 6px !important;
+          }
+        }
+        
+        /* Улучшенная поддержка горизонтального скролла */
+        .sandwich-monitor-outer {
+          overflow-x: auto;
+          scrollbar-width: thin;
+          scrollbar-color: #B056FF #232323;
+        }
+        
+        .sandwich-monitor-outer::-webkit-scrollbar {
+          height: 6px;
+        }
+        
+        .sandwich-monitor-outer::-webkit-scrollbar-track {
+          background: #232323;
+          border-radius: 3px;
+        }
+        
+        .sandwich-monitor-outer::-webkit-scrollbar-thumb {
+          background: #B056FF;
+          border-radius: 3px;
+        }
+        
+        .sandwich-monitor-outer::-webkit-scrollbar-thumb:hover {
+          background: #C066FF;
+        }
+        
+        /* Улучшенные стили для кнопок пагинации */
+        .sandwich-pagination-btn {
+          transition: all 0.2s ease-in-out;
+        }
+        
+        .sandwich-pagination-btn:hover:not(:disabled) {
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(176, 86, 255, 0.3);
+        }
+        
+        .sandwich-pagination-btn:active:not(:disabled) {
+          transform: translateY(0);
+        }
+        
+        /* Улучшенные стили для select */
+        .sandwich-select {
+          background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23B056FF' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+          background-position: right 0.5rem center;
+          background-repeat: no-repeat;
+          background-size: 1.5em 1.5em;
+          padding-right: 2.5rem;
+        }
     </style>
 </head>
 
@@ -1224,50 +1381,50 @@ function sandwichCard(data, idx) {
 
   return `
   <div class="sandwich-card ${evenOddClass} flex flex-row rounded-xl p-3 mb-3 items-stretch max-w-full" style="min-width:0;">
-    <div class="flex flex-col min-w-[140px] max-w-[180px] pr-4 border-r border-[#B056FF] mr-4" style="flex-shrink:0;">
-      <div class="text-[13px] font-semibold text-blue-400 cursor-pointer truncate">${data.slot.toLocaleString()}</div>
-      <div class="text-xs text-secondary mb-1 truncate">${data.date}</div>
-      <div class="border-t border-[#333] my-1 w-3/4"></div>
-      <div class="text-sm font-bold text-blue-200 mb-1 truncate">${data.leader}</div>
-      <div class="flex items-center gap-1 mb-0.5 text-xs truncate">
-        <span class="text-secondary">Attacker</span>
-        <span class="text-blue-300 font-mono">${data.attacker}</span>
+    <div class="sandwich-card-left flex flex-col min-w-[140px] max-w-[180px] pr-4 border-r border-[#B056FF] mr-4" style="flex-shrink:0;">
+      <div class="sandwich-slot text-[13px] font-semibold text-blue-400 cursor-pointer sandwich-text-truncate">${data.slot.toLocaleString()}</div>
+      <div class="sandwich-date text-xs text-secondary mb-1 sandwich-text-truncate">${data.date}</div>
+      <div class="sandwich-divider border-t border-[#333] my-1 w-3/4"></div>
+      <div class="sandwich-leader text-sm font-bold text-blue-200 mb-1 sandwich-text-truncate">${data.leader}</div>
+      <div class="flex items-center gap-1 mb-0.5 text-xs">
+        <span class="sandwich-label text-secondary">Attacker</span>
+        <span class="sandwich-addr text-blue-300 font-mono sandwich-text-truncate">${data.attacker}</span>
       </div>
-      <div class="flex items-center gap-1 mb-0.5 text-xs truncate">
-        <span class="text-secondary">Program</span>
-        <span class="text-blue-300 font-mono">${data.program}</span>
+      <div class="flex items-center gap-1 mb-0.5 text-xs">
+        <span class="sandwich-label text-secondary">Program</span>
+        <span class="sandwich-addr text-blue-300 font-mono sandwich-text-truncate">${data.program}</span>
       </div>
-      <div class="flex items-center gap-1 mt-1">
+      <div class="sandwich-icons flex items-center gap-1 mt-1">
         ${searchIcon}
         ${vaIcon}
         ${flashIcon}
       </div>
     </div>
-    <div class="flex-1 flex flex-col gap-1 justify-center min-w-0">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-1 w-full">
-        <div class="flex items-center gap-2 flex-wrap min-w-0">
+    <div class="sandwich-card-right flex-1 flex flex-col gap-1 justify-center min-w-0">
+      <div class="sandwich-blocks grid grid-cols-1 md:grid-cols-2 gap-1 w-full">
+        <div class="sandwich-block-row flex items-center gap-2 flex-wrap min-w-0">
           ${searchIcon}
-          <span class="text-xs text-green-400 font-bold">${data.tokenA}</span>
-          <span class="text-base font-bold text-white">${data.amountA}</span>
+          <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenA}</span>
+          <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountA}</span>
           ${searchIcon}
-          <span class="text-xs text-green-400 font-bold">${data.tokenB}</span>
-          <span class="text-base font-bold text-white">${data.amountB}</span>
-          <span class="mx-1">${arrowIcon}</span>
-          <span class="flex items-center gap-1">${userIcon}<span class="text-xs text-[#B056FF]">→ VA</span></span>
-          <span class="text-xs text-secondary font-bold">${data.tokenC}</span>
-          <span class="text-base font-bold text-white">${data.amountC}</span>
+          <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenB}</span>
+          <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountB}</span>
+          <span class="sandwich-arrow mx-1">${arrowIcon}</span>
+          <span class="sandwich-userva flex items-center gap-1">${userIcon}<span class="text-xs text-[#B056FF]">→ VA</span></span>
+          <span class="sandwich-token2 text-xs text-secondary font-bold sandwich-text-truncate max-w-[60px]">${data.tokenC}</span>
+          <span class="sandwich-amount2 text-base font-bold text-white sandwich-text-truncate max-w-[100px]">${data.amountC}</span>
         </div>
-        <div class="flex items-center gap-2 flex-wrap min-w-0">
+        <div class="sandwich-block-row flex items-center gap-2 flex-wrap min-w-0">
           ${searchIcon}
-          <span class="text-xs text-green-400 font-bold">${data.tokenA2}</span>
-          <span class="text-base font-bold text-white">${data.amountA2}</span>
+          <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenA2}</span>
+          <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountA2}</span>
           ${searchIcon}
-          <span class="text-xs text-green-400 font-bold">${data.tokenB2}</span>
-          <span class="text-base font-bold text-white">${data.amountB2}</span>
-          <span class="mx-1">${arrowIcon}</span>
-          <span class="flex items-center gap-1">${userIcon}<span class="text-xs text-[#B056FF]">→ VA</span></span>
-          <span class="text-xs text-secondary font-bold">${data.tokenC2}</span>
-          <span class="text-base font-bold text-white">${data.amountC2}</span>
+          <span class="sandwich-token text-xs text-green-400 font-bold sandwich-text-truncate max-w-[60px]">${data.tokenB2}</span>
+          <span class="sandwich-amount text-base font-bold text-white sandwich-text-truncate max-w-[80px]">${data.amountB2}</span>
+          <span class="sandwich-arrow mx-1">${arrowIcon}</span>
+          <span class="sandwich-userva flex items-center gap-1">${userIcon}<span class="text-xs text-[#B056FF]">→ VA</span></span>
+          <span class="sandwich-token2 text-xs text-secondary font-bold sandwich-text-truncate max-w-[60px]">${data.tokenC2}</span>
+          <span class="sandwich-amount2 text-base font-bold text-white sandwich-text-truncate max-w-[100px]">${data.amountC2}</span>
         </div>
       </div>
     </div>
@@ -1318,19 +1475,36 @@ function renderSandwichMonitor() {
 
   monitorElement.innerHTML = `
     <div class="sandwich-monitor-outer">
-      <div>
+      <div class="space-y-3">
         ${pageData.map((data, idx) => sandwichCard(data, idx)).join('')}
       </div>
-      <div class="flex items-center gap-2 text-xs text-secondary mt-4">
-        Show <select id="sandwich-per-page" class="bg-[#232323] border border-[#333] rounded px-1 py-0.5 text-xs">
-          <option value="5" ${sandwichPerPage==5?'selected':''}>5</option>
-          <option value="10" ${sandwichPerPage==10?'selected':''}>10</option>
-          <option value="20" ${sandwichPerPage==20?'selected':''}>20</option>
-          <option value="50" ${sandwichPerPage==50?'selected':''}>50</option>
-        </select> per page
-        <button id="sandwich-prev" class="ml-2 bg-[#232323] px-2 py-1 rounded" ${sandwichPage==1?'disabled':''}>&lt;</button>
-        <span class="ml-2">item <span class="text-green">${startIdx+1} - ${endIdx}</span> <span class="text-secondary">of ${SANDWICH_TOTAL}</span></span>
-        <button id="sandwich-next" class="ml-2 bg-[#232323] px-2 py-1 rounded" ${(endIdx)>=SANDWICH_TOTAL?'disabled':''}>&gt;</button>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 text-xs text-secondary">
+        <div class="flex items-center gap-2">
+          <span>Show</span>
+          <select id="sandwich-per-page" class="sandwich-select bg-[#232323] border border-[#333] rounded px-2 py-1 text-xs focus:outline-none focus:border-[#B056FF] transition-colors">
+            <option value="5" ${sandwichPerPage==5?'selected':''}>5</option>
+            <option value="10" ${sandwichPerPage==10?'selected':''}>10</option>
+            <option value="20" ${sandwichPerPage==20?'selected':''}>20</option>
+            <option value="50" ${sandwichPerPage==50?'selected':''}>50</option>
+          </select>
+          <span>per page</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="sandwich-prev" class="sandwich-pagination-btn bg-[#232323] hover:bg-[#333] px-3 py-1 rounded transition-colors ${sandwichPage==1?'opacity-50 cursor-not-allowed':'hover:border-[#B056FF] border border-transparent'}" ${sandwichPage==1?'disabled':''}>
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <span class="px-2">
+            <span class="text-green">${startIdx+1} - ${endIdx}</span>
+            <span class="text-secondary"> of ${SANDWICH_TOTAL}</span>
+          </span>
+          <button id="sandwich-next" class="sandwich-pagination-btn bg-[#232323] hover:bg-[#333] px-3 py-1 rounded transition-colors ${(endIdx)>=SANDWICH_TOTAL?'opacity-50 cursor-not-allowed':'hover:border-[#B056FF] border border-transparent'}" ${(endIdx)>=SANDWICH_TOTAL?'disabled':''}>
+            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   `;

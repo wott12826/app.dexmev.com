@@ -937,55 +937,128 @@ fetchSandwichTxs();
 const API_TOKEN = 'vqMjURfBHjFWgRCQd4WnyWqv';
 
 async function updateSolanaStats() {
+  console.log('🔄 Updating Solana stats...');
+  
   try {
+    // Проверяем наличие элементов
+    const slotElement = document.getElementById('slot-height');
+    const supplyElement = document.getElementById('supply');
+    const epochCurrentElement = document.getElementById('epoch-current');
+    const epochNextElement = document.getElementById('epoch-next');
+    const epochPercentageElement = document.getElementById('epoch-percentage-text');
+    const epochProgressBarElement = document.getElementById('epoch-progress-bar');
+    const etaElement = document.getElementById('eta');
+    
+    console.log('📋 Elements found:', {
+      slot: !!slotElement,
+      supply: !!supplyElement,
+      epochCurrent: !!epochCurrentElement,
+      epochNext: !!epochNextElement,
+      epochPercentage: !!epochPercentageElement,
+      epochProgressBar: !!epochProgressBarElement,
+      eta: !!etaElement
+    });
+
     // Slot Height
+    console.log('🔍 Fetching slot data...');
     const slotRes = await fetch('https://www.validators.app/api/v1/cluster/slots?network=mainnet', {
       headers: { 'Token': API_TOKEN }
     });
+    
+    if (!slotRes.ok) {
+      throw new Error(`Slot API error: ${slotRes.status} ${slotRes.statusText}`);
+    }
+    
     const slotData = await slotRes.json();
-    if (slotData.currentSlot && document.getElementById('slot-height')) {
-      document.getElementById('slot-height').textContent = slotData.currentSlot.toLocaleString();
+    console.log('📊 Slot data received:', slotData);
+    
+    if (slotData.currentSlot && slotElement) {
+      slotElement.textContent = slotData.currentSlot.toLocaleString();
+      console.log('✅ Slot updated:', slotData.currentSlot.toLocaleString());
     }
 
     // Supply
+    console.log('🔍 Fetching supply data...');
     const supplyRes = await fetch('https://www.validators.app/api/v1/cluster/supply?network=mainnet', {
       headers: { 'Token': API_TOKEN }
     });
+    
+    if (!supplyRes.ok) {
+      throw new Error(`Supply API error: ${supplyRes.status} ${supplyRes.statusText}`);
+    }
+    
     const supplyData = await supplyRes.json();
-    if (supplyData.totalSupply && document.getElementById('supply')) {
-      document.getElementById('supply').textContent = (supplyData.totalSupply / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
+    console.log('📊 Supply data received:', supplyData);
+    
+    if (supplyData.totalSupply && supplyElement) {
+      const supplyFormatted = (supplyData.totalSupply / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
+      supplyElement.textContent = supplyFormatted;
+      console.log('✅ Supply updated:', supplyFormatted);
     }
 
     // Epoch Info
+    console.log('🔍 Fetching epoch data...');
     const epochRes = await fetch('https://www.validators.app/api/v1/cluster/epoch?network=mainnet', {
       headers: { 'Token': API_TOKEN }
     });
+    
+    if (!epochRes.ok) {
+      throw new Error(`Epoch API error: ${epochRes.status} ${epochRes.statusText}`);
+    }
+    
     const epochData = await epochRes.json();
-    if (epochData.epoch && document.getElementById('epoch-current')) {
-      document.getElementById('epoch-current').textContent = epochData.epoch;
+    console.log('📊 Epoch data received:', epochData);
+    
+    if (epochData.epoch && epochCurrentElement) {
+      epochCurrentElement.textContent = epochData.epoch;
+      console.log('✅ Current epoch updated:', epochData.epoch);
     }
-    if (epochData.epoch && document.getElementById('epoch-next')) {
-      document.getElementById('epoch-next').textContent = epochData.epoch + 1;
+    
+    if (epochData.epoch && epochNextElement) {
+      epochNextElement.textContent = epochData.epoch + 1;
+      console.log('✅ Next epoch updated:', epochData.epoch + 1);
     }
-    if (epochData.epochProgress && epochData.epochLength && document.getElementById('epoch-percentage-text')) {
+    
+    if (epochData.epochProgress && epochData.epochLength && epochPercentageElement) {
       const percent = Math.round((epochData.epochProgress / epochData.epochLength) * 100);
-      document.getElementById('epoch-percentage-text').textContent = percent + '%';
-      if (document.getElementById('epoch-progress-bar')) {
-        document.getElementById('epoch-progress-bar').style.width = percent + '%';
+      epochPercentageElement.textContent = percent + '%';
+      console.log('✅ Epoch progress updated:', percent + '%');
+      
+      if (epochProgressBarElement) {
+        epochProgressBarElement.style.width = percent + '%';
+        console.log('✅ Progress bar updated:', percent + '%');
       }
     }
-    if (epochData.epochTimeRemaining && document.getElementById('eta')) {
+    
+    if (epochData.epochTimeRemaining && etaElement) {
       const etaSec = epochData.epochTimeRemaining;
       const days = Math.floor(etaSec / 86400);
       const hours = Math.floor((etaSec % 86400) / 3600);
-      document.getElementById('eta').textContent = `${days}d ${hours}h`;
+      const etaFormatted = `${days}d ${hours}h`;
+      etaElement.textContent = etaFormatted;
+      console.log('✅ ETA updated:', etaFormatted);
     }
+    
+    console.log('✅ All Solana stats updated successfully!');
+    
   } catch (e) {
-    console.error('Error updating Solana stats:', e);
+    console.error('❌ Error updating Solana stats:', e);
+    console.error('❌ Error details:', {
+      message: e.message,
+      stack: e.stack
+    });
   }
 }
+
+// Запускаем обновление каждые 30 секунд
+console.log('🚀 Starting Solana stats updater...');
 setInterval(updateSolanaStats, 30000);
-updateSolanaStats();
+
+// Запускаем первое обновление через 2 секунды после загрузки
+setTimeout(() => {
+  console.log('🔄 Initial Solana stats update...');
+  updateSolanaStats();
+}, 2000);
 </script>
 </body>
 

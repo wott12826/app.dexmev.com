@@ -329,7 +329,7 @@
                                                 </button></div>
                                         </div>
                                     </div>
-                                    <div class="mt-6"><span class="text-sm text-secondary">Address</span><button
+                                    <div class="mt-6" id="copyWalletIcon"><span class="text-sm text-secondary">Address</span><button
                                             class="mt-2.5 w-full inline">
                                             <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
                                                 <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
@@ -826,20 +826,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Находим кнопку и иконку
-        const addressButton = document.querySelector('button.mt-2.5.w-full.inline');
-        const copyIcon = document.getElementById('copyWalletIcon');
-        if (addressButton && copyIcon) {
-            addressButton.addEventListener('click', function(e) {
-                // Если клик был именно по иконке — не дублируем
-                if (e.target === copyIcon) return;
-                copyIcon.click();
-            });
-        }
-    });
-    </script>
+
 </body>
 
 </html>

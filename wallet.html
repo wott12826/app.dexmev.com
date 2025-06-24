@@ -826,6 +826,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Находим кнопку и иконку
+        const addressButton = document.querySelector('button.mt-2.5.w-full.inline');
+        const copyIcon = document.getElementById('copyWalletIcon');
+        if (addressButton && copyIcon) {
+            addressButton.addEventListener('click', function(e) {
+                // Если клик был именно по иконке — не дублируем
+                if (e.target === copyIcon) return;
+                copyIcon.click();
+            });
+        }
+    });
+    </script>
 </body>
 
 </html>

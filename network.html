@@ -1435,7 +1435,7 @@ async function fetchSolanaStats() {
 
     // Circulating Supply
     const supplyEl = document.getElementById('supply');
-    if (supplyEl) supplyEl.textContent = (Number(data.circulating_supply) / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + ' SOL';
+    if (supplyEl) supplyEl.textContent = (Number(data.circulating_supply) / 1e9).toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
 
     // Epoch Current
     const epochCurrentEl = document.getElementById('epoch-current');
@@ -1467,7 +1467,7 @@ async function fetchSolanaStats() {
 }
 
 fetchSolanaStats();
-setInterval(fetchSolanaStats, 10000);
+setInterval(fetchSolanaStats, 5000);
 </script>
 </body>
 

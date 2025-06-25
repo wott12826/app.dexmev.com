@@ -9,6 +9,15 @@
     <link data-rh="true" rel="icon" href="../../favicon-logo.svg">
     <title>DM Dashboard</title>
     <meta name="description" content="DM Dashboard description">
+    <style>
+        .active-percent-btn {
+    background: linear-gradient(135deg, #FF00FF 0%, #930093 100%) !important;
+    box-shadow: 0 0 10px #FF00FF, 0 0 20px #930093;
+    color: #fff !important;
+    border-radius: 10px;
+    opacity: 1 !important;
+}
+    </style>
 </head>
 
 <body class="antialiased">
@@ -2197,11 +2206,16 @@ setTimeout(updateSolanaStats, 1000);
             }
         }
         document.querySelectorAll('[data-percent-btn]').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const percent = parseFloat(btn.getAttribute('data-percent-btn'));
-                setPercent(percent);
-            });
-        });
+    btn.addEventListener('click', function() {
+        // Снять выделение со всех
+        document.querySelectorAll('[data-percent-btn]').forEach(b => b.classList.remove('active-percent-btn'));
+        // Выделить текущую
+        btn.classList.add('active-percent-btn');
+        // Логика подстановки значения
+        const percent = parseFloat(btn.getAttribute('data-percent-btn'));
+        setPercent(percent);
+    });
+});
     });
     </script>
 </body>

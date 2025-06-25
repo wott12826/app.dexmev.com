@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="../../_next/static/css/ea903d5c6198cacb.css" data-precedence="next">
     <title>DM Dashboard</title>
     <meta name="description" content="DM Dashboard description">
+    <style>
+        .active-percent-btn {
+    background: linear-gradient(135deg, #FF00FF 0%, #930093 100%) !important;
+    box-shadow: 0 0 10px #FF00FF, 0 0 20px #930093;
+    color: #fff !important;
+    border-radius: 10px;
+    opacity: 1 !important;
+}
+    </style>
 </head>
 
 <body class="antialiased">
@@ -270,8 +279,8 @@
                                                 <div class="text-sm">Solana</div>
                                             </div>
                                             <div>
-                                                <div class="text-right text-sm text-green">0.00000<!-- --> SOL</div>
-                                                <div class="text-right text-xs">0.00<!-- --> USDT</div>
+                                                <div class="text-right text-sm text-green" id="wallet-balance-sol">0.0<!-- --> SOL</div>
+                                                <div class="text-right text-xs" id="wallet-balance-usdt">0.00<!-- --> USDT</div>
                                             </div>
                                         </div>
                                     </div>
@@ -313,25 +322,24 @@
                                                         <stop offset="1" stop-color="#DC1FFF"></stop>
                                                     </lineargradient>
                                                 </defs>
-                                            </svg><input type="string" class="ml-3 mr-auto w-32 text-sm"
-                                                placeholder="0.00000" value="0.00000">
+                                            </svg><input id="wallet-amount-input" type="string" class="ml-3 mr-auto w-32 text-sm" placeholder="0.0" value="0.0">
                                             <div><button
-                                                    class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]" data-percent-btn="0.25">
                                                     <div class="inline"><span
                                                             class="bg-transparent text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">25<!-- -->%</span>
                                                     </div>
                                                 </button><button
-                                                    class="bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]" data-percent-btn="0.5">
                                                     <div class="inline"><span
-                                                            class="bg-gd-magenta text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">50<!-- -->%</span>
+                                                            class="bg-transparent text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">50<!-- -->%</span>
                                                     </div>
                                                 </button><button
-                                                    class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]" data-percent-btn="0.75">
                                                     <div class="inline"><span
                                                             class="bg-transparent text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">75<!-- -->%</span>
                                                     </div>
                                                 </button><button
-                                                    class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                                    class="bg-transparent p-0.5 w-[42px] h-[42px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]" data-percent-btn="1">
                                                     <div class="inline"><span
                                                             class="bg-transparent text-xs text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">100<!-- -->%</span>
                                                     </div>
@@ -2919,6 +2927,37 @@ setTimeout(updateSolanaStats, 1000);
         });
     });
     </script>
+    <script>
+        let walletBalance = 0.0; // Здесь можно подставить реальный баланс
+        let walletBalanceUSDT = 0.00; // Здесь можно подставить реальный баланс в USDT
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Баланс
+            const solDiv = document.getElementById('wallet-balance-sol');
+            const usdtDiv = document.getElementById('wallet-balance-usdt');
+            if (solDiv) solDiv.innerHTML = (walletBalance > 0 ? walletBalance.toFixed(5) : '0.0') + '<!-- --> SOL';
+            if (usdtDiv) usdtDiv.innerHTML = (walletBalanceUSDT > 0 ? walletBalanceUSDT.toFixed(2) : '0.00') + '<!-- --> USDT';
+            // Input и проценты
+            const amountInput = document.getElementById('wallet-amount-input');
+            if (amountInput) {
+                amountInput.value = walletBalance > 0 ? walletBalance.toFixed(5) : '0.0';
+            }
+            function setPercent(percent) {
+                if (amountInput) {
+                    const value = walletBalance * percent;
+                    amountInput.value = value > 0 ? value.toFixed(5) : '0.0';
+                }
+            }
+            document.querySelectorAll('[data-percent-btn]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('[data-percent-btn]').forEach(b => b.classList.remove('active-percent-btn'));
+                    btn.classList.add('active-percent-btn');
+                    const percent = parseFloat(btn.getAttribute('data-percent-btn'));
+                    setPercent(percent);
+                });
+            });
+        });
+        </script>
     </body>
 </body>
 

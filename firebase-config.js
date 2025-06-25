@@ -280,13 +280,13 @@ firebaseAuth.onAuthStateChanged((user) => {
       window.location.href = 'dashboard.html';
     }
   } else {
-    // User is signed out, redirect to signin if on protected pages
-    // But don't redirect if user is on signup page
-    if (window.location.pathname.includes('dashboard.html') || 
+    // User is signed out, redirect to signin if на защищённых страницах, кроме deploy.html
+    if ((window.location.pathname.includes('dashboard.html') || 
         window.location.pathname.includes('wallet.html') || 
         window.location.pathname.includes('settings.html') ||
         window.location.pathname.includes('mev-bots.html') ||
-        window.location.pathname.includes('network.html')) {
+        window.location.pathname.includes('network.html')) &&
+        !window.location.pathname.includes('mev-bots/deploy.html')) {
       window.location.href = 'signin.html';
     }
   }

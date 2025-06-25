@@ -2981,27 +2981,37 @@ setTimeout(updateSolanaStats, 1000);
             });
             </script>
             <script>
-                const slippageBtn = document.getElementById('slippage-dropdown-btn');
-                const slippageDropdown = document.getElementById('slippage-dropdown');
-                const slippageInput = document.getElementById('slippage-input');
+                document.addEventListener('DOMContentLoaded', function() {
+                  const slippageBtn = document.getElementById('slippage-dropdown-btn');
+                  const slippageDropdown = document.getElementById('slippage-dropdown');
+                  const slippageInput = document.getElementById('slippage-input');
                 
-                slippageBtn.addEventListener('click', function(e) {
-                  e.stopPropagation();
-                  slippageDropdown.style.display = slippageDropdown.style.display === 'block' ? 'none' : 'block';
-                });
+                  if (!slippageBtn || !slippageDropdown || !slippageInput) return;
                 
-                slippageDropdown.querySelectorAll('.slippage-option').forEach(opt => {
-                  opt.addEventListener('click', function() {
-                    const value = opt.getAttribute('data-value');
-                    slippageInput.value = value;
-                    slippageBtn.innerHTML = value + slippageBtn.innerHTML.slice(slippageBtn.innerHTML.indexOf('<svg'));
+                  slippageBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    slippageDropdown.style.display = slippageDropdown.style.display === 'block' ? 'none' : 'block';
+                  });
+                
+                  slippageDropdown.querySelectorAll('.slippage-option').forEach(opt => {
+                    opt.addEventListener('click', function(e) {
+                      e.stopPropagation();
+                      const value = opt.getAttribute('data-value');
+                      slippageInput.value = value;
+                      slippageBtn.innerHTML = value + slippageBtn.innerHTML.slice(slippageBtn.innerHTML.indexOf('<svg'));
+                      slippageDropdown.style.display = 'none';
+                    });
+                  });
+                
+                  // Закрытие дропдауна при клике вне
+                  document.addEventListener('click', function() {
                     slippageDropdown.style.display = 'none';
                   });
-                });
                 
-                // Закрытие дропдауна при клике вне
-                document.addEventListener('click', function() {
-                  slippageDropdown.style.display = 'none';
+                  // Не закрывать при клике внутри дропдауна
+                  slippageDropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                  });
                 });
                 </script>
     </body>

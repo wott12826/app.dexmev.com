@@ -189,15 +189,14 @@
                         <div class="flex items-start h-full w-full rounded-[17px] bg-gd-main p-5">
                             <div>
                                 <p class="text-sm text-secondary">Slot Height</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px]">...</div>
+                                <div id="slot-height" class="mt-2 text-[32px] font-bold leading-[48px]">348,639,437</div>
                             </div>
                             <div class="ml-20">
                                 <p class="text-sm text-secondary">Supply</p>
-                                <div class="mt-2 text-[32px] font-bold leading-[48px] text-green">...</div>
+                                <div id="supply" class="mt-2 text-[32px] font-bold leading-[48px] text-green">531.2M</div>
                             </div>
                             <div class="ml-24">
-                                <p class="text-sm text-secondary">Epoch</p><button
-                                    class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-8 h-8 mt-[14px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
+                                <p class="text-sm text-secondary">Epoch</p><button class="bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px] w-8 h-8 mt-[14px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                     <div class="inline"><span
                                             class="bg-gd-magenta-2 flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
                                                 xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none"
@@ -218,22 +217,18 @@
                                             </svg></span></div>
                                 </button>
                             </div>
-                            <div class="ml-3 flex items-end gap-3"><span
-                                    class="relative top-[14px] text-[32px] font-bold">...</span>
+                            <div class="ml-3 flex items-end gap-3"><span id="epoch-current" class="relative top-[14px] text-[32px] font-bold">807</span>
                                 <div class="w-[500px]">
                                     <div class="relative">
-                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA ...</p>
-                                        <div class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out"
-                                            style="left:calc(0% - 0px)">0<!-- -->%</div>
-                                        <div
-                                            class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
+                                        <p class="absolute -top-[42px] right-1 text-sm text-secondary">ETA <span id="eta">1d 22h</span></p>
+                                        <div id="epoch-percentage-text" class="absolute -top-[22px] text-sm text-secondary transition-all duration-1000 ease-in-out" style="left:calc(4% - 0px)">4%</div>
+                                        <div class="mt-[42px] rounded-md bg-gradient-to-br from-[#000000b0] to-[#ffffff15] p-[1.5px]">
                                             <div class="h-4 w-full rounded-md bg-dark">
-                                                <div class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out"
-                                                    style="width:0%"></div>
+                                                <div id="epoch-progress-bar" class="h-full rounded-md bg-magenta transition-all duration-1000 ease-in-out" style="width:4%"></div>
                                             </div>
                                         </div>
                                     </div>
-                                </div><span class="relative top-[14px] text-[32px] font-bold text-secondary">...</span>
+                                </div><span id="epoch-next" class="relative top-[14px] text-[32px] font-bold text-secondary">808</span>
                             </div>
                         </div>
                     </section>
@@ -1689,7 +1684,7 @@
                                                 class="flex items-center justify-between p-[5px] pl-4 h-full w-full rounded-[8px] bg-dark">
                                                 <input type="text" placeholder="0-30" min="0" max="30" value=""></div>
                                         </div>
-                                    </div><span class="yellow-label-common">Ñan only return ~20-30 mints at maximum due
+                                    </div><span class="yellow-label-common">ï¿½an only return ~20-30 mints at maximum due
                                         to their limitation on the api</span>
                                     <div class="mt-4 text-secondary flex items-center gap-[3px] text-sm"><span>Webserver
                                             Thread Count</span> <button data-state="closed" class="cursor-default"><svg
@@ -2654,7 +2649,7 @@
     <script>(self.__next_f = self.__next_f || []).push([0]); self.__next_f.push([2, null])</script>
     <script>self.__next_f.push([1, "1:HL[\"/_next/static/css/ea903d5c6198cacb.css\",\"style\"]\n"])</script>
     <script>self.__next_f.push([1, "2:I[2846,[],\"\"]\n4:I[9107,[],\"ClientPageRoot\"]\n5:I[199,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"63\",\"static/chunks/63-edabb0564f32b29a.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"11\",\"static/chunks/11-740fd8c49e11b861.js\",\"4\",\"static/chunks/4-ae7b5d97a93e19d4.js\",\"724\",\"static/chunks/724-292f2651a6555735.js\",\"564\",\"static/chunks/app/mev-bots/deploy/mev-rdc/page-0bcf527d10ab433b.js\"],\"default\",1]\n6:I[4707,[],\"\"]\n7:I[6423,[],\"\"]\n8:I[3408,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"63\",\"static/chunks/63-edabb0564f32b29a.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"185\",\"static/chunks/app/layout-69e37278711243f1.js\"],\"default\",1]\n9:I[2972,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"249\",\"static/chunks/app/mev-bots/deploy/page-54abc9148775d4e2.js\"],\"\"]\nc:I[1060,[],\"\"]\na:{}\nd:[]\n"])</script>
-    <script>self.__next_f.push([1, "0:[\"$\",\"$L2\",null,{\"buildId\":\"cBLe5wMNn_jJiYrdUbgQc\",\"assetPrefix\":\"\",\"urlParts\":[\"\",\"mev-bots\",\"deploy\",\"mev-rdc\"],\"initialTree\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"mev-rdc\",{\"children\":[\"__PAGE__\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"mev-rdc\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$5\"}],null],null],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\",\"mev-rdc\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ea903d5c6198cacb.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[\"$\",\"div\",null,{\"className\":\"mt-[-120px] flex h-screen w-[1240px] flex-col items-center justify-center\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"\",\"children\":\"Not found – 404!\"}],[\"$\",\"div\",null,{\"className\":\"mt-2\",\"children\":[\"$\",\"$L9\",null,{\"href\":\"/\",\"className\":\"text-blue-500 text-magenta\",\"children\":\"Go back to Home\"}]}]]}],\"notFoundStyles\":[]}],\"params\":\"$a\"}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$Lb\"],\"globalErrorComponent\":\"$c\",\"missingSlots\":\"$Wd\"}]\n"])</script>
+    <script>self.__next_f.push([1, "0:[\"$\",\"$L2\",null,{\"buildId\":\"cBLe5wMNn_jJiYrdUbgQc\",\"assetPrefix\":\"\",\"urlParts\":[\"\",\"mev-bots\",\"deploy\",\"mev-rdc\"],\"initialTree\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"mev-rdc\",{\"children\":[\"__PAGE__\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"mev-rdc\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$5\"}],null],null],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\",\"mev-rdc\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ea903d5c6198cacb.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[\"$\",\"div\",null,{\"className\":\"mt-[-120px] flex h-screen w-[1240px] flex-col items-center justify-center\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"\",\"children\":\"Not found ï¿½ 404!\"}],[\"$\",\"div\",null,{\"className\":\"mt-2\",\"children\":[\"$\",\"$L9\",null,{\"href\":\"/\",\"className\":\"text-blue-500 text-magenta\",\"children\":\"Go back to Home\"}]}]]}],\"notFoundStyles\":[]}],\"params\":\"$a\"}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$Lb\"],\"globalErrorComponent\":\"$c\",\"missingSlots\":\"$Wd\"}]\n"])</script>
     <script>self.__next_f.push([1, "b:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}]]\n3:null\n"])</script>
 </body>
 

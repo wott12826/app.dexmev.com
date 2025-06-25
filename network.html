@@ -1713,9 +1713,8 @@ async function updateSolanaStats() {
       const estimatedSeconds = (remainingProgress / 100) * (432000); // ~5 days per epoch
       const days = Math.floor(estimatedSeconds / 86400);
       const hours = Math.floor((estimatedSeconds % 86400) / 3600);
-      const etaFormatted = `${days}d ${hours}h`;
-      etaElement.textContent = etaFormatted;
-      console.log('✅ ETA updated:', etaFormatted);
+      etaElement.textContent = `${days}d ${hours}h`;
+      console.log('✅ ETA updated:', `${days}d ${hours}h`);
     }
     
     console.log('✅ All Solana stats updated successfully!');
@@ -1841,6 +1840,38 @@ async function fetchSolanaStats() {
 
 fetchSolanaStats();
 setInterval(fetchSolanaStats, 5000);
+</script>
+
+<script src="solana-demo-stats.js"></script>
+<script>
+function updateSolanaStats() {
+  window.solanaDemoStats.updateDemoData();
+
+  const slotElement = document.getElementById('slot-height');
+  const supplyElement = document.getElementById('supply');
+  const epochCurrentElement = document.getElementById('epoch-current');
+  const epochNextElement = document.getElementById('epoch-next');
+  const epochPercentageElement = document.getElementById('epoch-percentage-text');
+  const epochProgressBarElement = document.getElementById('epoch-progress-bar');
+  const etaElement = document.getElementById('eta');
+
+  if (slotElement) slotElement.textContent = window.solanaDemoStats.currentSlot.toLocaleString();
+  if (supplyElement) supplyElement.textContent = window.solanaDemoStats.currentSupply.toLocaleString('en-US', {maximumFractionDigits: 1}) + 'M';
+  if (epochCurrentElement) epochCurrentElement.textContent = window.solanaDemoStats.currentEpoch;
+  if (epochNextElement) epochNextElement.textContent = window.solanaDemoStats.currentEpoch + 1;
+  if (epochPercentageElement) epochPercentageElement.textContent = Math.round(window.solanaDemoStats.epochProgress) + '%';
+  if (epochProgressBarElement) epochProgressBarElement.style.width = Math.round(window.solanaDemoStats.epochProgress) + '%';
+
+  if (etaElement) {
+    const remainingProgress = 100 - window.solanaDemoStats.epochProgress;
+    const estimatedSeconds = (remainingProgress / 100) * (432000); // ~5 days per epoch
+    const days = Math.floor(estimatedSeconds / 86400);
+    const hours = Math.floor((estimatedSeconds % 86400) / 3600);
+    etaElement.textContent = `${days}d ${hours}h`;
+  }
+}
+setInterval(updateSolanaStats, 5000);
+setTimeout(updateSolanaStats, 1000);
 </script>
 
 </body>

@@ -17,6 +17,14 @@
     border-radius: 10px;
     opacity: 1 !important;
 }
+.custom-green-checkbox.checked-green .neumorphism-border-2 {
+    box-shadow: 0 0 0 2px #14F195, 0 0 8px #14F19555;
+}
+.green-tick {
+    position: absolute;
+    left: 2px; top: 2px;
+    pointer-events: none;
+}
     </style>
 </head>
 
@@ -1702,8 +1710,8 @@
                                                                     </path>
                                                                     <defs>
                                                                         <lineargradient id="paint0_linear_2123_487"
-                                                                            x1="0.905" x2="15.149" y1="1.917"
-                                                                            y2="15.752" gradientunits="userSpaceOnUse">
+                                                                            x1="0.905" x2="15.149" y1="1.917" y2="15.752"
+                                                                            gradientunits="userSpaceOnUse">
                                                                             <stop stop-color="#1F2023"></stop>
                                                                             <stop offset="1" stop-color="#27282C">
                                                                             </stop>
@@ -2231,6 +2239,26 @@ document.querySelectorAll('button[role="switch"]').forEach(btn => {
         // Синхронизируем скрытый input[type=checkbox]
         const input = btn.parentElement.querySelector('input[type="checkbox"]');
         if (input) input.checked = !checked;
+    });
+});
+</script>
+<script>
+document.querySelectorAll('.custom-green-checkbox').forEach(box => {
+    box.addEventListener('click', function() {
+        box.classList.toggle('checked-green');
+        // Добавляем/убираем SVG-галочку
+        const flex = box.querySelector('.flex');
+        let tick = flex.querySelector('.green-tick');
+        if (box.classList.contains('checked-green')) {
+            if (!tick) {
+                tick = document.createElement('span');
+                tick.className = 'green-tick';
+                tick.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 34 32" class="mt-[-1px] h-[9px] w-[10px]"><path fill="#14F195" d="M14.287 31.163h-.015a.7.7 0 0 1-.5-.233L.593 16.11a.74.74 0 0 1-.05-.916.685.685 0 0 1 .86-.227l12.065 5.84c.101.05.22.026.298-.058L32.168.863a.68.68 0 0 1 .94-.067.74.74 0 0 1 .15.96L14.952 30.753a.7.7 0 0 1-.09.116l-.08.083a.7.7 0 0 1-.495.212"></path></svg>`;
+                flex.appendChild(tick);
+            }
+        } else {
+            if (tick) tick.remove();
+        }
     });
 });
 </script>

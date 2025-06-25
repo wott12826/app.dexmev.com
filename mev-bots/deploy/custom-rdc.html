@@ -2207,11 +2207,11 @@ setTimeout(updateSolanaStats, 1000);
         }
         document.querySelectorAll('[data-percent-btn]').forEach(btn => {
     btn.addEventListener('click', function() {
-        // Снять выделение со всех
+        // Снять выделение со всех кнопок
         document.querySelectorAll('[data-percent-btn]').forEach(b => b.classList.remove('active-percent-btn'));
-        // Выделить текущую
+        // Выделить только текущую
         btn.classList.add('active-percent-btn');
-        // Логика подстановки значения
+        // Подставить значение
         const percent = parseFloat(btn.getAttribute('data-percent-btn'));
         setPercent(percent);
     });

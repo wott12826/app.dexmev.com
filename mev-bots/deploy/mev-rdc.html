@@ -2903,6 +2903,23 @@ function updateSolanaStats() {
 setInterval(updateSolanaStats, 5000);
 setTimeout(updateSolanaStats, 1000);
 </script>
+<script>
+    document.querySelectorAll('button[role="switch"]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const checked = btn.getAttribute('aria-checked') === 'true';
+            // Переключаем состояние
+            btn.setAttribute('aria-checked', !checked);
+            btn.setAttribute('data-state', !checked ? 'checked' : 'unchecked');
+            // Меняем data-state у бегунка
+            const span = btn.querySelector('span[data-state]');
+            if (span) span.setAttribute('data-state', !checked ? 'checked' : 'unchecked');
+            // Синхронизируем скрытый input[type=checkbox]
+            const input = btn.parentElement.querySelector('input[type="checkbox"]');
+            if (input) input.checked = !checked;
+        });
+    });
+    </script>
+    </body>
 </body>
 
 </html>

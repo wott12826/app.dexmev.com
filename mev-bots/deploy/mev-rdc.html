@@ -639,18 +639,28 @@
                                     </div><label
                                         class="mt-5 block cursor-pointer neumorphism-border-1 rounded-md p-px overflow-hidden">
                                         <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
-                                            <div
-                                                class="text-sm flex items-center justify-between !px-[15px] py-[14px] h-full w-full rounded-[8px] bg-dark">
-                                                <span>Slippage:</span><input type="text"
-                                                    placeholder="Enter slippage (e.g., Auto or number)"
-                                                    value="Auto"><button
-                                                    class="flex items-center gap-2.5 text-magenta">Auto <svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                                        fill="none" viewbox="0 0 8 15" class="min-h-6 min-w-4">
-                                                        <path stroke="#AEB9E1" stroke-linecap="round"
-                                                            stroke-linejoin="round" stroke-width="0.8"
-                                                            d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8"></path>
-                                                    </svg></button></div>
+                                            <div class="text-sm flex items-center justify-between !px-[15px] py-[14px] h-full w-full rounded-[8px] bg-dark" style="position:relative;">
+                                                <span>Slippage:</span>
+                                                <input id="slippage-input" type="text" placeholder="Enter slippage (e.g., Auto or number)" value="Auto" readonly style="width:80px;">
+                                                <button id="slippage-dropdown-btn" type="button" class="flex items-center gap-2.5 text-magenta">Auto
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15" class="min-h-6 min-w-4">
+                                                    <path stroke="#AEB9E1" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="m6 5.094-2-2-2 2M2 9.762l2 2 2-2" opacity="0.8"></path>
+                                                  </svg>
+                                                </button>
+                                                <div id="slippage-dropdown" style="display:none; position:absolute; right:0; top:100%; z-index:10; background:#232329; border-radius:8px; box-shadow:0 2px 8px #0008;">
+                                                  <div class="slippage-option" data-value="Auto" style="padding:8px 16px; cursor:pointer;">Auto</div>
+                                                  <div class="slippage-option" data-value="1" style="padding:8px 16px; cursor:pointer;">1</div>
+                                                  <div class="slippage-option" data-value="2" style="padding:8px 16px; cursor:pointer;">2</div>
+                                                  <div class="slippage-option" data-value="3" style="padding:8px 16px; cursor:pointer;">3</div>
+                                                  <div class="slippage-option" data-value="4" style="padding:8px 16px; cursor:pointer;">4</div>
+                                                  <div class="slippage-option" data-value="5" style="padding:8px 16px; cursor:pointer;">5</div>
+                                                  <div class="slippage-option" data-value="6" style="padding:8px 16px; cursor:pointer;">6</div>
+                                                  <div class="slippage-option" data-value="7" style="padding:8px 16px; cursor:pointer;">7</div>
+                                                  <div class="slippage-option" data-value="8" style="padding:8px 16px; cursor:pointer;">8</div>
+                                                  <div class="slippage-option" data-value="9" style="padding:8px 16px; cursor:pointer;">9</div>
+                                                  <div class="slippage-option" data-value="10" style="padding:8px 16px; cursor:pointer;">10</div>
+                                                </div>
+                                              </div>
                                         </div>
                                     </label>
                                 </div>
@@ -2970,6 +2980,30 @@ setTimeout(updateSolanaStats, 1000);
               });
             });
             </script>
+            <script>
+                const slippageBtn = document.getElementById('slippage-dropdown-btn');
+                const slippageDropdown = document.getElementById('slippage-dropdown');
+                const slippageInput = document.getElementById('slippage-input');
+                
+                slippageBtn.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  slippageDropdown.style.display = slippageDropdown.style.display === 'block' ? 'none' : 'block';
+                });
+                
+                slippageDropdown.querySelectorAll('.slippage-option').forEach(opt => {
+                  opt.addEventListener('click', function() {
+                    const value = opt.getAttribute('data-value');
+                    slippageInput.value = value;
+                    slippageBtn.innerHTML = value + slippageBtn.innerHTML.slice(slippageBtn.innerHTML.indexOf('<svg'));
+                    slippageDropdown.style.display = 'none';
+                  });
+                });
+                
+                // Закрытие дропдауна при клике вне
+                document.addEventListener('click', function() {
+                  slippageDropdown.style.display = 'none';
+                });
+                </script>
     </body>
 </body>
 

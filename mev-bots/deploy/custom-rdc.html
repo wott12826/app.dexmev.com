@@ -25,6 +25,104 @@
     left: 2px; top: 2px;
     pointer-events: none;
 }
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1F2023 0%, #27282C 100%);
+    border: 1px solid #343538;
+    border-radius: 18px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.show .modal-content {
+    transform: scale(1);
+}
+
+.modal-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.modal-message {
+    font-size: 16px;
+    color: #AEB9E1;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.modal-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FF00FF;
+    margin-bottom: 30px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.modal-btn-primary {
+    background: linear-gradient(135deg, #FF00FF 0%, #930093 100%);
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.modal-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+}
+
+.modal-btn-secondary {
+    background: linear-gradient(135deg, #343538 0%, #1F2023 100%);
+    color: #AEB9E1;
+    border: 1px solid #343538;
+}
+
+.modal-btn-secondary:hover {
+    background: linear-gradient(135deg, #404244 0%, #27282C 100%);
+    color: #fff;
+}
     </style>
 </head>
 
@@ -493,6 +591,7 @@
                         <div
                             class="flex justify-between items-center !py-[30px] !pl-[30px] h-full w-full rounded-[17px] bg-gd-main p-5">
                             <h2 class="text-2xl font-semibold">MevDex Node Bot Settings</h2><button
+                                id="saveBundleBtn"
                                 class="bg-gradient-to-br from-[#FF00FF] to-[#930093] p-px shadow-magenta-btn w-[248px] h-[50px] relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
                                 <div class="inline"><span
                                         class="bg-gd-magenta text-[22px] flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2">Save
@@ -562,10 +661,8 @@
                                                     </path>
                                                 </svg>
                                                 <div class="!gap-[5px] flex items-center gap-[3px] text-sm"><span>
-                                                        <h2 class="whitespace-nowrap text-base font-medium">Node
-                                                            Status<span
-                                                                class="ml-2.5 text-sm font-normal text-secondary">Custom
-                                                                Node</span></h2>
+                                                        <h2 class="whitespace-nowrap text-base font-medium">RDC Settings
+                                                        </h2>
                                                     </span> <button data-state="closed" class="cursor-default"><svg
                                                             xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                                             fill="none" viewbox="0 0 17 16"
@@ -1604,8 +1701,8 @@
                                                                     </path>
                                                                     <defs>
                                                                         <lineargradient id="paint0_linear_2123_487"
-                                                                            x1="0.905" x2="15.149" y1="1.917"
-                                                                            y2="15.752" gradientunits="userSpaceOnUse">
+                                                                            x1="0.905" x2="15.149" y1="1.917" y2="15.752"
+                                                                            gradientunits="userSpaceOnUse">
                                                                             <stop stop-color="#1F2023"></stop>
                                                                             <stop offset="1" stop-color="#27282C">
                                                                             </stop>
@@ -1663,8 +1760,8 @@
                                                                     </path>
                                                                     <defs>
                                                                         <lineargradient id="paint0_linear_2123_487"
-                                                                            x1="0.905" x2="15.149" y1="1.917"
-                                                                            y2="15.752" gradientunits="userSpaceOnUse">
+                                                                            x1="0.905" x2="15.149" y1="1.917" y2="15.752"
+                                                                            gradientunits="userSpaceOnUse">
                                                                             <stop stop-color="#1F2023"></stop>
                                                                             <stop offset="1" stop-color="#27282C">
                                                                             </stop>
@@ -1760,8 +1857,8 @@
                                                                     </path>
                                                                     <defs>
                                                                         <lineargradient id="paint0_linear_2123_487"
-                                                                            x1="0.905" x2="15.149" y1="1.917"
-                                                                            y2="15.752" gradientunits="userSpaceOnUse">
+                                                                            x1="0.905" x2="15.149" y1="1.917" y2="15.752"
+                                                                            gradientunits="userSpaceOnUse">
                                                                             <stop stop-color="#1F2023"></stop>
                                                                             <stop offset="1" stop-color="#27282C">
                                                                             </stop>
@@ -1936,7 +2033,7 @@
     <script>(self.__next_f = self.__next_f || []).push([0]); self.__next_f.push([2, null])</script>
     <script>self.__next_f.push([1, "1:HL[\"/_next/static/css/ea903d5c6198cacb.css\",\"style\"]\n"])</script>
     <script>self.__next_f.push([1, "2:I[2846,[],\"\"]\n4:I[9107,[],\"ClientPageRoot\"]\n5:I[2332,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"63\",\"static/chunks/63-edabb0564f32b29a.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"11\",\"static/chunks/11-740fd8c49e11b861.js\",\"4\",\"static/chunks/4-ae7b5d97a93e19d4.js\",\"724\",\"static/chunks/724-292f2651a6555735.js\",\"351\",\"static/chunks/app/mev-bots/deploy/custom-rdc/page-f2aa7f0448873dfb.js\"],\"default\",1]\n6:I[4707,[],\"\"]\n7:I[6423,[],\"\"]\n8:I[3408,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"63\",\"static/chunks/63-edabb0564f32b29a.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"185\",\"static/chunks/app/layout-69e37278711243f1.js\"],\"default\",1]\n9:I[2972,[\"762\",\"static/chunks/52271efe-2af44b81dc49968b.js\",\"461\",\"static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js\",\"972\",\"static/chunks/972-be09035380864e2e.js\",\"40\",\"static/chunks/40-0bafcf2ac0e40dc8.js\",\"105\",\"static/chunks/105-d42c494cfc70b896.js\",\"249\",\"static/chunks/app/mev-bots/deploy/page-54abc9148775d4e2.js\"],\"\"]\nc:I[1060,[],\"\"]\na:{}\nd:[]\n"])</script>
-    <script>self.__next_f.push([1, "0:[\"$\",\"$L2\",null,{\"buildId\":\"cBLe5wMNn_jJiYrdUbgQc\",\"assetPrefix\":\"\",\"urlParts\":[\"\",\"mev-bots\",\"deploy\",\"custom-rdc\"],\"initialTree\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"custom-rdc\",{\"children\":[\"__PAGE__\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"custom-rdc\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$5\"}],null],null],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\",\"custom-rdc\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ea903d5c6198cacb.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[\"$\",\"div\",null,{\"className\":\"mt-[-120px] flex h-screen w-[1240px] flex-col items-center justify-center\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"\",\"children\":\"Not found � 404!\"}],[\"$\",\"div\",null,{\"className\":\"mt-2\",\"children\":[\"$\",\"$L9\",null,{\"href\":\"/\",\"className\":\"text-blue-500 text-magenta\",\"children\":\"Go back to Home\"}]}]]}],\"notFoundStyles\":[]}],\"params\":\"$a\"}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$Lb\"],\"globalErrorComponent\":\"$c\",\"missingSlots\":\"$Wd\"}]\n"])</script>
+    <script>self.__next_f.push([1, "0:[\"$\",\"$L2\",null,{\"buildId\":\"cBLe5wMNn_jJiYrdUbgQc\",\"assetPrefix\":\"\",\"urlParts\":[\"\",\"mev-bots\",\"deploy\",\"custom-rdc\"],\"initialTree\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"custom-rdc\",{\"children\":[\"__PAGE__\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"mev-bots\",{\"children\":[\"deploy\",{\"children\":[\"custom-rdc\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$5\"}],null],null],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\",\"custom-rdc\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\",\"deploy\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[null,[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"mev-bots\",\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\"}]],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ea903d5c6198cacb.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"$L8\",null,{\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[\"$\",\"div\",null,{\"className\":\"mt-[-120px] flex h-screen w-[1240px] flex-col items-center justify-center\",\"children\":[[\"$\",\"h1\",null,{\"className\":\"\",\"children\":\"Not found 404!\"}],[\"$\",\"div\",null,{\"className\":\"mt-2\",\"children\":[\"$\",\"$L9\",null,{\"href\":\"/\",\"className\":\"text-blue-500 text-magenta\",\"children\":\"Go back to Home\"}]}]]}],\"notFoundStyles\":[]}],\"params\":\"$a\"}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$Lb\"],\"globalErrorComponent\":\"$c\",\"missingSlots\":\"$Wd\"}]\n"])</script>
     <script>self.__next_f.push([1, "b:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}]]\n3:null\n"])</script>
     <script src="../../solana-demo-stats.js"></script>
     <script type="module">
@@ -1965,13 +2062,13 @@
 
             if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
                 try {
-                    // ���������� ���������� ����� ��� ��������� �������
+                    //      
                     const response = await window.solana.request({
                         method: 'getBalance'
                     });
                     
                     if (response && response.value !== undefined) {
-                        const solBalance = response.value / 1000000000; // ������������ lamports � SOL
+                        const solBalance = response.value / 1000000000; //  lamports SOL
                         balanceElement.textContent = solBalance.toFixed(4);
                         console.log('Network page - SOL balance updated:', solBalance.toFixed(4));
                     } else {
@@ -1980,7 +2077,7 @@
                     }
                 } catch (error) {
                     console.error('Network page - Error getting SOL balance:', error);
-                    // ���������� 0 ��� ������, � �� ����-������
+                    //  0  ,  -
                     balanceElement.textContent = '0';
                 }
             } else {
@@ -1991,7 +2088,7 @@
         async function updateWalletBtn() {
             console.log('Network page - updateWalletBtn called');
             
-            // ��������� ����� ������ �����������
+            //    
             const isConnected = localStorage.getItem(WALLET_CONNECTED_KEY) === 'true';
             
             if (!isConnected) {
@@ -2000,7 +2097,7 @@
                 copyIcon.style.display = 'none';
                 disconnectBtn.style.display = 'none';
                 
-                // ���������� ������ �� 0
+                //    0
                 const balanceElement = document.getElementById('solBalance');
                 if (balanceElement) {
                     balanceElement.textContent = '0';
@@ -2025,9 +2122,9 @@
                     walletText.innerHTML = `Wallet Solana: <span class="ml-2.5 text-blue" id="walletShortAddr">${shortAddress(pubKey)}</span>`;
                     copyIcon.style.display = 'inline-block';
                     disconnectBtn.style.display = 'inline-block';
-                    // ��������� ������ �����������
+                    //   
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
-                    // ��������� ������ SOL
+                    //   SOL
                     await getSolBalance();
                 } else {
                     console.log('Network page - No wallet connected, updating UI to show connect button');
@@ -2036,7 +2133,7 @@
                     disconnectBtn.style.display = 'none';
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
                     
-                    // ���������� ������ �� 0
+                    //    0
                     const balanceElement = document.getElementById('solBalance');
                     if (balanceElement) {
                         balanceElement.textContent = '0';
@@ -2050,7 +2147,7 @@
                 disconnectBtn.style.display = 'none';
                 localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
                 
-                // ���������� ������ �� 0
+                //    0
                 const balanceElement = document.getElementById('solBalance');
                 if (balanceElement) {
                     balanceElement.textContent = '0';
@@ -2070,10 +2167,10 @@
                     console.log('Network page - Successfully connected to Phantom wallet');
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
                     
-                    // ��������� UI � ������
+                    //  UI 
                     await updateWalletBtn();
                     
-                    // ������������� ��������� ������ ����� ����� �����������
+                    //      
                     await getSolBalance();
                     
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'connect', ts: Date.now() }));
@@ -2110,33 +2207,33 @@
             if (window.solana && window.solana.isPhantom) {
                 console.log('Network page - Phantom wallet found, attempting to disconnect...');
                 try {
-                    // ��������� �������
+                    //  
                     await window.solana.disconnect();
                     console.log('Network page - Wallet disconnected successfully');
                     
-                    // ��������� ������ �����������
+                    //   
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
                     
-                    // ������������� ��������� UI
+                    //   UI
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
                     
-                    // ��������� ������ �� 0
+                    //    0
                     const balanceElement = document.getElementById('solBalance');
                     if (balanceElement) {
                         balanceElement.textContent = '0';
                         console.log('Network page - Balance reset to 0 after disconnect');
                     }
                     
-                    // �������������� � ������� ����������
+                    //   
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
                     console.log('Network page - Wallet state updated and synchronized');
                     
-                    // ���������� ������������� ������������
+                    //   
                     console.log('Network page - Wallet disconnected and UI updated');
                     
-                    // ��������� ��������� �������� ����� ������� updateWalletBtn
+                    //      updateWalletBtn
                     setTimeout(() => {
                         updateWalletBtn();
                     }, 100);
@@ -2258,6 +2355,59 @@ document.querySelectorAll('.custom-green-checkbox').forEach(box => {
             }
         } else {
             if (tick) tick.remove();
+        }
+    });
+});
+</script>
+
+<!-- Subscription Modal -->
+<div id="subscriptionModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="modal-title">Подписка требуется</h2>
+        <p class="modal-message">Для доступа к сохранению бандлов, вам надо подписаться</p>
+        <div class="modal-price">Стоимость подписки: 1,000,000 $DEXMEV</div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-primary" id="paySubscriptionBtn">Оплатить</button>
+            <button class="modal-btn modal-btn-secondary" id="closeModalBtn">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('subscriptionModal');
+    const saveBundleBtn = document.getElementById('saveBundleBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const paySubscriptionBtn = document.getElementById('paySubscriptionBtn');
+
+    // Show modal when Save Bundle is clicked
+    saveBundleBtn.addEventListener('click', function() {
+        modal.classList.add('show');
+    });
+
+    // Close modal when Cancel button is clicked
+    closeModalBtn.addEventListener('click', function() {
+        modal.classList.remove('show');
+    });
+
+    // Close modal when clicking outside the modal content
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+        }
+    });
+
+    // Handle payment button click
+    paySubscriptionBtn.addEventListener('click', function() {
+        alert('Функция оплаты будет добавлена позже');
+        modal.classList.remove('show');
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            modal.classList.remove('show');
         }
     });
 });

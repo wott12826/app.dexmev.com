@@ -1869,7 +1869,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const currentBalance = await updateModalBalance();
                 
                 if (currentBalance < SUBSCRIPTION_COST) {
-                    alert(`Insufficient $DEXMEV tokens. You have ${currentBalance.toLocaleString()} tokens, but need ${SUBSCRIPTION_COST.toLocaleString()} tokens for subscription.`);
+                    alert(`Insufficient $DEXMEV tokens. You have ${currentBalance.toLocaleString()} tokens, but need ${SUBSCRIPTION_COST.toLocaleString()} tokens for subscription.\n\nYou can top up your balance at: https://app.dexmev.com/wallet.html`);
                     return;
                 }
 

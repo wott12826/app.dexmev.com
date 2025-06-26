@@ -595,10 +595,10 @@
                 const connection = new window.solanaWeb3.Connection('https://api.mainnet-beta.solana.com');
                 const walletAddress = window.solana.publicKey.toString();
                 
-                // Адрес токена $DEXMEV
+                // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ $DEXMEV
                 const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump";
                 
-                // Получаем аккаунт токена
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
                     new window.solanaWeb3.PublicKey(walletAddress),
                     { mint: new window.solanaWeb3.PublicKey(TOKEN_MINT) }
@@ -628,7 +628,7 @@
                 disconnectBtn.style.display = 'none';
                 document.getElementById('solBalance').textContent = '0';
                 
-                // Обновляем полный адрес и QR код
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ QR пїЅпїЅпїЅ
                 const walletFullAddr = document.getElementById('walletFullAddr');
                 if (walletFullAddr) {
                     
@@ -652,7 +652,7 @@
                     localStorage.setItem('wallet-connected', 'true');
                     await getSolBalance();
                     
-                    // Обновляем полный адрес и QR код
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ QR пїЅпїЅпїЅ
                     const walletFullAddr = document.getElementById('walletFullAddr');
                     if (walletFullAddr) {
                         
@@ -666,7 +666,7 @@
                     localStorage.setItem('wallet-connected', 'false');
                     document.getElementById('solBalance').textContent = '0';
                     
-                    // Обновляем полный адрес и QR код
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ QR пїЅпїЅпїЅ
                     const walletFullAddr = document.getElementById('walletFullAddr');
                     if (walletFullAddr) {
                         
@@ -681,7 +681,7 @@
                 localStorage.setItem('wallet-connected', 'false');
                 document.getElementById('solBalance').textContent = '0';
                 
-                // Обновляем полный адрес и QR код
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ QR пїЅпїЅпїЅ
                 const walletFullAddr = document.getElementById('walletFullAddr');
                 if (walletFullAddr) {
                     
@@ -702,7 +702,7 @@
                     console.log('Wallet page - Successfully connected to Phantom wallet');
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'true');
                     
-                    // Обновляем полный адрес и QR код
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ QR пїЅпїЅпїЅ
                     const address = window.solana.publicKey.toString();
                     const walletFullAddr = document.getElementById('walletFullAddr');
                     if (walletFullAddr) {
@@ -760,19 +760,19 @@
             if (window.solana && window.solana.isPhantom) {
                 console.log('Wallet page - Phantom wallet found, attempting to disconnect...');
                 try {
-                    // Отключаем кошелек
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     await window.solana.disconnect();
                     console.log('Wallet page - Wallet disconnected successfully');
                     
-                    // Обновляем статус подключения
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     localStorage.setItem(WALLET_CONNECTED_KEY, 'false');
                     
-                    // Принудительно обновляем UI
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UI
                     walletText.textContent = 'Connect Wallet';
                     copyIcon.style.display = 'none';
                     disconnectBtn.style.display = 'none';
                     
-                    // Обновляем полный адрес и QR код
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ QR пїЅпїЅпїЅ
                     const walletFullAddr = document.getElementById('walletFullAddr');
                     if (walletFullAddr) {
                         
@@ -780,14 +780,14 @@
                     }
                     
                     
-                    // Синхронизируем с другими страницами
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     localStorage.setItem(WALLET_STATE_KEY, JSON.stringify({ event: 'disconnect', ts: Date.now() }));
                     console.log('Wallet page - Wallet state updated and synchronized');
                     
-                    // Показываем подтверждение пользователю
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     console.log('Wallet page - Wallet disconnected and UI updated');
                     
-                    // Добавляем небольшую задержку перед вызовом updateWalletBtn
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ updateWalletBtn
                     setTimeout(() => {
                         updateWalletBtn();
                     }, 100);
@@ -870,7 +870,7 @@
                 const walletFullAddr = document.getElementById('walletFullAddr');
                 if (walletFullAddr) {
                     
-                    // Обновляем QR код после установки адреса
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ QR пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     
                 }
             } catch (e) {
@@ -878,7 +878,7 @@
                 if (walletFullAddr) {
                     
                     
-                    // Обновляем QR код при ошибке
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ QR пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     
                 }
             }
@@ -887,7 +887,7 @@
             if (walletFullAddr) {
                 
                 
-                // Обновляем QR код при отсутствии кошелька
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ QR пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 
             }
         }
@@ -899,7 +899,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const copyIcon = document.getElementById('copyWalletIcon');
     if (addressButton && copyIcon) {
         addressButton.addEventListener('click', function(e) {
-            // Не дублируем клик, если клик был именно по иконке
+            // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             if (e.target === copyIcon) return;
             copyIcon.click();
         });
@@ -939,16 +939,16 @@ async function fetchSolanaStats() {
     const epochNextEl = document.getElementById('epoch-next');
     if (epochNextEl) epochNextEl.textContent = Number(data.epoch) + 1;
 
-    // Epoch Progress (проценты и прогресс-бар)
+    // Epoch Progress (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅ)
     const epochProgressEl = document.getElementById('epoch-percentage-text');
     if (epochProgressEl) epochProgressEl.textContent = Math.round(data.epoch_progress) + '%';
     const epochProgressBarEl = document.getElementById('epoch-progress-bar');
     if (epochProgressBarEl) epochProgressBarEl.style.width = Math.round(data.epoch_progress) + '%';
 
-    // ETA (расчёт: сколько осталось процентов, умножить на среднее время эпохи)
+    // ETA (пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
     const etaEl = document.getElementById('eta');
     if (etaEl) {
-      // На Solana средняя эпоха ~2.3 дня (198000 секунд)
+      // пїЅпїЅ Solana пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ~2.3 пїЅпїЅпїЅ (198000 пїЅпїЅпїЅпїЅпїЅпїЅ)
       const percentLeft = 100 - parseFloat(data.epoch_progress);
       const secondsLeft = percentLeft / 100 * 198000;
       const days = Math.floor(secondsLeft / 86400);

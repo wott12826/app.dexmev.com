@@ -167,7 +167,7 @@
                             <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
                         </svg>
                         <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green" id="solBalance">
-                            0</span> SOL</p>
+                            0</span> $DEXMEV</p>
                     </div>
                 </div>
                 <button class="inline" id="walletSolanaBtn">
@@ -2683,32 +2683,42 @@
             return addr.slice(0, 4) + '...' + addr.slice(-4);
         }
 
+                 // Get $DEXMEV token balance from wallet
         async function getSolBalance() {
-            const balanceElement = document.getElementById('solBalance');
-            if (!balanceElement) return;
-
-            if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
+            if (walletConnected && walletAddress && typeof window.solana !== 'undefined') {
                 try {
-                    // Используем правильный метод для получения баланса
-                    const response = await window.solana.request({
-                        method: 'getBalance'
-                    });
+                    const connection = new window.solanaWeb3.Connection(
+                        'https://api.mainnet-beta.solana.com',
+                        'confirmed'
+                    );
                     
-                    if (response && response.value !== undefined) {
-                        const solBalance = response.value / 1000000000; // Конвертируем lamports в SOL
-                        balanceElement.textContent = solBalance.toFixed(4);
-                        console.log('Network page - SOL balance updated:', solBalance.toFixed(4));
+                    // Адрес токена $DEXMEV
+                    const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump";
+                    
+                    // Получаем аккаунт токена
+                    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+                        new window.solanaWeb3.PublicKey(walletAddress),
+                        { mint: new window.solanaWeb3.PublicKey(TOKEN_MINT) }
+                    );
+
+                    if (tokenAccounts.value.length > 0) {
+                        const tokenBalance = tokenAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+                        solBalance = tokenBalance;
+                        updateBalanceDisplay();
+                        console.log('Deploy page - $DEXMEV balance updated:', tokenBalance);
                     } else {
-                        console.warn('Network page - No balance data received');
-                        balanceElement.textContent = '0';
+                        solBalance = 0;
+                        updateBalanceDisplay();
+                        console.log('Deploy page - No $DEXMEV tokens found');
                     }
                 } catch (error) {
-                    console.error('Network page - Error getting SOL balance:', error);
-                    // Показываем 0 при ошибке, а не демо-баланс
-                    balanceElement.textContent = '0';
+                    console.error('Error getting $DEXMEV balance:', error);
+                    solBalance = 0;
+                    updateBalanceDisplay();
                 }
             } else {
-                balanceElement.textContent = '0';
+                solBalance = 0;
+                updateBalanceDisplay();
             }
         }
 
@@ -3383,5 +3393,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 </body>
 
 </html>
+
+
 
 

@@ -105,81 +105,98 @@
 }
 </style>
 
-<!-- Load Solana libraries with fallback -->
+<!-- Load only web3.js library -->
 <script>
-// Function to load Solana libraries with multiple fallbacks
-async function loadSolanaLibraries() {
+// Function to load web3.js library
+async function loadWeb3Library() {
     const cdnUrls = [
         'https://cdn.jsdelivr.net/npm/@solana/web3.js@1.87.6/lib/index.iife.min.js',
-        'https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js',
-        'https://cdn.skypack.dev/@solana/web3.js@1.87.6'
-    ];
-    
-    const splTokenUrls = [
-        'https://cdn.jsdelivr.net/npm/@solana/spl-token@0.3.9/lib/index.iife.min.js',
-        'https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js',
-        'https://cdn.skypack.dev/@solana/spl-token@0.3.9'
+        'https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js'
     ];
 
-    // Try to load web3.js
     for (const url of cdnUrls) {
         try {
-            if (url.includes('skypack')) {
-                // Use ES6 import for skypack
-                const web3Module = await import(url);
-                window.solanaWeb3 = web3Module;
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+            if (window.solanaWeb3) {
                 console.log('Web3.js loaded from:', url);
-                break;
-            } else {
-                // Use script tag for other CDNs
-                await new Promise((resolve, reject) => {
-                    const script = document.createElement('script');
-                    script.src = url;
-                    script.onload = resolve;
-                    script.onerror = reject;
-                    document.head.appendChild(script);
-                });
-                if (window.solanaWeb3) {
-                    console.log('Web3.js loaded from:', url);
-                    break;
-                }
+                return true;
             }
         } catch (e) {
             console.warn('Failed to load web3.js from:', url, e);
             continue;
         }
     }
+    return false;
+}
 
-    // Try to load spl-token
-    for (const url of splTokenUrls) {
-        try {
-            if (url.includes('skypack')) {
-                // Use ES6 import for skypack
-                const splModule = await import(url);
-                window.splToken = splModule;
-                console.log('SPL Token loaded from:', url);
-                break;
-            } else {
-                // Use script tag for other CDNs
-                await new Promise((resolve, reject) => {
-                    const script = document.createElement('script');
-                    script.src = url;
-                    script.onload = resolve;
-                    script.onerror = reject;
-                    document.head.appendChild(script);
-                });
-                if (window.splToken) {
-                    console.log('SPL Token loaded from:', url);
-                    break;
-                }
-            }
-        } catch (e) {
-            console.warn('Failed to load spl-token from:', url, e);
-            continue;
-        }
-    }
+// SPL Token Program ID and instruction constants
+const TOKEN_PROGRAM_ID = new solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
+const ASSOCIATED_TOKEN_PROGRAM_ID = new solanaWeb3.PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
 
-    return window.solanaWeb3 && window.splToken;
+// Function to find associated token address
+function findAssociatedTokenAddress(walletAddress, tokenMintAddress) {
+    return solanaWeb3.PublicKey.findProgramAddress(
+        [
+            walletAddress.toBuffer(),
+            TOKEN_PROGRAM_ID.toBuffer(),
+            tokenMintAddress.toBuffer(),
+        ],
+        ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+}
+
+// Function to create associated token account instruction
+function createAssociatedTokenAccountInstruction(
+    payer,
+    associatedToken,
+    owner,
+    mint
+) {
+    const keys = [
+        { pubkey: payer, isSigner: true, isWritable: true },
+        { pubkey: associatedToken, isSigner: false, isWritable: true },
+        { pubkey: owner, isSigner: false, isWritable: false },
+        { pubkey: mint, isSigner: false, isWritable: false },
+        { pubkey: solanaWeb3.SystemProgram.programId, isSigner: false, isWritable: false },
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+        { pubkey: solanaWeb3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
+    ];
+
+    return new solanaWeb3.TransactionInstruction({
+        keys,
+        programId: ASSOCIATED_TOKEN_PROGRAM_ID,
+        data: Buffer.alloc(0),
+    });
+}
+
+// Function to create transfer instruction
+function createTransferInstruction(
+    source,
+    destination,
+    owner,
+    amount
+) {
+    const keys = [
+        { pubkey: source, isSigner: false, isWritable: true },
+        { pubkey: destination, isSigner: false, isWritable: true },
+        { pubkey: owner, isSigner: true, isWritable: false },
+    ];
+
+    const data = Buffer.alloc(9);
+    data.writeUint8(3, 0); // Transfer instruction
+    data.writeBigUInt64LE(BigInt(amount), 1);
+
+    return new solanaWeb3.TransactionInstruction({
+        keys,
+        programId: TOKEN_PROGRAM_ID,
+        data,
+    });
 }
 </script>
 
@@ -191,10 +208,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     const closeModalBtn = document.getElementById('closeModalBtn');
     const paySubscriptionBtn = document.getElementById('paySubscriptionBtn');
 
-    // Load Solana libraries
-    const librariesLoaded = await loadSolanaLibraries();
-    if (!librariesLoaded) {
-        console.error('Failed to load Solana libraries');
+    // Load web3.js library
+    const web3Loaded = await loadWeb3Library();
+    if (!web3Loaded) {
+        console.error('Failed to load web3.js library');
     }
 
     // Show modal when Save Bundle is clicked
@@ -228,9 +245,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 paySubscriptionBtn.disabled = true;
                 paySubscriptionBtn.textContent = 'Processing...';
 
-                // Check if libraries are loaded
-                if (!window.solanaWeb3 || !window.splToken) {
-                    alert('Payment libraries not loaded. Please refresh the page and try again.');
+                // Check if web3.js is loaded
+                if (!window.solanaWeb3) {
+                    alert('Payment library not loaded. Please refresh the page and try again.');
                     return;
                 }
 
@@ -264,33 +281,48 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const connection = new window.solanaWeb3.Connection(window.solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
 
                 const sender = provider.publicKey;
+                const tokenMint = new window.solanaWeb3.PublicKey(TOKEN_MINT);
+                const destinationWallet = new window.solanaWeb3.PublicKey(DESTINATION_WALLET);
 
-                // Create token instance
-                const token = new window.splToken.Token(
-                    connection,
-                    new window.solanaWeb3.PublicKey(TOKEN_MINT),
-                    window.splToken.TOKEN_PROGRAM_ID,
-                    provider
-                );
+                // Find associated token addresses
+                const [senderTokenAccount] = findAssociatedTokenAddress(sender, tokenMint);
+                const [receiverTokenAccount] = findAssociatedTokenAddress(destinationWallet, tokenMint);
 
-                const fromTokenAccount = await token.getOrCreateAssociatedAccountInfo(sender);
-                const toTokenAccount = await token.getOrCreateAssociatedAccountInfo(new window.solanaWeb3.PublicKey(DESTINATION_WALLET));
+                // Check if accounts exist
+                const senderAccountInfo = await connection.getAccountInfo(senderTokenAccount);
+                const receiverAccountInfo = await connection.getAccountInfo(receiverTokenAccount);
 
-                const transaction = new window.solanaWeb3.Transaction().add(
-                    window.splToken.Token.createTransferInstruction(
-                        window.splToken.TOKEN_PROGRAM_ID,
-                        fromTokenAccount.address,
-                        toTokenAccount.address,
+                // Create transaction
+                const transaction = new window.solanaWeb3.Transaction();
+
+                // Add create account instruction if receiver account doesn't exist
+                if (!receiverAccountInfo) {
+                    transaction.add(
+                        createAssociatedTokenAccountInstruction(
+                            sender,
+                            receiverTokenAccount,
+                            destinationWallet,
+                            tokenMint
+                        )
+                    );
+                }
+
+                // Add transfer instruction
+                transaction.add(
+                    createTransferInstruction(
+                        senderTokenAccount,
+                        receiverTokenAccount,
                         sender,
-                        [],
                         AMOUNT
                     )
                 );
 
+                // Get recent blockhash and set fee payer
                 const { blockhash } = await connection.getRecentBlockhash();
                 transaction.recentBlockhash = blockhash;
                 transaction.feePayer = sender;
 
+                // Sign and send transaction
                 const signed = await provider.signTransaction(transaction);
                 const txid = await connection.sendRawTransaction(signed.serialize());
                 await connection.confirmTransaction(txid);
@@ -308,6 +340,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                     alert("❌ Insufficient $DEXMEV tokens. You need 500,000 tokens to complete this payment.");
                 } else if (err.message.includes('Non-base58')) {
                     alert("❌ Invalid address format. Please check the receiver address.");
+                } else if (err.message.includes('0x1')) {
+                    alert("❌ Insufficient token balance. Please check your $DEXMEV token balance.");
                 } else {
                     alert("❌ Payment failed: " + err.message);
                 }

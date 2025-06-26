@@ -3,14 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#1f2023">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="_next/static/css/ea903d5c6198cacb.css" data-precedence="next">
+    <link rel="stylesheet" href="mobile-responsive.css">
     <link rel="preload" as="script" fetchpriority="low" href="_next/static/chunks/webpack-3953d5ea54e4bed2.js">
     <script src="_next/static/chunks/fd9d1056-346a4d4db4c146e1.js" async=""></script>
     <script src="_next/static/chunks/117-fe2f1351faaa62a6.js" async=""></script>
     <script src="_next/static/chunks/main-app-ef1a0f1e15b73298.js" async=""></script>
-    <script src="_next/static/chunks/52271efe-2af44b81dc49968b.js" async=""></script>
+    <script src="_next/static/chunks/52271efe-2af44b81dc49968f.js" async=""></script>
     <script src="_next/static/chunks/41ade5dc-7a9f5b0ebe7bd75f.js" async=""></script>
     <script src="_next/static/chunks/972-be09035380864e2e.js" async=""></script>
     <script src="_next/static/chunks/40-0bafcf2ac0e40dc8.js" async=""></script>
@@ -38,6 +41,204 @@
         .tab-btn:not(.active) span {
             background-color: transparent !important;
             color: #9E9E9E !important;
+        }
+        
+        /* Улучшенные мобильные стили */
+        @media (max-width: 768px) {
+            aside {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: linear-gradient(134deg, #1f2023, #27282c);
+                z-index: 998;
+                padding: 1rem;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+            }
+            
+            aside.open {
+                transform: translateX(0);
+            }
+            
+            #burger {
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 999;
+                padding: 12px;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                display: block;
+                font-size: 18px;
+                min-width: 44px;
+                min-height: 44px;
+                backdrop-filter: blur(10px);
+            }
+            
+            .flex-1.overflow-y-auto {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+            
+            header {
+                flex-direction: column !important;
+                gap: 1rem !important;
+                padding: 1rem !important;
+                align-items: flex-start !important;
+            }
+            
+            header h1 {
+                font-size: 24px !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            header .flex.items-center.gap-5 {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+                width: 100% !important;
+            }
+            
+            header button,
+            header .flex.items-center.gap-2 {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 0.75rem !important;
+                min-height: 44px !important;
+            }
+            
+            main {
+                padding: 1rem !important;
+            }
+            
+            .text-\[32px\] {
+                font-size: 20px !important;
+            }
+            
+            .text-\[22px\] {
+                font-size: 16px !important;
+            }
+            
+            .text-\[18px\] {
+                font-size: 14px !important;
+            }
+            
+            .p-5 {
+                padding: 1rem !important;
+            }
+            
+            .gap-\[30px\] {
+                gap: 1rem !important;
+            }
+            
+            .mt-\[30px\] {
+                margin-top: 1rem !important;
+            }
+            
+            button {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                font-size: 14px !important;
+                padding: 0.75rem 1rem !important;
+            }
+            
+            input, select, textarea {
+                font-size: 16px !important;
+                padding: 0.75rem !important;
+                min-height: 44px !important;
+            }
+            
+            .rounded-\[18px\],
+            .rounded-\[17px\] {
+                border-radius: 12px !important;
+            }
+            
+            .w-\[606px\] {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            .w-\[182px\] {
+                width: 150px !important;
+                height: 150px !important;
+            }
+            
+            .grid-cols-12 {
+                grid-template-columns: repeat(1, 1fr) !important;
+            }
+            
+            .col-span-6 {
+                grid-column: span 1 !important;
+            }
+            
+            .overflow-x-auto {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            table {
+                min-width: 600px;
+                font-size: 12px !important;
+            }
+            
+            th, td {
+                padding: 0.5rem 0.25rem !important;
+                white-space: nowrap;
+            }
+            
+            .text-secondary {
+                font-size: 13px !important;
+            }
+            
+            .min-h-6.min-w-6 {
+                width: 20px !important;
+                height: 20px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                font-size: 13px;
+            }
+            
+            header h1 {
+                font-size: 20px !important;
+            }
+            
+            .text-\[32px\] {
+                font-size: 18px !important;
+            }
+            
+            .p-5 {
+                padding: 0.75rem !important;
+            }
+            
+            aside nav button {
+                width: 50px !important;
+                height: 50px !important;
+            }
+            
+            .w-\[182px\] {
+                width: 120px !important;
+                height: 120px !important;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            aside {
+                transform: none !important;
+                position: static !important;
+                width: 200px !important;
+                height: auto !important;
+                z-index: auto !important;
+            }
+            
+            #burger {
+                display: none !important;
+            }
         }
     </style>
     <script src="_next/static/chunks/polyfills-42372ed130431b0a.js" nomodule=""></script>

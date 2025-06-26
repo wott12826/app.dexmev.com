@@ -2464,17 +2464,97 @@ document.querySelectorAll('.custom-green-checkbox').forEach(box => {
 }
 </style>
 
-<!-- Load Solana libraries from CDN -->
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-<script src="https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js" type="application/javascript"></script>
+<!-- Load Solana libraries with fallback -->
+<script>
+// Function to load Solana libraries with multiple fallbacks
+async function loadSolanaLibraries() {
+    const cdnUrls = [
+        'https://cdn.jsdelivr.net/npm/@solana/web3.js@1.87.6/lib/index.iife.min.js',
+        'https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js',
+        'https://cdn.skypack.dev/@solana/web3.js@1.87.6'
+    ];
+    
+    const splTokenUrls = [
+        'https://cdn.jsdelivr.net/npm/@solana/spl-token@0.3.9/lib/index.iife.min.js',
+        'https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js',
+        'https://cdn.skypack.dev/@solana/spl-token@0.3.9'
+    ];
+
+    // Try to load web3.js
+    for (const url of cdnUrls) {
+        try {
+            if (url.includes('skypack')) {
+                // Use ES6 import for skypack
+                const web3Module = await import(url);
+                window.solanaWeb3 = web3Module;
+                console.log('Web3.js loaded from:', url);
+                break;
+            } else {
+                // Use script tag for other CDNs
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+                if (window.solanaWeb3) {
+                    console.log('Web3.js loaded from:', url);
+                    break;
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to load web3.js from:', url, e);
+            continue;
+        }
+    }
+
+    // Try to load spl-token
+    for (const url of splTokenUrls) {
+        try {
+            if (url.includes('skypack')) {
+                // Use ES6 import for skypack
+                const splModule = await import(url);
+                window.splToken = splModule;
+                console.log('SPL Token loaded from:', url);
+                break;
+            } else {
+                // Use script tag for other CDNs
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+                if (window.splToken) {
+                    console.log('SPL Token loaded from:', url);
+                    break;
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to load spl-token from:', url, e);
+            continue;
+        }
+    }
+
+    return window.solanaWeb3 && window.splToken;
+}
+</script>
 
 <script>
 // Modal functionality with Phantom integration
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const modal = document.getElementById('subscriptionModal');
     const saveBundleBtn = document.getElementById('saveBundleBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const paySubscriptionBtn = document.getElementById('paySubscriptionBtn');
+
+    // Load Solana libraries
+    const librariesLoaded = await loadSolanaLibraries();
+    if (!librariesLoaded) {
+        console.error('Failed to load Solana libraries');
+    }
 
     // Show modal when Save Bundle is clicked
     if (saveBundleBtn) {
@@ -2507,34 +2587,57 @@ document.addEventListener('DOMContentLoaded', function() {
                 paySubscriptionBtn.disabled = true;
                 paySubscriptionBtn.textContent = 'Processing...';
 
-                const TOKEN_MINT = new solanaWeb3.PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump");
-                const DESTINATION_WALLET = new solanaWeb3.PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
+                // Check if libraries are loaded
+                if (!window.solanaWeb3 || !window.splToken) {
+                    alert('Payment libraries not loaded. Please refresh the page and try again.');
+                    return;
+                }
+
+                // Check if Phantom is installed
+                if (!window.solana || !window.solana.isPhantom) {
+                    alert("Phantom wallet not found! Please install Phantom Wallet.");
+                    return;
+                }
+
+                // Configuration - REPLACE WITH ACTUAL ADDRESSES
+                const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"; // DEXMEV token mint
+                const DESTINATION_WALLET = "YOUR_RECEIVER_ADDRESS_HERE"; // Replace with actual receiver address
                 const AMOUNT = 500000; // 500,000 tokens
 
-                if (!window.solana || !window.solana.isPhantom) {
-                    alert("Phantom wallet not found!");
+                // Validate addresses
+                if (DESTINATION_WALLET === "YOUR_RECEIVER_ADDRESS_HERE") {
+                    alert("❌ Please configure the receiver address before testing payments.");
+                    return;
+                }
+
+                try {
+                    new window.solanaWeb3.PublicKey(TOKEN_MINT);
+                    new window.solanaWeb3.PublicKey(DESTINATION_WALLET);
+                } catch (e) {
+                    alert("❌ Invalid token or receiver address. Please check the configuration.");
                     return;
                 }
 
                 const provider = window.solana;
                 await provider.connect();
-                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
+                const connection = new window.solanaWeb3.Connection(window.solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
 
                 const sender = provider.publicKey;
 
-                const token = new splToken.Token(
+                // Create token instance
+                const token = new window.splToken.Token(
                     connection,
-                    TOKEN_MINT,
-                    splToken.TOKEN_PROGRAM_ID,
+                    new window.solanaWeb3.PublicKey(TOKEN_MINT),
+                    window.splToken.TOKEN_PROGRAM_ID,
                     provider
                 );
 
                 const fromTokenAccount = await token.getOrCreateAssociatedAccountInfo(sender);
-                const toTokenAccount = await token.getOrCreateAssociatedAccountInfo(DESTINATION_WALLET);
+                const toTokenAccount = await token.getOrCreateAssociatedAccountInfo(new window.solanaWeb3.PublicKey(DESTINATION_WALLET));
 
-                const transaction = new solanaWeb3.Transaction().add(
-                    splToken.Token.createTransferInstruction(
-                        splToken.TOKEN_PROGRAM_ID,
+                const transaction = new window.solanaWeb3.Transaction().add(
+                    window.splToken.Token.createTransferInstruction(
+                        window.splToken.TOKEN_PROGRAM_ID,
                         fromTokenAccount.address,
                         toTokenAccount.address,
                         sender,
@@ -2562,6 +2665,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert("❌ Payment was cancelled by user");
                 } else if (err.message.includes('insufficient funds')) {
                     alert("❌ Insufficient $DEXMEV tokens. You need 500,000 tokens to complete this payment.");
+                } else if (err.message.includes('Non-base58')) {
+                    alert("❌ Invalid address format. Please check the receiver address.");
                 } else {
                     alert("❌ Payment failed: " + err.message);
                 }

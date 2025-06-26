@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .container {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        button {
+            background: linear-gradient(135deg, #FF00FF 0%, #930093 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #4CAF50; }
+        .error { background: #f44336; }
+        .info { background: #2196F3; }
+        .warning { background: #ff9800; }
+        pre {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔗 Wallet Connection Test</h1>
+    
+    <div class="container">
+        <h2>📊 System Status</h2>
+        <div id="systemStatus" class="status info">Initializing...</div>
+        
+        <h2>👛 Wallet Controls</h2>
+        <button onclick="testConnectWallet()">Connect Wallet</button>
+        <button onclick="testDisconnectWallet()">Disconnect Wallet</button>
+        <button onclick="testGetBalance()">Get Balance</button>
+        <button onclick="testCopyAddress()">Copy Address</button>
+        
+        <h2>🔍 Debug Information</h2>
+        <button onclick="showWalletState()">Show Wallet State</button>
+        <button onclick="testFirebaseConnection()">Test Firebase</button>
+        <button onclick="clearLogs()">Clear Logs</button>
+        
+        <h2>📝 Logs</h2>
+        <div id="logs" style="max-height: 300px; overflow-y: auto; background: #333; padding: 10px; border-radius: 5px;">
+            <div>System initialized...</div>
+        </div>
+    </div>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script>
+        // Test functions
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `<span style="color: #888;">[${timestamp}]</span> ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function updateSystemStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('systemStatus');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+
+        // Test wallet connection
+        async function testConnectWallet() {
+            try {
+                log('🔗 Testing wallet connection...', 'info');
+                
+                if (typeof window.solana === 'undefined') {
+                    log('❌ Phantom wallet not found', 'error');
+                    updateSystemStatus('Phantom wallet not installed', 'error');
+                    return;
+                }
+                
+                if (!window.solana.isPhantom) {
+                    log('❌ Not a Phantom wallet', 'error');
+                    updateSystemStatus('Not a Phantom wallet', 'error');
+                    return;
+                }
+                
+                const response = await window.solana.connect();
+                const address = response.publicKey.toString();
+                
+                log(`✅ Wallet connected: ${address}`, 'success');
+                updateSystemStatus(`Connected: ${address.slice(0, 4)}...${address.slice(-4)}`, 'success');
+                
+                // Test Firebase integration if available
+                if (window.walletSystem) {
+                    log('🔄 Testing Firebase integration...', 'info');
+                    await window.walletSystem.connectWallet();
+                }
+                
+            } catch (error) {
+                log(`❌ Connection failed: ${error.message}`, 'error');
+                updateSystemStatus('Connection failed', 'error');
+            }
+        }
+
+        // Test wallet disconnection
+        async function testDisconnectWallet() {
+            try {
+                log('🔌 Testing wallet disconnection...', 'info');
+                
+                if (window.walletSystem) {
+                    await window.walletSystem.disconnectWallet();
+                    log('✅ Wallet disconnected via system', 'success');
+                } else {
+                    log('⚠️ Wallet system not available', 'warning');
+                }
+                
+                updateSystemStatus('Wallet disconnected', 'info');
+                
+            } catch (error) {
+                log(`❌ Disconnection failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test balance retrieval
+        async function testGetBalance() {
+            try {
+                log('💰 Testing balance retrieval...', 'info');
+                
+                if (window.walletSystem) {
+                    await window.walletSystem.getUserBalance();
+                    const state = window.walletSystem.getState();
+                    log(`✅ Balance: ${state.userBalance} tokens`, 'success');
+                    updateSystemStatus(`Balance: ${state.userBalance} tokens`, 'success');
+                } else {
+                    log('⚠️ Wallet system not available', 'warning');
+                }
+                
+            } catch (error) {
+                log(`❌ Balance retrieval failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test address copying
+        async function testCopyAddress() {
+            try {
+                log('📋 Testing address copying...', 'info');
+                
+                if (window.walletSystem) {
+                    window.walletSystem.copyWalletAddress();
+                    log('✅ Address copied to clipboard', 'success');
+                    updateSystemStatus('Address copied', 'success');
+                } else {
+                    log('⚠️ Wallet system not available', 'warning');
+                }
+                
+            } catch (error) {
+                log(`❌ Address copying failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Show wallet state
+        function showWalletState() {
+            try {
+                if (window.walletSystem) {
+                    const state = window.walletSystem.getState();
+                    log('📊 Current wallet state:', 'info');
+                    log(JSON.stringify(state, null, 2), 'info');
+                    updateSystemStatus('State displayed in logs', 'info');
+                } else {
+                    log('⚠️ Wallet system not available', 'warning');
+                }
+            } catch (error) {
+                log(`❌ Failed to get state: ${error.message}`, 'error');
+            }
+        }
+
+        // Test Firebase connection
+        async function testFirebaseConnection() {
+            try {
+                log('🔥 Testing Firebase connection...', 'info');
+                
+                if (window.firebaseAuth) {
+                    const user = window.firebaseAuth.getCurrentUser();
+                    if (user) {
+                        log(`✅ Firebase connected, user: ${user.uid}`, 'success');
+                        updateSystemStatus(`Firebase: ${user.email}`, 'success');
+                    } else {
+                        log('⚠️ Firebase connected but no user authenticated', 'warning');
+                        updateSystemStatus('Firebase: No user', 'warning');
+                    }
+                } else {
+                    log('❌ Firebase not available', 'error');
+                    updateSystemStatus('Firebase: Not available', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Firebase test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Clear logs
+        function clearLogs() {
+            const logsDiv = document.getElementById('logs');
+            logsDiv.innerHTML = '<div>Logs cleared...</div>';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🚀 Test page loaded', 'success');
+            updateSystemStatus('Ready for testing', 'info');
+            
+            // Check for Phantom wallet
+            if (typeof window.solana !== 'undefined' && window.solana.isPhantom) {
+                log('✅ Phantom wallet detected', 'success');
+            } else {
+                log('⚠️ Phantom wallet not detected', 'warning');
+            }
+            
+            // Check for Firebase
+            if (window.firebaseAuth) {
+                log('✅ Firebase detected', 'success');
+            } else {
+                log('⚠️ Firebase not detected', 'warning');
+            }
+            
+            // Check for wallet system
+            setTimeout(() => {
+                if (window.walletSystem) {
+                    log('✅ Wallet system detected', 'success');
+                } else {
+                    log('⚠️ Wallet system not detected', 'warning');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

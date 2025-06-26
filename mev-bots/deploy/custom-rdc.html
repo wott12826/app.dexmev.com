@@ -1314,8 +1314,9 @@
     <script>self.__next_f.push([1, "b:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}]]\n3:null\n"])</script>
     <script src="../../solana-demo-stats.js"></script>
     
-    <script type="module" src="firebase-config.js"></script>
-    <script src="wallet-system.js"></script>
+    <!-- Wallet system scripts -->
+    <script type="module" src="../../firebase-config.js"></script>
+    <script src="../../wallet-system.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -1323,10 +1324,7 @@
         });
     </script>
     
-    <script type="module" src="firebase-config.js"></script>
-    <script src="wallet-system.js"></script>
-
-<script>
+    <script>
 function updateSolanaStats() {
   window.solanaDemoStats.updateDemoData();
 
@@ -1571,14 +1569,16 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Function to update modal balance display
     async function updateModalBalance() {
-        if (!window.solana || !window.solana.isPhantom || !window.solana.publicKey) {
+        // Check if wallet is connected using our wallet system
+        const walletState = window.walletSystem ? window.walletSystem.getState() : null;
+        if (!walletState || !walletState.walletConnected) {
             modalBalanceAmount.textContent = '0';
             return 0;
         }
-
+        
         try {
             const connection = new window.solanaWeb3.Connection('https://api.mainnet-beta.solana.com');
-            const walletAddress = window.solana.publicKey.toString();
+            const walletAddress = walletState.walletAddress;
             
             // $DEXMEV token address
             const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump";
@@ -1644,7 +1644,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
 
                 // Check if wallet is connected
-                if (!window.solana.publicKey) {
+                // Check if wallet is connected using our wallet system
+                const walletState = window.walletSystem ? window.walletSystem.getState() : null;
+                if (!walletState || !walletState.walletConnected) {
                     alert("Please connect your wallet first.");
                     return;
                 }

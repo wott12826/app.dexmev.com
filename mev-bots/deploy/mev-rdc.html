@@ -3016,7 +3016,7 @@ setTimeout(updateSolanaStats, 1000);
                   });
                 });
                 </script>
-                <!-- Subscription Modal -->
+<!-- Subscription Modal -->
 <div id="subscriptionModal" class="modal-overlay">
     <div class="modal-content">
         <h2 class="modal-title">Subscription Required</h2>
@@ -3123,27 +3123,8 @@ setTimeout(updateSolanaStats, 1000);
 }
 </style>
 
-<script type="module">
-import {
-  Connection,
-  PublicKey,
-  Transaction,
-  clusterApiUrl,
-  sendAndConfirmTransaction
-} from "https://cdn.skypack.dev/@solana/web3.js";
-
-import {
-  getOrCreateAssociatedTokenAccount,
-  createTransferInstruction,
-  TOKEN_PROGRAM_ID
-} from "https://cdn.skypack.dev/@solana/spl-token";
-
-// Configuration
-const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
-const TOKEN_MINT = new PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // DEXMEV token mint
-const RECEIVER = new PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
-
-// Modal functionality
+<script>
+// Modal functionality with fallback for module imports
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('subscriptionModal');
     const saveBundleBtn = document.getElementById('saveBundleBtn');
@@ -3186,6 +3167,34 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert("Please install Phantom Wallet to make this payment");
                     return;
                 }
+
+                // Try to load Solana libraries dynamically
+                let Connection, PublicKey, Transaction, clusterApiUrl;
+                let getOrCreateAssociatedTokenAccount, createTransferInstruction, TOKEN_PROGRAM_ID;
+
+                try {
+                    // Dynamic imports with fallback
+                    const web3Module = await import('https://cdn.skypack.dev/@solana/web3.js');
+                    const splTokenModule = await import('https://cdn.skypack.dev/@solana/spl-token');
+                    
+                    Connection = web3Module.Connection;
+                    PublicKey = web3Module.PublicKey;
+                    Transaction = web3Module.Transaction;
+                    clusterApiUrl = web3Module.clusterApiUrl;
+                    
+                    getOrCreateAssociatedTokenAccount = splTokenModule.getOrCreateAssociatedTokenAccount;
+                    createTransferInstruction = splTokenModule.createTransferInstruction;
+                    TOKEN_PROGRAM_ID = splTokenModule.TOKEN_PROGRAM_ID;
+                } catch (importError) {
+                    console.error('Failed to load Solana libraries:', importError);
+                    alert('Failed to load payment libraries. Please refresh the page and try again.');
+                    return;
+                }
+
+                // Configuration
+                const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
+                const TOKEN_MINT = new PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // DEXMEV token mint
+                const RECEIVER = new PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
 
                 // Connect to Phantom
                 const resp = await window.solana.connect();
@@ -3251,6 +3260,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert("❌ Payment was cancelled by user");
                 } else if (err.message.includes('insufficient funds')) {
                     alert("❌ Insufficient $DEXMEV tokens. You need 500,000 tokens to complete this payment.");
+                } else if (err.message.includes('Failed to load')) {
+                    alert("❌ Failed to load payment system. Please refresh the page and try again.");
                 } else {
                     alert("❌ Payment failed: " + err.message);
                 }
@@ -3269,7 +3280,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-</script> 
+</script>
 </body>
 
 </html>

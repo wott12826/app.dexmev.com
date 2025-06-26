@@ -187,7 +187,7 @@
                                 <path fill="#fff" fill-rule="evenodd" d="M7 5.89a4.75 4.75 0 0 0-4.75 4.75v6A4.75 4.75 0 0 0 7 21.39h10a4.75 4.75 0 0 0 4.744-4.5h.006v-6.499h-.006A4.75 4.75 0 0 0 17 5.89zm13.24 4.5a3.25 3.25 0 0 0-3.24-3H7a3.25 3.25 0 0 0-3.25 3.25v6A3.25 3.25 0 0 0 7 19.89h10a3.25 3.25 0 0 0 3.24-3h-3.72a3.25 3.25 0 1 1 0-6.5zm-5.47 3.25c0-.966.784-1.75 1.75-1.75h3.73v3.5h-3.73a1.75 1.75 0 0 1-1.75-1.75" clip-rule="evenodd"></path>
                                 <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
                             </svg>
-                            <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green" id="solBalance">0</span> SOL</p>
+                            <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green" id="solBalance">0</span> $DEXMEV</p>
                         </div>
                     </div><button class="inline" id="walletSolanaBtn">
                         <div class="!rounded-sm rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
@@ -590,19 +590,34 @@
 
         async function getSolBalance() {
             const balanceElement = document.getElementById('solBalance');
-            if (!balanceElement) return;
+            if (!window.solana || !window.solana.isConnected) {
+                balanceElement.textContent = '0';
+                return;
+            }
 
-            if (window.solana && window.solana.isPhantom && window.solana.publicKey) {
-                try {
-                    const balance = await window.solana.connection.getBalance(window.solana.publicKey);
-                    const solBalance = balance / 1000000000;
-                    balanceElement.textContent = solBalance.toFixed(4);
-                    console.log('Wallet page - SOL balance updated:', solBalance.toFixed(4));
-                } catch (error) {
-                    console.error('Wallet page - Error getting SOL balance:', error);
+            try {
+                const connection = new window.solanaWeb3.Connection('https://api.mainnet-beta.solana.com');
+                const walletAddress = window.solana.publicKey.toString();
+                
+                // Адрес токена $DEXMEV
+                const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump";
+                
+                // Получаем аккаунт токена
+                const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+                    new window.solanaWeb3.PublicKey(walletAddress),
+                    { mint: new window.solanaWeb3.PublicKey(TOKEN_MINT) }
+                );
+
+                if (tokenAccounts.value.length > 0) {
+                    const tokenBalance = tokenAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+                    balanceElement.textContent = tokenBalance.toLocaleString();
+                    console.log('Wallet page - $DEXMEV balance updated:', tokenBalance);
+                } else {
                     balanceElement.textContent = '0';
+                    console.log('Wallet page - No $DEXMEV tokens found');
                 }
-            } else {
+            } catch (error) {
+                console.error('Error getting $DEXMEV balance:', error);
                 balanceElement.textContent = '0';
             }
         }

@@ -84,17 +84,7 @@
                 </div>
                 <div class="flex justify-center mt-4"><a class="text-sm text-pink-hot" href="signup.html">Create an
                         account</a></div>
-                <div class="pt-3"><button
-                        class="p-px shadow-main w-full h-[50px] mt-9 relative cursor-pointer rounded-[10px] opacity-90 transition-opacity hover:opacity-100 active:scale-[97%]">
-                        <div class="inline"><span
-                                class="bg-purple-500 text-[22px] text-white flex h-full w-full items-center justify-center gap-2 rounded-[9px] py-2"><svg
-                                    xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none"
-                                    viewbox="0 0 593 493">
-                                    <path fill="#FFFDF8"
-                                        d="M70.055 493c75.549 0 132.325-65.703 166.208-117.622-4.121 11.487-6.411 22.973-6.411 34 0 30.325 17.4 51.919 51.74 51.919 47.161 0 97.527-41.351 123.626-85.919q-2.748 9.65-2.747 17.919c0 21.135 11.904 34.46 36.172 34.46 76.465 0 153.387-135.541 153.387-254.081C592.03 81.324 545.327 0 428.112 0 222.069 0 0 251.784 0 414.432 0 478.297 34.34 493 70.055 493M357.14 163.568c0-22.973 12.821-39.054 31.593-39.054 18.315 0 31.136 16.081 31.136 39.054s-12.821 39.513-31.136 39.513c-18.772 0-31.593-16.54-31.593-39.513m97.985 0c0-22.973 12.821-39.054 31.593-39.054 18.315 0 31.136 16.081 31.136 39.054s-12.821 39.513-31.136 39.513c-18.772 0-31.593-16.54-31.593-39.513">
-                                    </path>
-                                </svg> Solana</span></div>
-                    </button></div>
+                <div class="pt-3"></div>
             </div>
         </div>
     </div>
@@ -167,41 +157,7 @@
             }
         });
     </script>
-    <script>
-    async function handlePhantomAuth() {
-      if (window.solana && window.solana.isPhantom) {
-        try {
-          await window.solana.connect();
-          const address = window.solana.publicKey.toString();
-          const db = firebase.firestore();
-          const userRef = db.collection('users').doc(address);
-          const doc = await userRef.get();
-          if (doc.exists) {
-            localStorage.setItem('phantomUser', address);
-            alert('Вход через Phantom выполнен!');
-            window.location.href = 'dashboard.html';
-          } else {
-            await userRef.set({
-              email: '',
-              password: '',
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            localStorage.setItem('phantomUser', address);
-            alert('Аккаунт создан через Phantom!');
-            window.location.href = 'dashboard.html';
-          }
-        } catch (e) {
-          alert('Ошибка подключения Phantom: ' + e.message);
-        }
-      } else {
-        if (confirm('Phantom wallet не найден. Открыть страницу скачивания?')) {
-          window.open('https://phantom.app/', '_blank');
-        }
-      }
-    }
-    document.getElementById('phantomSignInBtn')?.addEventListener('click', handlePhantomAuth);
-    document.getElementById('phantomSignUpBtn')?.addEventListener('click', handlePhantomAuth);
-    </script>
+    
 </body>
 
 </html>

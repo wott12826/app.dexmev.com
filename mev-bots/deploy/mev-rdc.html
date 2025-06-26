@@ -3319,7 +3319,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const currentBalance = await updateModalBalance();
                 
                 if (currentBalance < SUBSCRIPTION_COST) {
-                    alert("Insufficient $DEXMEV tokens. You can top up your balance at: WALLET"); window.open("https://app.dexmev.com/wallet.html", "_blank");
+                    alert("Insufficient $DEXMEV tokens. You can top up your balance at: WALLET"); window.open("../../wallet.html", "_blank");
                     return;
                 }
 

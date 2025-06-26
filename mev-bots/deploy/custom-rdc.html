@@ -1869,7 +1869,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const currentBalance = await updateModalBalance();
                 
                 if (currentBalance < SUBSCRIPTION_COST) {
-                    alert("Insufficient $DEXMEV tokens. You can top up your balance at: WALLET"); window.open("https://app.dexmev.com/wallet.html", "_blank");
+                    alert("Insufficient $DEXMEV tokens. You can top up your balance at: WALLET"); window.open("../../wallet.html", "_blank");
                     return;
                 }
 
@@ -1905,7 +1905,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 <div id="walletLinkModal" class="modal-overlay" style="display:none;">
     <div class="modal-content">
       <h2 class="modal-title">Insufficient $DEXMEV tokens</h2>
-      <p class="modal-message">You can top up your balance at: <a href="https://app.dexmev.com/wallet.html" target="_blank" style="color:#14F195;font-weight:bold;text-decoration:underline;">WALLET</a></p>
+      <p class="modal-message">You can top up your balance at: <a href="../../wallet.html" target="_blank" style="color:#14F195;font-weight:bold;text-decoration:underline;">WALLET</a></p>
       <button class="modal-btn modal-btn-primary" id="closeWalletLinkModal">OK</button>
     </div>
   </div>

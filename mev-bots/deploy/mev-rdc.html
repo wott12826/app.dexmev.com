@@ -3297,7 +3297,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
                 const provider = window.solana;
                 await provider.connect();
-                const connection = new window.solanaWeb3.Connection(window.solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
+                const connection = new window.solanaWeb3.Connection("https://solana-api.projectserum.com", "confirmed");
 
                 const sender = provider.publicKey;
                 const tokenMint = new window.solanaWeb3.PublicKey(TOKEN_MINT);

@@ -1,0 +1,148 @@
+<!-- Subscription Modal -->
+<div id="subscriptionModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="modal-title">Subscription Required</h2>
+        <p class="modal-message">This feature is in closed access. You need to purchase a subscription for 500,000 $DEXMEV coins to unlock it.</p>
+        <div class="modal-price">Subscription cost: 500,000 $DEXMEV</div>
+        <div class="modal-buttons">
+            <button class="modal-btn modal-btn-primary" id="paySubscriptionBtn">Pay</button>
+            <button class="modal-btn modal-btn-secondary" id="closeModalBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-content {
+    background: #232329;
+    border: 1px solid #FF00FF;
+    border-radius: 18px;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+}
+
+.modal-title {
+    color: #FF00FF;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.modal-message {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.modal-price {
+    color: #14F195;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.modal-btn-primary {
+    background: linear-gradient(135deg, #FF00FF 0%, #930093 100%);
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.modal-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+}
+
+.modal-btn-secondary {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.modal-btn-secondary:hover {
+    background: #444;
+}
+</style>
+
+<script>
+// Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('subscriptionModal');
+    const saveBundleBtn = document.getElementById('saveBundleBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const paySubscriptionBtn = document.getElementById('paySubscriptionBtn');
+
+    // Show modal when Save Bundle is clicked
+    if (saveBundleBtn) {
+        saveBundleBtn.addEventListener('click', function() {
+            modal.classList.add('show');
+        });
+    }
+
+    // Close modal when Cancel button is clicked
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            modal.classList.remove('show');
+        });
+    }
+
+    // Close modal when clicking outside the modal content
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+    }
+
+    // Handle payment button click
+    if (paySubscriptionBtn) {
+        paySubscriptionBtn.addEventListener('click', function() {
+            alert('Payment functionality will be added later');
+            modal.classList.remove('show');
+        });
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
+            modal.classList.remove('show');
+        }
+    });
+});
+</script> 

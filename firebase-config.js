@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -112,6 +112,8 @@ window.firebaseAuth = {
         email: user.email,
         inviteCode: newInviteCode,
         createdAt: new Date().toISOString(),
+        balance: 0, // Initial balance
+        solanaWallet: '', // Will be set when user connects wallet
         ...(isFirstUser ? {} : { invitedBy: inviteCode.trim() })
       };
       
@@ -142,6 +144,8 @@ window.firebaseAuth = {
         email: user.email,
         inviteCode: newInviteCode,
         createdAt: new Date().toISOString(),
+        balance: 0, // Initial balance
+        solanaWallet: '', // Will be set when user connects wallet
         isFirstUser: true
       };
       
@@ -248,7 +252,9 @@ window.firebaseAuth = {
         const newUserProfile = {
           email: user.email,
           inviteCode: newInviteCode,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          balance: 0, // Initial balance
+          solanaWallet: '' // Will be set when user connects wallet
         };
         await setDoc(userDocRef, newUserProfile);
         console.log('New user profile created:', newUserProfile);
@@ -256,6 +262,96 @@ window.firebaseAuth = {
       }
     } catch (error) {
       console.error('Get user profile error:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Update user's Solana wallet address
+  updateSolanaWallet: async (userId, walletAddress) => {
+    try {
+      const user = ensureAuthenticated();
+      console.log('Updating Solana wallet for user:', userId, 'Wallet:', walletAddress);
+      
+      const userDocRef = doc(db, "users", userId);
+      await updateDoc(userDocRef, {
+        solanaWallet: walletAddress,
+        walletConnectedAt: new Date().toISOString()
+      });
+      
+      console.log('Solana wallet updated successfully');
+      return { success: true };
+    } catch (error) {
+      console.error('Update Solana wallet error:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Get user balance
+  getUserBalance: async (userId) => {
+    try {
+      const user = ensureAuthenticated();
+      console.log('Getting balance for user:', userId);
+      
+      const userDocRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const balance = userData.balance || 0;
+        console.log('User balance:', balance);
+        return { success: true, balance: balance };
+      } else {
+        console.log('User profile not found');
+        return { success: false, error: "User profile not found" };
+      }
+    } catch (error) {
+      console.error('Get user balance error:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Add balance to user (used by deposit monitor)
+  addBalance: async (userId, amount) => {
+    try {
+      console.log('Adding balance for user:', userId, 'Amount:', amount);
+      
+      const userDocRef = doc(db, "users", userId);
+      await updateDoc(userDocRef, {
+        balance: increment(amount),
+        lastDepositAt: new Date().toISOString()
+      });
+      
+      console.log('Balance added successfully');
+      return { success: true };
+    } catch (error) {
+      console.error('Add balance error:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  // Find user by Solana wallet address
+  findUserByWallet: async (walletAddress) => {
+    try {
+      console.log('Finding user by wallet:', walletAddress);
+      
+      const q = query(
+        collection(db, "users"),
+        where("solanaWallet", "==", walletAddress),
+        limit(1)
+      );
+      const querySnapshot = await getDocs(q);
+      
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        const userData = doc.data();
+        console.log('User found by wallet:', doc.id, userData);
+        return { success: true, userId: doc.id, userData: userData };
+      } else {
+        console.log('No user found with wallet:', walletAddress);
+        return { success: false, error: "User not found" };
+      }
+    } catch (error) {
+      console.error('Find user by wallet error:', error);
       return { success: false, error: error.message };
     }
   },

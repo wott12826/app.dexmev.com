@@ -1,0 +1,31 @@
+{
+  "name": "dexmev-deposit-monitor",
+  "version": "1.0.0",
+  "description": "Automatic deposit monitoring and balance management for DexMev platform",
+  "main": "deposit-monitor.js",
+  "scripts": {
+    "start": "node deposit-monitor.js",
+    "dev": "nodemon deposit-monitor.js",
+    "test": "node test-deposit-system.js",
+    "test:watch": "nodemon test-deposit-system.js"
+  },
+  "keywords": [
+    "solana",
+    "firebase",
+    "deposit",
+    "monitor",
+    "dexmev"
+  ],
+  "author": "DexMev Team",
+  "license": "MIT",
+  "dependencies": {
+    "@solana/web3.js": "^1.87.6",
+    "firebase-admin": "^12.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 

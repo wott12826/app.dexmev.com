@@ -105,8 +105,12 @@
 }
 </style>
 
+<!-- Load Solana libraries from CDN -->
+<script src="https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js"></script>
+<script src="https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js"></script>
+
 <script>
-// Modal functionality with fallback for module imports
+// Modal functionality with Phantom integration
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('subscriptionModal');
     const saveBundleBtn = document.getElementById('saveBundleBtn');
@@ -150,33 +154,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // Try to load Solana libraries dynamically
-                let Connection, PublicKey, Transaction, clusterApiUrl;
-                let getOrCreateAssociatedTokenAccount, createTransferInstruction, TOKEN_PROGRAM_ID;
-
-                try {
-                    // Dynamic imports with fallback
-                    const web3Module = await import('https://cdn.skypack.dev/@solana/web3.js');
-                    const splTokenModule = await import('https://cdn.skypack.dev/@solana/spl-token');
-                    
-                    Connection = web3Module.Connection;
-                    PublicKey = web3Module.PublicKey;
-                    Transaction = web3Module.Transaction;
-                    clusterApiUrl = web3Module.clusterApiUrl;
-                    
-                    getOrCreateAssociatedTokenAccount = splTokenModule.getOrCreateAssociatedTokenAccount;
-                    createTransferInstruction = splTokenModule.createTransferInstruction;
-                    TOKEN_PROGRAM_ID = splTokenModule.TOKEN_PROGRAM_ID;
-                } catch (importError) {
-                    console.error('Failed to load Solana libraries:', importError);
-                    alert('Failed to load payment libraries. Please refresh the page and try again.');
+                // Check if Solana libraries are loaded
+                if (typeof solanaWeb3 === 'undefined' || typeof splToken === 'undefined') {
+                    alert('Payment libraries not loaded. Please refresh the page and try again.');
                     return;
                 }
 
                 // Configuration
-                const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
-                const TOKEN_MINT = new PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // DEXMEV token mint
-                const RECEIVER = new PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
+                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
+                const TOKEN_MINT = new solanaWeb3.PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // DEXMEV token mint
+                const RECEIVER = new solanaWeb3.PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
 
                 // Connect to Phantom
                 const resp = await window.solana.connect();
@@ -185,14 +172,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Connected to Phantom wallet:', sender.toString());
 
                 // Get or create token accounts
-                const senderTokenAccount = await getOrCreateAssociatedTokenAccount(
+                const senderTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
                     connection,
                     sender,
                     TOKEN_MINT,
                     sender
                 );
 
-                const receiverTokenAccount = await getOrCreateAssociatedTokenAccount(
+                const receiverTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
                     connection,
                     sender,
                     TOKEN_MINT,
@@ -202,14 +189,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Token accounts ready');
 
                 // Create transfer transaction
-                const tx = new Transaction().add(
-                    createTransferInstruction(
+                const tx = new solanaWeb3.Transaction().add(
+                    splToken.createTransferInstruction(
                         senderTokenAccount.address,
                         receiverTokenAccount.address,
                         sender,
                         500000, // 500,000 tokens
                         [],
-                        TOKEN_PROGRAM_ID
+                        splToken.TOKEN_PROGRAM_ID
                     )
                 );
 

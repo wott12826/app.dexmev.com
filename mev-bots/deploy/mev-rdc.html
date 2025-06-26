@@ -3152,70 +3152,6 @@ async function loadWeb3Library() {
     }
     return false;
 }
-
-// SPL Token Program ID and instruction constants
-const TOKEN_PROGRAM_ID = new solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
-const ASSOCIATED_TOKEN_PROGRAM_ID = new solanaWeb3.PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
-
-// Function to find associated token address
-function findAssociatedTokenAddress(walletAddress, tokenMintAddress) {
-    return solanaWeb3.PublicKey.findProgramAddress(
-        [
-            walletAddress.toBuffer(),
-            TOKEN_PROGRAM_ID.toBuffer(),
-            tokenMintAddress.toBuffer(),
-        ],
-        ASSOCIATED_TOKEN_PROGRAM_ID
-    );
-}
-
-// Function to create associated token account instruction
-function createAssociatedTokenAccountInstruction(
-    payer,
-    associatedToken,
-    owner,
-    mint
-) {
-    const keys = [
-        { pubkey: payer, isSigner: true, isWritable: true },
-        { pubkey: associatedToken, isSigner: false, isWritable: true },
-        { pubkey: owner, isSigner: false, isWritable: false },
-        { pubkey: mint, isSigner: false, isWritable: false },
-        { pubkey: solanaWeb3.SystemProgram.programId, isSigner: false, isWritable: false },
-        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-        { pubkey: solanaWeb3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
-    ];
-
-    return new solanaWeb3.TransactionInstruction({
-        keys,
-        programId: ASSOCIATED_TOKEN_PROGRAM_ID,
-        data: Buffer.alloc(0),
-    });
-}
-
-// Function to create transfer instruction
-function createTransferInstruction(
-    source,
-    destination,
-    owner,
-    amount
-) {
-    const keys = [
-        { pubkey: source, isSigner: false, isWritable: true },
-        { pubkey: destination, isSigner: false, isWritable: true },
-        { pubkey: owner, isSigner: true, isWritable: false },
-    ];
-
-    const data = Buffer.alloc(9);
-    data.writeUint8(3, 0); // Transfer instruction
-    data.writeBigUInt64LE(BigInt(amount), 1);
-
-    return new solanaWeb3.TransactionInstruction({
-        keys,
-        programId: TOKEN_PROGRAM_ID,
-        data,
-    });
-}
 </script>
 
 <script>
@@ -3230,6 +3166,71 @@ document.addEventListener('DOMContentLoaded', async function() {
     const web3Loaded = await loadWeb3Library();
     if (!web3Loaded) {
         console.error('Failed to load web3.js library');
+        return;
+    }
+
+    // SPL Token Program ID and instruction constants (moved here after library loads)
+    const TOKEN_PROGRAM_ID = new window.solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
+    const ASSOCIATED_TOKEN_PROGRAM_ID = new window.solanaWeb3.PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
+
+    // Function to find associated token address
+    function findAssociatedTokenAddress(walletAddress, tokenMintAddress) {
+        return window.solanaWeb3.PublicKey.findProgramAddress(
+            [
+                walletAddress.toBuffer(),
+                TOKEN_PROGRAM_ID.toBuffer(),
+                tokenMintAddress.toBuffer(),
+            ],
+            ASSOCIATED_TOKEN_PROGRAM_ID
+        );
+    }
+
+    // Function to create associated token account instruction
+    function createAssociatedTokenAccountInstruction(
+        payer,
+        associatedToken,
+        owner,
+        mint
+    ) {
+        const keys = [
+            { pubkey: payer, isSigner: true, isWritable: true },
+            { pubkey: associatedToken, isSigner: false, isWritable: true },
+            { pubkey: owner, isSigner: false, isWritable: false },
+            { pubkey: mint, isSigner: false, isWritable: false },
+            { pubkey: window.solanaWeb3.SystemProgram.programId, isSigner: false, isWritable: false },
+            { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+            { pubkey: window.solanaWeb3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
+        ];
+
+        return new window.solanaWeb3.TransactionInstruction({
+            keys,
+            programId: ASSOCIATED_TOKEN_PROGRAM_ID,
+            data: Buffer.alloc(0),
+        });
+    }
+
+    // Function to create transfer instruction
+    function createTransferInstruction(
+        source,
+        destination,
+        owner,
+        amount
+    ) {
+        const keys = [
+            { pubkey: source, isSigner: false, isWritable: true },
+            { pubkey: destination, isSigner: false, isWritable: true },
+            { pubkey: owner, isSigner: true, isWritable: false },
+        ];
+
+        const data = Buffer.alloc(9);
+        data.writeUint8(3, 0); // Transfer instruction
+        data.writeBigUInt64LE(BigInt(amount), 1);
+
+        return new window.solanaWeb3.TransactionInstruction({
+            keys,
+            programId: TOKEN_PROGRAM_ID,
+            data,
+        });
     }
 
     // Show modal when Save Bundle is clicked

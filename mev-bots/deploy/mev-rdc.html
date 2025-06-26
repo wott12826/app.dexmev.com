@@ -3174,7 +3174,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const ASSOCIATED_TOKEN_PROGRAM_ID = new window.solanaWeb3.PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
 
     // Function to find associated token address
-    function findAssociatedTokenAddress(walletAddress, tokenMintAddress) {
+    async function findAssociatedTokenAddress(walletAddress, tokenMintAddress) {
         return window.solanaWeb3.PublicKey.findProgramAddress(
             [
                 walletAddress.toBuffer(),
@@ -3304,8 +3304,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const destinationWallet = new window.solanaWeb3.PublicKey(DESTINATION_WALLET);
 
                 // Find associated token addresses
-                const [senderTokenAccount] = findAssociatedTokenAddress(sender, tokenMint);
-                const [receiverTokenAccount] = findAssociatedTokenAddress(destinationWallet, tokenMint);
+                const [senderTokenAccount] = await findAssociatedTokenAddress(sender, tokenMint);
+                const [receiverTokenAccount] = await findAssociatedTokenAddress(destinationWallet, tokenMint);
 
                 // Check if accounts exist
                 const senderAccountInfo = await connection.getAccountInfo(senderTokenAccount);

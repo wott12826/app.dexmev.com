@@ -106,8 +106,8 @@
 </style>
 
 <!-- Load Solana libraries from CDN -->
-<script src="https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js"></script>
-<script src="https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js"></script>
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script src="https://unpkg.com/@solana/spl-token@0.3.9/lib/index.iife.min.js" type="application/javascript"></script>
 
 <script>
 // Modal functionality with Phantom integration
@@ -148,78 +148,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 paySubscriptionBtn.disabled = true;
                 paySubscriptionBtn.textContent = 'Processing...';
 
-                // Check if Phantom is installed
-                if (!window.solana?.isPhantom) {
-                    alert("Please install Phantom Wallet to make this payment");
+                const TOKEN_MINT = new solanaWeb3.PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump");
+                const DESTINATION_WALLET = new solanaWeb3.PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
+                const AMOUNT = 500000; // 500,000 tokens
+
+                if (!window.solana || !window.solana.isPhantom) {
+                    alert("Phantom wallet not found!");
                     return;
                 }
 
-                // Check if Solana libraries are loaded
-                if (typeof solanaWeb3 === 'undefined' || typeof splToken === 'undefined') {
-                    alert('Payment libraries not loaded. Please refresh the page and try again.');
-                    return;
-                }
-
-                // Configuration
+                const provider = window.solana;
+                await provider.connect();
                 const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
-                const TOKEN_MINT = new solanaWeb3.PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // DEXMEV token mint
-                const RECEIVER = new solanaWeb3.PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
 
-                // Connect to Phantom
-                const resp = await window.solana.connect();
-                const sender = resp.publicKey;
+                const sender = provider.publicKey;
 
-                console.log('Connected to Phantom wallet:', sender.toString());
-
-                // Get or create token accounts
-                const senderTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
+                const token = new splToken.Token(
                     connection,
-                    sender,
                     TOKEN_MINT,
-                    sender
+                    splToken.TOKEN_PROGRAM_ID,
+                    provider
                 );
 
-                const receiverTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
-                    connection,
-                    sender,
-                    TOKEN_MINT,
-                    RECEIVER
-                );
+                const fromTokenAccount = await token.getOrCreateAssociatedAccountInfo(sender);
+                const toTokenAccount = await token.getOrCreateAssociatedAccountInfo(DESTINATION_WALLET);
 
-                console.log('Token accounts ready');
-
-                // Create transfer transaction
-                const tx = new solanaWeb3.Transaction().add(
-                    splToken.createTransferInstruction(
-                        senderTokenAccount.address,
-                        receiverTokenAccount.address,
+                const transaction = new solanaWeb3.Transaction().add(
+                    splToken.Token.createTransferInstruction(
+                        splToken.TOKEN_PROGRAM_ID,
+                        fromTokenAccount.address,
+                        toTokenAccount.address,
                         sender,
-                        500000, // 500,000 tokens
                         [],
-                        splToken.TOKEN_PROGRAM_ID
+                        AMOUNT
                     )
                 );
 
-                // Get recent blockhash
-                const { blockhash } = await connection.getLatestBlockhash();
-                tx.recentBlockhash = blockhash;
-                tx.feePayer = sender;
+                const { blockhash } = await connection.getRecentBlockhash();
+                transaction.recentBlockhash = blockhash;
+                transaction.feePayer = sender;
 
-                // Sign transaction with Phantom
-                const signed = await window.solana.signTransaction(tx);
-                
-                // Send transaction
-                const sig = await connection.sendRawTransaction(signed.serialize());
-                await connection.confirmTransaction(sig, "confirmed");
+                const signed = await provider.signTransaction(transaction);
+                const txid = await connection.sendRawTransaction(signed.serialize());
+                await connection.confirmTransaction(txid);
 
-                console.log('Transaction confirmed:', sig);
-
-                // Success message
-                alert("✅ Payment successful! 500,000 $DEXMEV tokens have been sent.");
+                alert("✅ Payment successful! Transaction: " + txid);
                 modal.classList.remove('show');
-
-                // You can add additional logic here to unlock the feature
-                // For example, save to localStorage or call an API
 
             } catch (err) {
                 console.error('Payment error:', err);
@@ -229,8 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert("❌ Payment was cancelled by user");
                 } else if (err.message.includes('insufficient funds')) {
                     alert("❌ Insufficient $DEXMEV tokens. You need 500,000 tokens to complete this payment.");
-                } else if (err.message.includes('Failed to load')) {
-                    alert("❌ Failed to load payment system. Please refresh the page and try again.");
                 } else {
                     alert("❌ Payment failed: " + err.message);
                 }

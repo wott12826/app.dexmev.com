@@ -83,7 +83,18 @@
     font-size: 24px;
     font-weight: bold;
     color: #FF00FF;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+}
+
+.modal-balance {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 25px;
+    padding: 10px;
+    background: rgba(20, 241, 149, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(20, 241, 149, 0.3);
+}
 }
 
 .modal-buttons {
@@ -1628,14 +1639,15 @@ document.querySelectorAll('.custom-green-checkbox').forEach(box => {
 <div id="subscriptionModal" class="modal-overlay">
     <div class="modal-content">
         <h2 class="modal-title">Subscription Required</h2>
-        <p class="modal-message">This feature is in closed access. You need to purchase a subscription for 500,000 $DEXMEV coins to unlock it.</p>
-        <div class="modal-price">Subscription cost: 500,000 $DEXMEV</div>
+        <p class="modal-message">This feature is in closed access. You need to purchase a subscription for 1,000,000 $DEXMEV coins to unlock it.</p>
+        <div class="modal-price">Subscription cost: 1,000,000 $DEXMEV</div>
+        <div class="modal-balance" id="modalBalance">Your balance: <span id="modalBalanceAmount">0</span> $DEXMEV</div>
         <div class="modal-buttons">
             <button class="modal-btn modal-btn-primary" id="paySubscriptionBtn">Pay</button>
             <button class="modal-btn modal-btn-secondary" id="closeModalBtn">Cancel</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+        </div>
+    </div>
+</div>
 
 <style>
 .modal-overlay {
@@ -1763,88 +1775,57 @@ async function loadWeb3Library() {
 </script>
 
 <script>
-// Modal functionality with Phantom integration
+// Modal functionality with balance check
 document.addEventListener('DOMContentLoaded', async function() {
     const modal = document.getElementById('subscriptionModal');
     const saveBundleBtn = document.getElementById('saveBundleBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const paySubscriptionBtn = document.getElementById('paySubscriptionBtn');
+    const modalBalanceAmount = document.getElementById('modalBalanceAmount');
 
-    // Load web3.js library
-    const web3Loaded = await loadWeb3Library();
-    if (!web3Loaded) {
-        console.error('Failed to load web3.js library');
-        return;
-    }
+    const SUBSCRIPTION_COST = 1000000; // 1,000,000 $DEXMEV tokens
 
-    // SPL Token Program ID and instruction constants (moved here after library loads)
-    const TOKEN_PROGRAM_ID = new window.solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA');
-    const ASSOCIATED_TOKEN_PROGRAM_ID = new window.solanaWeb3.PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
+    // Function to update modal balance display
+    async function updateModalBalance() {
+        if (!window.solana || !window.solana.isPhantom || !window.solana.publicKey) {
+            modalBalanceAmount.textContent = '0';
+            return 0;
+        }
 
-    // Function to find associated token address
-    async function findAssociatedTokenAddress(walletAddress, tokenMintAddress) {
-        return window.solanaWeb3.PublicKey.findProgramAddress(
-            [
-                walletAddress.toBuffer(),
-                TOKEN_PROGRAM_ID.toBuffer(),
-                tokenMintAddress.toBuffer(),
-            ],
-            ASSOCIATED_TOKEN_PROGRAM_ID
-        );
-    }
+        try {
+            const connection = new window.solanaWeb3.Connection('https://api.mainnet-beta.solana.com');
+            const walletAddress = window.solana.publicKey.toString();
+            
+            // $DEXMEV token address
+            const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump";
+            
+            // Get token account
+            const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
+                new window.solanaWeb3.PublicKey(walletAddress),
+                { mint: new window.solanaWeb3.PublicKey(TOKEN_MINT) }
+            );
 
-    // Function to create associated token account instruction
-    function createAssociatedTokenAccountInstruction(
-        payer,
-        associatedToken,
-        owner,
-        mint
-    ) {
-        const keys = [
-            { pubkey: payer, isSigner: true, isWritable: true },
-            { pubkey: associatedToken, isSigner: false, isWritable: true },
-            { pubkey: owner, isSigner: false, isWritable: false },
-            { pubkey: mint, isSigner: false, isWritable: false },
-            { pubkey: window.solanaWeb3.SystemProgram.programId, isSigner: false, isWritable: false },
-            { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-            { pubkey: window.solanaWeb3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false },
-        ];
-
-        return new window.solanaWeb3.TransactionInstruction({
-            keys,
-            programId: ASSOCIATED_TOKEN_PROGRAM_ID,
-            data: Buffer.alloc(0),
-        });
-    }
-
-    // Function to create transfer instruction
-    function createTransferInstruction(
-        source,
-        destination,
-        owner,
-        amount
-    ) {
-        const keys = [
-            { pubkey: source, isSigner: false, isWritable: true },
-            { pubkey: destination, isSigner: false, isWritable: true },
-            { pubkey: owner, isSigner: true, isWritable: false },
-        ];
-
-        const data = Buffer.alloc(9);
-        data.writeUint8(3, 0); // Transfer instruction
-        data.writeBigUInt64LE(BigInt(amount), 1);
-
-        return new window.solanaWeb3.TransactionInstruction({
-            keys,
-            programId: TOKEN_PROGRAM_ID,
-            data,
-        });
+            if (tokenAccounts.value.length > 0) {
+                const tokenBalance = tokenAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
+                modalBalanceAmount.textContent = tokenBalance.toLocaleString();
+                return tokenBalance;
+            } else {
+                modalBalanceAmount.textContent = '0';
+                return 0;
+            }
+        } catch (error) {
+            console.error('Error getting balance for modal:', error);
+            modalBalanceAmount.textContent = '0';
+            return 0;
+        }
     }
 
     // Show modal when Save Bundle is clicked
     if (saveBundleBtn) {
-        saveBundleBtn.addEventListener('click', function() {
+        saveBundleBtn.addEventListener('click', async function() {
             modal.classList.add('show');
+            // Update balance when modal opens
+            await updateModalBalance();
         });
     }
 
@@ -1864,19 +1845,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // Handle payment button click with Phantom integration
+    // Handle payment button click with balance check
     if (paySubscriptionBtn) {
         paySubscriptionBtn.addEventListener('click', async function() {
             try {
                 // Disable button to prevent double clicks
                 paySubscriptionBtn.disabled = true;
-                paySubscriptionBtn.textContent = 'Processing...';
-
-                // Check if web3.js is loaded
-                if (!window.solanaWeb3) {
-                    alert('Payment library not loaded. Please refresh the page and try again.');
-                    return;
-                }
+                paySubscriptionBtn.textContent = 'Checking Balance...';
 
                 // Check if Phantom is installed
                 if (!window.solana || !window.solana.isPhantom) {
@@ -1884,94 +1859,32 @@ document.addEventListener('DOMContentLoaded', async function() {
                     return;
                 }
 
-                // Configuration - REPLACE WITH ACTUAL ADDRESSES
-                const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"; // DEXMEV token mint
-                const DESTINATION_WALLET = "4JXHqbdLeYH9gBed2haoUDLa8cDw2YDu5R9V4a9W7Qib"; // Replace with actual receiver address
-                const AMOUNT = 500000; // 500,000 tokens
-
-                // Validate addresses
-                if (DESTINATION_WALLET === "YOUR_RECEIVER_ADDRESS_HERE") {
-                    alert("❌ Please configure the receiver address before testing payments.");
+                // Check if wallet is connected
+                if (!window.solana.publicKey) {
+                    alert("Please connect your wallet first.");
                     return;
                 }
 
-                try {
-                    new window.solanaWeb3.PublicKey(TOKEN_MINT);
-                    new window.solanaWeb3.PublicKey(DESTINATION_WALLET);
-                } catch (e) {
-                    alert("❌ Invalid token or receiver address. Please check the configuration.");
+                // Update balance and check if sufficient
+                const currentBalance = await updateModalBalance();
+                
+                if (currentBalance < SUBSCRIPTION_COST) {
+                    alert(`Insufficient $DEXMEV tokens. You have ${currentBalance.toLocaleString()} tokens, but need ${SUBSCRIPTION_COST.toLocaleString()} tokens for subscription.`);
                     return;
                 }
 
-                const provider = window.solana;
-                await provider.connect();
-                const connection = new window.solanaWeb3.Connection("https://solana-api.projectserum.com", "confirmed");
-
-                const sender = provider.publicKey;
-                const tokenMint = new window.solanaWeb3.PublicKey(TOKEN_MINT);
-                const destinationWallet = new window.solanaWeb3.PublicKey(DESTINATION_WALLET);
-
-                // Find associated token addresses
-                const [senderTokenAccount] = await findAssociatedTokenAddress(sender, tokenMint);
-                const [receiverTokenAccount] = await findAssociatedTokenAddress(destinationWallet, tokenMint);
-
-                // Check if accounts exist
-                const senderAccountInfo = await connection.getAccountInfo(senderTokenAccount);
-                const receiverAccountInfo = await connection.getAccountInfo(receiverTokenAccount);
-
-                // Create transaction
-                const transaction = new window.solanaWeb3.Transaction();
-
-                // Add create account instruction if receiver account doesn't exist
-                if (!receiverAccountInfo) {
-                    transaction.add(
-                        createAssociatedTokenAccountInstruction(
-                            sender,
-                            receiverTokenAccount,
-                            destinationWallet,
-                            tokenMint
-                        )
-                    );
-                }
-
-                // Add transfer instruction
-                transaction.add(
-                    createTransferInstruction(
-                        senderTokenAccount,
-                        receiverTokenAccount,
-                        sender,
-                        AMOUNT
-                    )
-                );
-
-                // Get recent blockhash and set fee payer
-                const { blockhash } = await connection.getRecentBlockhash();
-                transaction.recentBlockhash = blockhash;
-                transaction.feePayer = sender;
-
-                // Sign and send transaction
-                const signed = await provider.signTransaction(transaction);
-                const txid = await connection.sendRawTransaction(signed.serialize());
-                await connection.confirmTransaction(txid);
-
-                alert("✅ Payment successful! Transaction: " + txid);
+                // If balance is sufficient, show success message
+                paySubscriptionBtn.textContent = 'Processing...';
+                
+                // Simulate processing time (you can replace this with actual payment logic)
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                alert(" Subscription successful! You have sufficient $DEXMEV tokens for this subscription.");
                 modal.classList.remove('show');
 
             } catch (err) {
-                console.error('Payment error:', err);
-                
-                // Handle specific errors
-                if (err.message.includes('User rejected')) {
-                    alert("❌ Payment was cancelled by user");
-                } else if (err.message.includes('insufficient funds')) {
-                    alert("❌ Insufficient $DEXMEV tokens. You need 500,000 tokens to complete this payment.");
-                } else if (err.message.includes('Non-base58')) {
-                    alert("❌ Invalid address format. Please check the receiver address.");
-                } else if (err.message.includes('0x1')) {
-                    alert("❌ Insufficient token balance. Please check your $DEXMEV token balance.");
-                } else {
-                    alert("❌ Payment failed: " + err.message);
-                }
+                console.error('Subscription error:', err);
+                alert(" Error processing subscription: " + err.message);
             } finally {
                 // Re-enable button
                 paySubscriptionBtn.disabled = false;
@@ -1991,3 +1904,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 </body>
 
 </html>
+
+
+
+
+

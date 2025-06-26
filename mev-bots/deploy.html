@@ -758,16 +758,19 @@
                     
                     // Get user profile to check if wallet is connected
                     try {
+                        console.log('Checking user profile for saved wallet address...');
                         const profileResult = await window.firebaseAuth.getUserProfile(currentUser.uid);
                         if (profileResult.success && profileResult.data.solanaWallet) {
                             walletAddress = profileResult.data.solanaWallet;
                             walletConnected = true;
+                            console.log('✅ Found saved wallet address:', walletAddress);
                             updateWalletDisplay();
                             getUserBalance(); // Get balance when wallet is already connected
-                            console.log('Wallet already connected:', walletAddress);
+                        } else {
+                            console.log('ℹ️ No saved wallet address found in user profile');
                         }
                     } catch (error) {
-                        console.error('Error checking user profile:', error);
+                        console.error('❌ Error checking user profile:', error);
                     }
                 } else {
                     console.log('No authenticated user');
@@ -790,15 +793,22 @@
                         // Update wallet in Firebase if user is authenticated
                         if (currentUser) {
                             try {
+                                console.log('Saving wallet address to Firebase for user:', currentUser.uid);
                                 const result = await window.firebaseAuth.updateSolanaWallet(currentUser.uid, walletAddress);
                                 if (result.success) {
-                                    console.log('Wallet address saved to Firebase');
+                                    console.log('✅ Wallet address saved to Firebase successfully');
                                 } else {
-                                    console.error('Error saving wallet to Firebase:', result.error);
+                                    console.error('❌ Error saving wallet to Firebase:', result.error);
+                                    // Show error to user
+                                    alert('Error saving wallet to database: ' + result.error);
                                 }
                             } catch (error) {
-                                console.error('Error updating wallet in Firebase:', error);
+                                console.error('❌ Error updating wallet in Firebase:', error);
+                                // Show error to user
+                                alert('Error saving wallet to database: ' + error.message);
                             }
+                        } else {
+                            console.log('⚠️ No authenticated user, wallet address not saved to Firebase');
                         }
                         
                         updateWalletDisplay();
@@ -814,6 +824,8 @@
                     walletConnected = false;
                     walletAddress = '';
                     updateWalletDisplay();
+                    // Show error to user
+                    alert('Error connecting wallet: ' + error.message);
                 }
             }
 
@@ -841,6 +853,7 @@
             // Disconnect wallet
             async function disconnectWallet() {
                 try {
+                    console.log('Disconnecting wallet...');
                     walletConnected = false;
                     walletAddress = '';
                     userBalance = 0;
@@ -848,18 +861,31 @@
                     // Clear wallet from Firebase if user is authenticated
                     if (currentUser) {
                         try {
-                            await window.firebaseAuth.updateSolanaWallet(currentUser.uid, '');
-                            console.log('Wallet disconnected from Firebase');
+                            console.log('Clearing wallet address from Firebase for user:', currentUser.uid);
+                            const result = await window.firebaseAuth.updateSolanaWallet(currentUser.uid, '');
+                            if (result.success) {
+                                console.log('✅ Wallet address cleared from Firebase successfully');
+                            } else {
+                                console.error('❌ Error clearing wallet from Firebase:', result.error);
+                                // Show error to user
+                                alert('Error clearing wallet from database: ' + result.error);
+                            }
                         } catch (error) {
-                            console.error('Error disconnecting wallet from Firebase:', error);
+                            console.error('❌ Error disconnecting wallet from Firebase:', error);
+                            // Show error to user
+                            alert('Error clearing wallet from database: ' + error.message);
                         }
+                    } else {
+                        console.log('⚠️ No authenticated user, wallet address not cleared from Firebase');
                     }
                     
                     updateWalletDisplay();
                     updateBalanceDisplay();
-                    console.log('Wallet disconnected');
+                    console.log('✅ Wallet disconnected successfully');
                 } catch (error) {
-                    console.error('Error disconnecting wallet:', error);
+                    console.error('❌ Error disconnecting wallet:', error);
+                    // Show error to user
+                    alert('Error disconnecting wallet: ' + error.message);
                 }
             }
 
@@ -994,6 +1020,9 @@
             });
         });
     </script>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script src="wallet-system.js"></script>
 </body>
 
 </html>

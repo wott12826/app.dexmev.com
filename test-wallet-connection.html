@@ -65,6 +65,7 @@
         <h2>🔍 Debug Information</h2>
         <button onclick="showWalletState()">Show Wallet State</button>
         <button onclick="testFirebaseConnection()">Test Firebase</button>
+        <button onclick="checkUserProfile()">Check User Profile</button>
         <button onclick="clearLogs()">Clear Logs</button>
         
         <h2>📝 Logs</h2>
@@ -209,6 +210,29 @@
                     if (user) {
                         log(`✅ Firebase connected, user: ${user.uid}`, 'success');
                         updateSystemStatus(`Firebase: ${user.email}`, 'success');
+                        
+                        // Test saving wallet address
+                        log('🧪 Testing wallet address saving...', 'info');
+                        const testWalletAddress = 'TestWalletAddress123456789';
+                        const saveResult = await window.firebaseAuth.updateSolanaWallet(user.uid, testWalletAddress);
+                        if (saveResult.success) {
+                            log('✅ Wallet address saved successfully', 'success');
+                            
+                            // Test retrieving wallet address
+                            log('🧪 Testing wallet address retrieval...', 'info');
+                            const profileResult = await window.firebaseAuth.getUserProfile(user.uid);
+                            if (profileResult.success && profileResult.data.solanaWallet === testWalletAddress) {
+                                log('✅ Wallet address retrieved successfully', 'success');
+                            } else {
+                                log('❌ Wallet address retrieval failed', 'error');
+                            }
+                            
+                            // Clean up - clear test wallet address
+                            await window.firebaseAuth.updateSolanaWallet(user.uid, '');
+                            log('🧹 Test wallet address cleared', 'info');
+                        } else {
+                            log(`❌ Wallet address save failed: ${saveResult.error}`, 'error');
+                        }
                     } else {
                         log('⚠️ Firebase connected but no user authenticated', 'warning');
                         updateSystemStatus('Firebase: No user', 'warning');
@@ -220,6 +244,30 @@
                 
             } catch (error) {
                 log(`❌ Firebase test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Check user profile
+        async function checkUserProfile() {
+            try {
+                log('🔍 Checking user profile...', 'info');
+                
+                if (window.firebaseAuth) {
+                    const user = window.firebaseAuth.getCurrentUser();
+                    if (user) {
+                        log('✅ User profile found', 'success');
+                        updateSystemStatus('User profile checked', 'success');
+                    } else {
+                        log('⚠️ User profile not found', 'warning');
+                        updateSystemStatus('User profile not found', 'warning');
+                    }
+                } else {
+                    log('❌ Firebase not available', 'error');
+                    updateSystemStatus('Firebase: Not available', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ User profile check failed: ${error.message}`, 'error');
             }
         }
 

@@ -2457,9 +2457,34 @@ document.querySelectorAll('.custom-green-checkbox').forEach(box => {
 .modal-btn-secondary:hover {
     background: #444;
 }
+
+.modal-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
 </style>
 
-<script>
+<script type="module">
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  clusterApiUrl,
+  sendAndConfirmTransaction
+} from "https://cdn.skypack.dev/@solana/web3.js";
+
+import {
+  getOrCreateAssociatedTokenAccount,
+  createTransferInstruction,
+  TOKEN_PROGRAM_ID
+} from "https://cdn.skypack.dev/@solana/spl-token";
+
+// Configuration
+const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
+const TOKEN_MINT = new PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // DEXMEV token mint
+const RECEIVER = new PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
+
 // Modal functionality
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('subscriptionModal');
@@ -2490,11 +2515,92 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle payment button click
+    // Handle payment button click with Phantom integration
     if (paySubscriptionBtn) {
-        paySubscriptionBtn.addEventListener('click', function() {
-            alert('Payment functionality will be added later');
-            modal.classList.remove('show');
+        paySubscriptionBtn.addEventListener('click', async function() {
+            try {
+                // Disable button to prevent double clicks
+                paySubscriptionBtn.disabled = true;
+                paySubscriptionBtn.textContent = 'Processing...';
+
+                // Check if Phantom is installed
+                if (!window.solana?.isPhantom) {
+                    alert("Please install Phantom Wallet to make this payment");
+                    return;
+                }
+
+                // Connect to Phantom
+                const resp = await window.solana.connect();
+                const sender = resp.publicKey;
+
+                console.log('Connected to Phantom wallet:', sender.toString());
+
+                // Get or create token accounts
+                const senderTokenAccount = await getOrCreateAssociatedTokenAccount(
+                    connection,
+                    sender,
+                    TOKEN_MINT,
+                    sender
+                );
+
+                const receiverTokenAccount = await getOrCreateAssociatedTokenAccount(
+                    connection,
+                    sender,
+                    TOKEN_MINT,
+                    RECEIVER
+                );
+
+                console.log('Token accounts ready');
+
+                // Create transfer transaction
+                const tx = new Transaction().add(
+                    createTransferInstruction(
+                        senderTokenAccount.address,
+                        receiverTokenAccount.address,
+                        sender,
+                        1000000, // 1,000,000 tokens
+                        [],
+                        TOKEN_PROGRAM_ID
+                    )
+                );
+
+                // Get recent blockhash
+                const { blockhash } = await connection.getLatestBlockhash();
+                tx.recentBlockhash = blockhash;
+                tx.feePayer = sender;
+
+                // Sign transaction with Phantom
+                const signed = await window.solana.signTransaction(tx);
+                
+                // Send transaction
+                const sig = await connection.sendRawTransaction(signed.serialize());
+                await connection.confirmTransaction(sig, "confirmed");
+
+                console.log('Transaction confirmed:', sig);
+
+                // Success message
+                alert("✅ Payment successful! 1,000,000 $DEXMEV tokens have been sent.");
+                modal.classList.remove('show');
+
+                // You can add additional logic here to unlock the feature
+                // For example, save to localStorage or call an API
+
+            } catch (err) {
+                console.error('Payment error:', err);
+                
+                // Handle specific errors
+                if (err.message.includes('User rejected')) {
+                    alert("❌ Payment was cancelled by user");
+                } else if (err.message.includes('insufficient funds')) {
+                    alert("❌ Insufficient $DEXMEV tokens. You need 1,000,000 tokens to complete this payment.");
+                } else {
+                    alert("❌ Payment failed: " + err.message);
+                }
+            } finally {
+                // Re-enable button
+                paySubscriptionBtn.disabled = false;
+                paySubscriptionBtn.textContent = 'Pay';
+            }
         });
     }
 

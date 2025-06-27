@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="_next/static/css/ea903d5c6198cacb.css" data-precedence="next">
     <link rel="stylesheet" href="mobile-responsive.css">
-    <link data-rh="true" rel="icon" href="favicon-logo.svg">
+    <link rel="icon" type="image/png" href="_next/logo.png">
     <title>SM MEV Bots</title>
     <meta name="description" content="SM MEV Bots description">
     <style>
@@ -1384,7 +1384,42 @@ function updateSolanaStats() {
 setInterval(updateSolanaStats, 5000);
 setTimeout(updateSolanaStats, 1000);
 </script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Открытие модалки по любой кнопке Add Balance
+      document.querySelectorAll('button').forEach(btn => {
+        if (btn.textContent.trim().replace(/\s+/g, ' ') === 'Add Balance') {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Можно подставить актуальный баланс, если он есть
+            document.getElementById('modalBalanceValue').textContent = (document.getElementById('solBalance')?.textContent || '0') + ' SOL';
+            document.getElementById('addBalanceInput').value = '';
+            document.getElementById('addBalanceModal').style.display = 'flex';
+          });
+        }
+      });
+    
+      // Закрытие по Cancel и по клику вне окна
+      document.getElementById('addBalanceCancel').onclick = function() {
+        document.getElementById('addBalanceModal').style.display = 'none';
+      };
+      document.getElementById('addBalanceModal').addEventListener('click', function(e) {
+        if (e.target === this) this.style.display = 'none';
+      });
+    
+      // Пример обработчика Add (можно заменить на свою логику)
+      document.getElementById('addBalanceConfirm').onclick = function() {
+        const amount = document.getElementById('addBalanceInput').value;
+        if (!amount || Number(amount) <= 0) {
+          alert('Enter a valid amount');
+          return;
+        }
+        // TODO: отправить запрос на пополнение
+        document.getElementById('addBalanceModal').style.display = 'none';
+        alert('Balance top-up requested: ' + amount + ' SOL');
+      };
+    });
+    </script>
 </body>
 
 </html>

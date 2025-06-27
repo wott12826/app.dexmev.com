@@ -398,6 +398,54 @@
             display: none !important;
           }
         }
+        /* --- Burger & Sidebar Mobile Fix --- */
+        @media (max-width: 768px) {
+          #burger {
+            display: block !important;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 999;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            min-width: 44px;
+            min-height: 44px;
+            backdrop-filter: blur(10px);
+          }
+          aside {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(134deg, #1f2023, #27282c);
+            z-index: 998;
+            padding: 1rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+          }
+          aside.open {
+            transform: translateX(0);
+          }
+        }
+        @media (min-width: 769px) {
+          #burger {
+            display: none !important;
+          }
+          aside {
+            position: static !important;
+            width: 200px !important;
+            height: auto !important;
+            z-index: auto !important;
+            transform: none !important;
+            background: inherit !important;
+            transition: none !important;
+          }
+        }
     </style>
 </head>
 

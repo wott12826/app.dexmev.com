@@ -138,7 +138,7 @@
             if (disconnectBtn) {
                 disconnectBtn.style.display = 'block';
             }
-            // Обновляем полный адрес в секции депозита
+            // Update full address in deposit section
             if (walletFullAddr) {
                 walletFullAddr.textContent = walletAddress;
             }
@@ -153,7 +153,7 @@
             if (disconnectBtn) {
                 disconnectBtn.style.display = 'none';
             }
-            // Сбрасываем адрес в секции депозита
+            // Reset address in deposit section
             if (walletFullAddr) {
                 walletFullAddr.textContent = '8RbHXFBbS1ZhKT3EcDewE2QjuKbFjJp97QumHDieKag9';
             }
@@ -205,19 +205,19 @@
             navigator.clipboard.writeText(walletAddress).then(() => {
                 console.log('Wallet address copied to clipboard');
                 
-                // Обновляем адрес в секции депозита
+                // Update address in deposit section
                 const walletFullAddr = document.getElementById('walletFullAddr');
                 if (walletFullAddr) {
                     walletFullAddr.textContent = walletAddress;
                 }
                 
-                // Показываем визуальную обратную связь для иконки копирования
+                // Show visual feedback for copy icon
                 const copyIcon = document.getElementById('copyWalletIcon');
                 if (copyIcon) {
                     const originalDisplay = copyIcon.style.display;
                     copyIcon.style.display = 'block';
                     
-                    // Временно меняем иконку на галочку
+                    // Temporarily change icon to checkmark
                     const originalHTML = copyIcon.innerHTML;
                     copyIcon.innerHTML = `
                         <path fill="#14F195" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
@@ -233,7 +233,7 @@
                 
             }).catch(error => {
                 console.error('Error copying wallet address:', error);
-                alert('Ошибка при копировании адреса: ' + error.message);
+                alert('Error copying address: ' + error.message);
             });
         }
     }

@@ -35,7 +35,7 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 100%;
+                width: 100vw;
                 height: 100vh;
                 background: linear-gradient(134deg, #1f2023, #27282c);
                 z-index: 998;
@@ -49,6 +49,7 @@
             }
             
             #burger {
+                display: block !important;
                 position: fixed;
                 top: 1rem;
                 left: 1rem;
@@ -58,7 +59,6 @@
                 color: white;
                 border: none;
                 border-radius: 8px;
-                display: block;
                 font-size: 18px;
                 min-width: 44px;
                 min-height: 44px;
@@ -73,12 +73,12 @@
             header {
                 flex-direction: column !important;
                 gap: 1rem !important;
-                padding: 1rem !important;
                 align-items: flex-start !important;
+                padding: 1rem !important;
             }
             
             header h1 {
-                font-size: 24px !important;
+                font-size: 22px !important;
                 margin-bottom: 0.5rem !important;
             }
             
@@ -101,7 +101,7 @@
             }
             
             .text-\[32px\] {
-                font-size: 20px !important;
+                font-size: 18px !important;
             }
             
             .text-\[22px\] {
@@ -142,14 +142,18 @@
                 border-radius: 12px !important;
             }
             
-            .w-\[606px\] {
+            .w-\[606px\], .w-606px, .mx-auto {
                 width: 100% !important;
                 max-width: 100% !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
             }
             
-            .w-\[182px\] {
-                width: 150px !important;
-                height: 150px !important;
+            .h-\[182px\], .w-\[182px\] {
+                width: 120px !important;
+                height: 120px !important;
+                max-width: 90vw !important;
+                max-height: 40vw !important;
             }
             
             .grid-cols-12 {
@@ -185,41 +189,15 @@
             }
         }
         
-        @media (max-width: 480px) {
-            body {
-                font-size: 13px;
-            }
-            
-            header h1 {
-                font-size: 20px !important;
-            }
-            
-            .text-\[32px\] {
-                font-size: 18px !important;
-            }
-            
-            .p-5 {
-                padding: 0.75rem !important;
-            }
-            
-            aside nav button {
-                width: 50px !important;
-                height: 50px !important;
-            }
-            
-            .w-\[182px\] {
-                width: 120px !important;
-                height: 120px !important;
-            }
-        }
-        
         @media (min-width: 769px) {
             aside {
-                transform: none !important;
                 position: static !important;
                 width: 200px !important;
                 height: auto !important;
                 z-index: auto !important;
+                transform: none !important;
+                background: inherit !important;
+                transition: none !important;
             }
             
             #burger {

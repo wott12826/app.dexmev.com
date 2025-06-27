@@ -12,6 +12,236 @@
     <link rel="icon" type="image/png" href="_next/logo.png">
     <title>SM Dashboard - Sign Up</title>
     <meta name="description" content="SM Dashboard description">
+    <style>
+        /* Mobile-responsive styles for signup page */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem !important;
+                min-height: 100vh !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: linear-gradient(134deg, #1f2023, #27282c) !important;
+            }
+            
+            .w-full.sm\:w-\[606px\] {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+            
+            .mt-8 {
+                margin-top: 0 !important;
+            }
+            
+            .!p-8 {
+                padding: 1.5rem !important;
+            }
+            
+            .text-3xl.sm\:text-4xl {
+                font-size: 24px !important;
+                line-height: 1.2 !important;
+            }
+            
+            .mt-6 {
+                margin-top: 1.5rem !important;
+            }
+            
+            .py-8 {
+                padding-top: 1.5rem !important;
+                padding-bottom: 1.5rem !important;
+            }
+            
+            .mt-2\.5 {
+                margin-top: 0.75rem !important;
+            }
+            
+            .mb-3 {
+                margin-bottom: 0.75rem !important;
+            }
+            
+            .mb-2 {
+                margin-bottom: 0.5rem !important;
+            }
+            
+            .h-\[50px\] {
+                min-height: 44px !important;
+                height: 44px !important;
+            }
+            
+            .mt-9 {
+                margin-top: 2rem !important;
+            }
+            
+            .text-\[22px\] {
+                font-size: 16px !important;
+            }
+            
+            .text-sm {
+                font-size: 14px !important;
+            }
+            
+            .mt-5 {
+                margin-top: 1.25rem !important;
+            }
+            
+            .pt-3 {
+                padding-top: 0.75rem !important;
+            }
+            
+            .mt-4 {
+                margin-top: 1rem !important;
+            }
+            
+            /* Form improvements */
+            input[type="email"], 
+            input[type="password"],
+            input[type="text"] {
+                font-size: 16px !important;
+                padding: 0.75rem !important;
+                min-height: 44px !important;
+            }
+            
+            .py-\[3px\] {
+                padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+            
+            .px-4 {
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+            
+            .pr-1 {
+                padding-right: 0.25rem !important;
+            }
+            
+            /* Button improvements */
+            button {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                font-size: 16px !important;
+                padding: 0.75rem 1rem !important;
+            }
+            
+            /* Divider improvements */
+            .flex.items-center.justify-center.w-full {
+                margin: 1rem 0 !important;
+            }
+            
+            .mx-4 {
+                margin-left: 0.75rem !important;
+                margin-right: 0.75rem !important;
+            }
+            
+            /* Error message improvements */
+            #errorMessage {
+                font-size: 14px !important;
+                padding: 0.5rem !important;
+                border-radius: 6px !important;
+                margin-top: 0.75rem !important;
+            }
+            
+            /* Invite code validation improvements */
+            #inviteCodeValidation {
+                font-size: 13px !important;
+                padding: 0.25rem 0 !important;
+                margin-top: 0.25rem !important;
+            }
+            
+            /* Link improvements */
+            a {
+                font-size: 14px !important;
+                padding: 0.5rem 0 !important;
+                min-height: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+            
+            /* Focus states for accessibility */
+            input:focus {
+                outline: 2px solid #FF00FF !important;
+                outline-offset: 2px !important;
+            }
+            
+            button:focus {
+                outline: 2px solid #FF00FF !important;
+                outline-offset: 2px !important;
+            }
+            
+            /* Loading state improvements */
+            button:disabled {
+                opacity: 0.6 !important;
+                cursor: not-allowed !important;
+            }
+            
+            /* Animation improvements */
+            .active\:scale-\[97\%\]:active {
+                transform: scale(0.97) !important;
+            }
+            
+            .hover\:opacity-100:hover {
+                opacity: 1 !important;
+            }
+            
+            /* Required field indicators */
+            .text-red-500 {
+                color: #FF0040 !important;
+                font-weight: bold !important;
+            }
+            
+            /* Form field spacing for better mobile UX */
+            .neumorphism-border-1 {
+                margin-bottom: 0.75rem !important;
+            }
+            
+            /* Ensure proper spacing on very small screens */
+            @media (max-width: 375px) {
+                .!p-8 {
+                    padding: 1rem !important;
+                }
+                
+                .text-3xl.sm\:text-4xl {
+                    font-size: 22px !important;
+                }
+                
+                .py-8 {
+                    padding-top: 1rem !important;
+                    padding-bottom: 1rem !important;
+                }
+                
+                .mt-2\.5 {
+                    margin-top: 0.5rem !important;
+                }
+                
+                .mb-3 {
+                    margin-bottom: 0.5rem !important;
+                }
+                
+                .mb-2 {
+                    margin-bottom: 0.25rem !important;
+                }
+            }
+            
+            /* Scroll improvements for long forms */
+            .rounded-\[17px\] {
+                max-height: 90vh !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 769px) {
+            body {
+                background: linear-gradient(134deg, #1f2023, #27282c);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 
 <body class="antialiased">

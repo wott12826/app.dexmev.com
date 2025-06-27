@@ -226,6 +226,144 @@
                 display: none !important;
             }
         }
+
+        /* --- Custom styles for RDC STATUS block --- */
+        .rdc-status-block {
+          background: #18191c;
+          border-radius: 18px;
+          box-shadow: 0 2px 16px #000a;
+          display: flex;
+          gap: 28px;
+          align-items: center;
+          padding: 32px 24px;
+        }
+        .rdc-status-circle {
+          width: 153px;
+          height: 153px;
+          background: none;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .rdc-status-circle svg {
+          display: block;
+        }
+        .rdc-status-label {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+        .rdc-status-label .main {
+          color: #fff;
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin-bottom: 2px;
+        }
+        .rdc-status-label .sub {
+          color: #14F195;
+          font-size: 1.05rem;
+          font-weight: 400;
+          margin-top: 2px;
+        }
+        .rdc-status-icons {
+          min-width: 60px;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          align-items: flex-start;
+          justify-content: center;
+        }
+        .rdc-status-icons svg {
+          width: 22px;
+          height: 22px;
+          margin-right: 6px;
+        }
+        .rdc-status-icons span {
+          color: #fff;
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin-left: 4px;
+        }
+        .rdc-ms-circle {
+          width: 105px;
+          height: 105px;
+          background: #232428;
+          border-radius: 16px;
+          box-shadow: 0 2px 12px #0006;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .rdc-ms-label {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+        .rdc-ms-label .main {
+          color: #14F195;
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+        .rdc-ms-label .sub {
+          color: #3ec6ff;
+          font-size: 1rem;
+          font-weight: 400;
+        }
+        .rdc-healthy {
+          width: 105px;
+          height: 105px;
+          background: #232428;
+          border-radius: 16px;
+          box-shadow: 0 2px 12px #0006;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .rdc-healthy .icon {
+          width: 57.5px;
+          height: 57.5px;
+          background: #18191c;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 1px 6px #0004;
+        }
+        .rdc-healthy .label {
+          color: #3ec6ff;
+          font-size: 1.05rem;
+          font-weight: 500;
+          margin-top: 2px;
+        }
+        .rdc-right-values {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          margin-left: 24px;
+          min-width: 160px;
+        }
+        .rdc-right-values .val {
+          background: #232428;
+          border-radius: 10px;
+          color: #fff;
+          font-size: 1.1rem;
+          font-weight: 600;
+          text-align: center;
+          padding: 10px 0;
+          box-shadow: 0 1px 6px #0002;
+        }
+        @media (max-width: 900px) {
+          .rdc-status-block { flex-direction: column; gap: 18px; padding: 18px 8px; }
+          .rdc-right-values { margin-left: 0; min-width: 120px; }
+        }
     </style>
 </head>
 

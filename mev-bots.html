@@ -1519,6 +1519,62 @@ document.addEventListener('DOMContentLoaded', function() {
   observer.observe(document.body, { childList: true, subtree: true });
 });
 </script>
+<!-- Withdrawal Modal -->
+<div id="withdrawalModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+  <div style="background:#23232a; border-radius:18px; max-width:90vw; width:400px; padding:32px 24px; box-shadow:0 8px 32px #000a;">
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <h2 style="color:#fff; font-size:1.5rem; font-weight:600; margin-bottom:16px;">Withdrawal</h2>
+      <div style="color:#14F195; font-size:1.1rem; margin-bottom:6px;">
+        Bot balance: <span id="modalWithdrawBalanceValue">0 SOL</span>
+      </div>
+      <div style="color:#FFD600; font-size:0.95rem; margin-bottom:18px;">
+        A 10% withdrawal fee will be applied.
+      </div>
+      <input id="withdrawalInput" type="number" min="0" step="any" placeholder="Enter amount"
+        style="width:100%; background:#18181c; color:#fff; border:none; border-radius:8px; padding:12px 16px; margin-bottom:24px; font-size:1rem; outline:none;">
+      <div style="display:flex; gap:16px; width:100%; justify-content:center;">
+        <button id="withdrawalConfirm" style="background:linear-gradient(90deg,#FF00FF,#930093); color:#fff; font-weight:600; border:none; border-radius:8px; padding:10px 32px; font-size:1rem; box-shadow:0 0 16px #ff00ff55;">Withdraw</button>
+        <button id="withdrawalCancel" style="background:#444; color:#fff; font-weight:600; border:none; border-radius:8px; padding:10px 32px; font-size:1rem;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Открытие модалки по любой кнопке Withdraw
+  document.querySelectorAll('button').forEach(btn => {
+    if (btn.textContent.trim().replace(/\s+/g, ' ') === 'Withdraw') {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Подставить актуальный баланс, если есть
+        document.getElementById('modalWithdrawBalanceValue').textContent = (document.getElementById('solBalance')?.textContent || '0') + ' SOL';
+        document.getElementById('withdrawalInput').value = '';
+        document.getElementById('withdrawalModal').style.display = 'flex';
+      });
+    }
+  });
+
+  // Закрытие по Cancel и по клику вне окна
+  document.getElementById('withdrawalCancel').onclick = function() {
+    document.getElementById('withdrawalModal').style.display = 'none';
+  };
+  document.getElementById('withdrawalModal').addEventListener('click', function(e) {
+    if (e.target === this) this.style.display = 'none';
+  });
+
+  // Пример обработчика Withdraw (замените на свою логику)
+  document.getElementById('withdrawalConfirm').onclick = function() {
+    const amount = document.getElementById('withdrawalInput').value;
+    if (!amount || Number(amount) <= 0) {
+      alert('Enter a valid amount');
+      return;
+    }
+    // TODO: отправить запрос на вывод
+    document.getElementById('withdrawalModal').style.display = 'none';
+    alert('Withdrawal requested: ' + amount + ' SOL');
+  };
+});
+</script>
 </body>
 
 </html>

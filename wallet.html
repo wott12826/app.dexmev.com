@@ -824,11 +824,63 @@
     </script>
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Обработчик для копирования адреса в секции депозита
+    const copyButton = document.getElementById('copyButton');
+    const walletFullAddr = document.getElementById('walletFullAddr');
+    
+    if (copyButton && walletFullAddr) {
+        copyButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Получаем адрес из системы кошелька или из элемента
+            let addressToCopy = walletFullAddr.textContent;
+            
+            // Если подключен кошелек, используем его адрес
+            if (window.walletSystem) {
+                const walletState = window.walletSystem.getState();
+                if (walletState.walletConnected && walletState.walletAddress) {
+                    addressToCopy = walletState.walletAddress;
+                }
+            }
+            
+            // Копируем адрес в буфер обмена
+            navigator.clipboard.writeText(addressToCopy).then(() => {
+                console.log('Адрес кошелька скопирован:', addressToCopy);
+                
+                // Показываем визуальную обратную связь
+                const originalText = copyButton.innerHTML;
+                copyButton.innerHTML = `
+                    <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
+                        <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
+                            <div class="flex items-center !p-3 !pr-4 !rounded-[7px] h-full w-full rounded-[8px] bg-dark">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 24 24" class="min-h-6 min-w-6 opacity-55">
+                                    <path fill="#14F195" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                </svg>
+                                <p class="ml-3 text-sm text-green">Скопировано!</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Возвращаем оригинальный вид через 2 секунды
+                setTimeout(() => {
+                    copyButton.innerHTML = originalText;
+                }, 2000);
+                
+            }).catch(error => {
+                console.error('Ошибка при копировании адреса:', error);
+                alert('Ошибка при копировании адреса: ' + error.message);
+            });
+        });
+    }
+    
+    // Обработчик для копирования адреса в хедере (если есть)
     const addressButton = document.querySelector('button.mt-2.5.w-full.inline');
     const copyIcon = document.getElementById('copyWalletIcon');
     if (addressButton && copyIcon) {
         addressButton.addEventListener('click', function(e) {
-            // �� ��������� ����, ���� ���� ��� ������ �� ������
+            // Не обрабатываем клик, если он был на иконке копирования
             if (e.target === copyIcon) return;
             copyIcon.click();
         });

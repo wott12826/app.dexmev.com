@@ -2,8 +2,8 @@
 <div id="subscriptionModal" class="modal-overlay">
     <div class="modal-content">
         <h2 class="modal-title">Subscription Required</h2>
-        <p class="modal-message">This feature is in closed access. You need to purchase a subscription for 500,000 $DEXMEV coins to unlock it.</p>
-        <div class="modal-price">Subscription cost: 500,000 $DEXMEV</div>
+        <p class="modal-message">This feature is in closed access. You need to purchase a subscription for 500,000 $SOGENT coins to unlock it.</p>
+        <div class="modal-price">Subscription cost: 500,000 $SOGENT</div>
         <div class="modal-buttons">
             <button class="modal-btn modal-btn-primary" id="paySubscriptionBtn">Pay</button>
             <button class="modal-btn modal-btn-secondary" id="closeModalBtn">Cancel</button>
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Transaction confirmed:', sig);
 
                 // Success message
-                alert("✅ Payment successful! 500,000 $DEXMEV tokens have been sent.");
+                alert("✅ Payment successful! 500,000 $SOGENT tokens have been sent.");
                 modal.classList.remove('show');
 
                 // You can add additional logic here to unlock the feature
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (err.message.includes('User rejected')) {
                     alert("❌ Payment was cancelled by user");
                 } else if (err.message.includes('insufficient funds')) {
-                    alert("❌ Insufficient $DEXMEV tokens. You need 500,000 tokens to complete this payment.");
+                    alert("❌ Insufficient $SOGENT tokens. You need 500,000 tokens to complete this payment.");
                 } else {
                     alert("❌ Payment failed: " + err.message);
                 }

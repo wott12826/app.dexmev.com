@@ -31,7 +31,7 @@
         const balanceElement = document.getElementById('solBalance');
         if (balanceElement) {
             if (walletConnected && userBalance > 0) {
-                balanceElement.textContent = userBalance.toLocaleString() + ' $DEXMEV';
+                balanceElement.textContent = userBalance.toLocaleString() + ' $SOGENT';
             } else {
                 balanceElement.textContent = '0';
             }

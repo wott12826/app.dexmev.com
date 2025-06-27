@@ -300,7 +300,7 @@
                             <circle cx="16.502" cy="13.641" r="0.75" fill="#fff"></circle>
                         </svg>
                         <p class="text-sm text-secondary">Balance:<span class="ml-2.5 font-bold text-green" id="solBalance">
-                            0</span> $DEXMEV</p>
+                            0</span> $SOGENT</p>
                     </div>
                 </div>
                 <button class="inline" id="walletSolanaBtn">
@@ -1421,9 +1421,9 @@ document.querySelectorAll('.custom-green-checkbox').forEach(box => {
 <div id="subscriptionModal" class="modal-overlay">
     <div class="modal-content">
         <h2 class="modal-title">Subscription Required</h2>
-        <p class="modal-message">This feature is in closed access. You need to purchase a subscription for 1,000,000 $DEXMEV coins to unlock it.</p>
-        <div class="modal-price">Subscription cost: 1,000,000 $DEXMEV</div>
-        <div class="modal-balance" id="modalBalance">Your balance: <span id="modalBalanceAmount">0</span> $DEXMEV</div>
+        <p class="modal-message">This feature is in closed access. You need to purchase a subscription for 1,000,000 $SOGENT coins to unlock it.</p>
+        <div class="modal-price">Subscription cost: 1,000,000 $SOGENT</div>
+        <div class="modal-balance" id="modalBalance">Your balance: <span id="modalBalanceAmount">0</span> $SOGENT</div>
         <div class="modal-buttons">
             <button class="modal-btn modal-btn-primary" id="paySubscriptionBtn">Pay</button>
             <button class="modal-btn modal-btn-secondary" id="closeModalBtn">Cancel</button>
@@ -1565,7 +1565,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const paySubscriptionBtn = document.getElementById('paySubscriptionBtn');
     const modalBalanceAmount = document.getElementById('modalBalanceAmount');
 
-    const SUBSCRIPTION_COST = 1000000; // 1,000,000 $DEXMEV tokens
+    const SUBSCRIPTION_COST = 1000000; // 1,000,000 $SOGENT tokens
 
     // Function to update modal balance display
     async function updateModalBalance() {
@@ -1580,7 +1580,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const connection = new window.solanaWeb3.Connection('https://api.mainnet-beta.solana.com');
             const walletAddress = walletState.walletAddress;
             
-            // $DEXMEV token address
+            // $SOGENT token address
             const TOKEN_MINT = "BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump";
             
             // Get token account
@@ -1655,7 +1655,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const currentBalance = await updateModalBalance();
                 
                 if (currentBalance < SUBSCRIPTION_COST) {
-                    alert("Insufficient $DEXMEV tokens. You can top up your balance at: WALLET"); window.open("../../wallet.html", "_blank");
+                    alert("Insufficient $SOGENT tokens. You can top up your balance at: WALLET"); window.open("../../wallet.html", "_blank");
                     return;
                 }
 
@@ -1665,7 +1665,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 // Simulate processing time (you can replace this with actual payment logic)
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 
-                alert(" Subscription successful! You have sufficient $DEXMEV tokens for this subscription.");
+                alert(" Subscription successful! You have sufficient $SOGENT tokens for this subscription.");
                 modal.classList.remove('show');
 
             } catch (err) {
@@ -1690,7 +1690,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 <!-- Modal for insufficient balance -->
 <div id="walletLinkModal" class="modal-overlay" style="display:none;">
     <div class="modal-content">
-      <h2 class="modal-title">Insufficient $DEXMEV tokens</h2>
+      <h2 class="modal-title">Insufficient $SOGENT tokens</h2>
       <p class="modal-message">You can top up your balance at: <a href="../../wallet.html" target="_blank" style="color:#14F195;font-weight:bold;text-decoration:underline;">WALLET</a></p>
       <button class="modal-btn modal-btn-primary" id="closeWalletLinkModal">OK</button>
     </div>

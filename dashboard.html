@@ -226,6 +226,26 @@
                 display: none !important;
             }
         }
+
+        @media (max-width: 768px) {
+          .notification-block {
+            max-width: 320px;
+            width: 90vw;
+            margin: 0.5rem auto 0.5rem 0.5rem;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 14px !important;
+            background: #232428;
+            box-shadow: 0 2px 8px #0002;
+            border: 1px solid #35363a;
+          }
+          .notification-block svg {
+            min-width: 28px;
+            min-height: 28px;
+            margin-right: 0.5rem;
+          }
+        }
     </style>
 </head>
 
@@ -1254,6 +1274,12 @@
     </script>
 
     <!-- END Bottom Navigation Bar -->
+
+    <div class="notification-block !rounded-sm rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
+      <div class="flex items-center !p-[9px] !rounded-[7px] h-full w-full rounded-[17px] bg-gd-main p-5">
+        <!-- Bell SVG and dot here -->
+      </div>
+    </div>
 </body>
 
 </html>

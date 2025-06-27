@@ -1200,6 +1200,60 @@
       observer.observe(document.body, { childList: true, subtree: true });
     });
     </script>
+
+    <!-- Bottom Navigation Bar for Mobile -->
+    <nav id="mobile-bottom-nav" class="block-mobile fixed bottom-0 left-0 w-full bg-gd-main border-t border-[#232428] z-50 flex justify-around items-center py-2 md:hidden" style="display:none;">
+      <a href="dashboard.html" class="flex flex-col items-center text-xs text-white">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#fff" stroke-width="1.5" d="M6.571 10.393c-.743 0-1.26 0-1.666-.03-.398-.028-.629-.081-.805-.158a2.25 2.25 0 0 1-1.162-1.162c-.077-.176-.13-.407-.159-.805-.029-.405-.029-.923-.029-1.667 0-.743 0-1.26.03-1.666.028-.398.08-.629.158-.805A2.25 2.25 0 0 1 4.1 2.938c.176-.077.407-.13.805-.159.405-.029.923-.029 1.666-.029.744 0 1.262 0 1.667.03.398.028.629.08.805.158.52.227.935.642 1.162 1.162.077.176.13.407.159.805.028.405.029.923.029 1.666 0 .744 0 1.262-.03 1.667-.028.398-.081.629-.158.805a2.25 2.25 0 0 1-1.162 1.162c-.176.077-.407.13-.805.159-.405.028-.923.029-1.667.029Z"/></svg>
+        Dashboard
+      </a>
+      <a href="wallet.html" class="flex flex-col items-center text-xs text-white">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M7 12h10" stroke="#fff" stroke-width="1.5"/></svg>
+        Wallet
+      </a>
+      <a href="mev-bots.html" class="flex flex-col items-center text-xs text-white">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" stroke="#fff" stroke-width="1.5"/></svg>
+        Bots
+      </a>
+      <a href="network.html" class="flex flex-col items-center text-xs text-white">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="#fff" stroke-width="1.5"/></svg>
+        Network
+      </a>
+      <a href="settings.html" class="flex flex-col items-center text-xs text-white">
+        <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" stroke-width="1.5"/><path d="M12 8v4l3 3" stroke="#fff" stroke-width="1.5"/></svg>
+        Settings
+      </a>
+    </nav>
+
+    <script>
+    // Mobile sidebar toggle
+    const burger = document.getElementById('burger');
+    const aside = document.querySelector('aside');
+    if (burger && aside) {
+      burger.addEventListener('click', () => {
+        aside.classList.toggle('open');
+      });
+      // Hide aside on nav click (mobile)
+      aside.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          aside.classList.remove('open');
+        });
+      });
+    }
+    // Show bottom nav on mobile
+    function handleMobileNav() {
+      const nav = document.getElementById('mobile-bottom-nav');
+      if (window.innerWidth <= 768) {
+        nav.style.display = 'flex';
+      } else {
+        nav.style.display = 'none';
+      }
+    }
+    window.addEventListener('resize', handleMobileNav);
+    document.addEventListener('DOMContentLoaded', handleMobileNav);
+    </script>
+
+    <!-- END Bottom Navigation Bar -->
 </body>
 
 </html>

@@ -1384,6 +1384,23 @@ function updateSolanaStats() {
 setInterval(updateSolanaStats, 5000);
 setTimeout(updateSolanaStats, 1000);
 </script>
+<!-- Add Balance Modal -->
+<div id="addBalanceModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+    <div style="background:#23232a; border-radius:18px; max-width:90vw; width:400px; padding:32px 24px; box-shadow:0 8px 32px #000a;">
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <h2 style="color:#fff; font-size:1.5rem; font-weight:600; margin-bottom:16px;">Add Balance</h2>
+        <div style="color:#14F195; font-size:1.1rem; margin-bottom:12px;">
+          Balance: <span id="modalBalanceValue">0 SOL</span>
+        </div>
+        <input id="addBalanceInput" type="number" min="0" step="any" placeholder="Enter amount"
+          style="width:100%; background:#18181c; color:#fff; border:none; border-radius:8px; padding:12px 16px; margin-bottom:24px; font-size:1rem; outline:none;">
+        <div style="display:flex; gap:16px; width:100%; justify-content:center;">
+          <button id="addBalanceConfirm" style="background:linear-gradient(90deg,#FF00FF,#930093); color:#fff; font-weight:600; border:none; border-radius:8px; padding:10px 32px; font-size:1rem; box-shadow:0 0 16px #ff00ff55;">Add</button>
+          <button id="addBalanceCancel" style="background:#444; color:#fff; font-weight:600; border:none; border-radius:8px; padding:10px 32px; font-size:1rem;">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Открытие модалки по любой кнопке Add Balance

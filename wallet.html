@@ -436,7 +436,7 @@
                                         <h2 class="text-center text-[32px] font-semibold">Deposit</h2>
                                         <span class="text-sm text-secondary">Your Trading Balance</span>
                                         <div class="mt-2 !rounded-[8px] rounded-[18px] p-[1px] shadow-main bg-gd-border-main overflow-hidden">
-                                            <div class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
+                                            <div id="balanceBlock" class="!rounded-[7px] !p-[15px] flex justify-between items-center h-full w-full rounded-[17px] bg-gd-main p-5">
                                                 <div class="flex items-center gap-[14px]"><svg xmlns="http://www.w3.org/2000/svg"
                                                         width="1em" height="1em" fill="none" viewbox="0 0 24 20"
                                                         class="h-[19px] min-w-6">
@@ -472,6 +472,7 @@
                                                             class="relative -top-[3px] ml-0.5 text-green">/ $<!-- -->0.00</span>
                                                     </div>
                                                 </div><button
+                                                    id="refreshBalanceBtn"
                                                     class="w-[40px] h-[40px] !rounded-[6px] focus:outline-none active:scale-[97%] neumorphism-border-1 rounded-md p-px overflow-hidden">
                                                     <div
                                                         class="!rounded-[5px] neumorphism-border-2 h-full w-full rounded-[9px] p-px">

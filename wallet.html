@@ -977,6 +977,33 @@ setInterval(updateSolanaStats, 5000);
 setTimeout(updateSolanaStats, 1000);
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const refreshBtn = document.getElementById('refreshBalanceBtn');
+  const balanceBlock = document.getElementById('balanceBlock');
+  if (refreshBtn && balanceBlock) {
+    refreshBtn.addEventListener('click', function() {
+      // Save original HTML
+      const original = balanceBlock.innerHTML;
+      // Show spinner
+      balanceBlock.innerHTML = `
+        <span class="flex items-center text-[32px] font-medium">
+          <svg class="animate-spin mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="#14F195" stroke-width="4" opacity="0.2"/>
+            <path d="M22 12a10 10 0 0 1-10 10" stroke="#14F195" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          Updating...
+        </span>
+      `;
+      // Restore after 1.5s
+      setTimeout(() => {
+        balanceBlock.innerHTML = original;
+      }, 1500);
+    });
+  }
+});
+</script>
+
 </body>
 
 </html>

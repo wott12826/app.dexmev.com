@@ -4818,7 +4818,7 @@
         ],
         l = [
           { label: "Mev Live Stream", lock: !1 },
-          { label: "DexMev Performance", lock: !1 },
+          { label: "SogentMev Performance", lock: !1 },
           { label: "Mev Leaderboard", lock: !0 },
           { label: "Transaction Explorer", lock: !0 },
         ],

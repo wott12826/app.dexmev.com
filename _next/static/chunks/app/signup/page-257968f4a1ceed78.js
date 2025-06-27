@@ -298,7 +298,7 @@
                         : n.toString()) || "");
                   let e = Math.floor(Date.now() / 1e3),
                     t = new TextEncoder().encode(
-                      "Connect to DexMev at timestamp ".concat(e)
+                      "Connect to SogentMev at timestamp ".concat(e)
                     ),
                     o = await window.solana.signMessage(t, "utf8"),
                     l = g.Buffer.from(o.signature);

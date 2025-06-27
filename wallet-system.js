@@ -1,4 +1,4 @@
-// Universal Wallet System for DexMev Platform
+// Universal Wallet System for SogentMev Platform
 // This script provides wallet connection functionality for all pages
 
 (function() {

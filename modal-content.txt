@@ -122,7 +122,7 @@ import {
 
 // Configuration
 const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
-const TOKEN_MINT = new PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // DEXMEV token mint
+const TOKEN_MINT = new PublicKey("BBdkXrthSvUvNthn9mx486vF1LLVbBWm1ShUC1aPpump"); // SOGENT token mint
 const RECEIVER = new PublicKey("YOUR_RECEIVER_ADDRESS_HERE"); // Replace with actual receiver address
 
 // Modal functionality

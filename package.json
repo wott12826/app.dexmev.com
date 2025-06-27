@@ -1,7 +1,7 @@
 {
   "name": "dexmev-deposit-monitor",
   "version": "1.0.0",
-  "description": "Automatic deposit monitoring and balance management for DexMev platform",
+  "description": "Automatic deposit monitoring and balance management for SogentMev platform",
   "main": "deposit-monitor.js",
   "scripts": {
     "start": "node deposit-monitor.js",
@@ -16,7 +16,7 @@
     "monitor",
     "dexmev"
   ],
-  "author": "DexMev Team",
+  "author": "SogentMev Team",
   "license": "MIT",
   "dependencies": {
     "@solana/web3.js": "^1.87.6",

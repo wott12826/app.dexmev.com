@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../_next/static/css/ea903d5c6198cacb.css" data-precedence="next">
     <link rel="stylesheet" href="../mobile-responsive.css">
-    <link rel="icon" type="image/png" href="../_next/logo.png">
+    <link rel="icon" type="image/png" href="_next/logo.png">
     <title>SM Dashboard</title>
     <meta name="description" content="SM Dashboard description">
     <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
@@ -92,27 +92,10 @@
             /* Header adjustments */
             header {
                 padding: 1rem !important;
-                flex-direction: column !important;
-                gap: 1rem !important;
-                align-items: flex-start !important;
             }
             
             header h1 {
                 font-size: 24px !important;
-            }
-            
-            header .flex.items-center.gap-5 {
-                flex-direction: column !important;
-                gap: 0.75rem !important;
-                width: 100% !important;
-            }
-            
-            header button,
-            header .flex.items-center.gap-2 {
-                width: 100% !important;
-                justify-content: center !important;
-                padding: 0.75rem !important;
-                min-height: 44px !important;
             }
             
             /* Burger menu for mobile */
@@ -130,7 +113,6 @@
                 font-size: 18px !important;
                 min-width: 44px !important;
                 min-height: 44px !important;
-                backdrop-filter: blur(10px) !important;
             }
             
             /* Sidebar for mobile */
@@ -138,7 +120,7 @@
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
-                width: 100vw !important;
+                width: 100% !important;
                 height: 100vh !important;
                 z-index: 998 !important;
                 transform: translateX(-100%);

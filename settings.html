@@ -35,7 +35,7 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 100vw;
+                width: 100%;
                 height: 100vh;
                 background: linear-gradient(134deg, #1f2023, #27282c);
                 z-index: 998;
@@ -58,6 +58,7 @@
                 color: white;
                 border: none;
                 border-radius: 8px;
+                display: block;
                 font-size: 18px;
                 min-width: 44px;
                 min-height: 44px;
@@ -72,12 +73,12 @@
             header {
                 flex-direction: column !important;
                 gap: 1rem !important;
-                align-items: flex-start !important;
                 padding: 1rem !important;
+                align-items: flex-start !important;
             }
             
             header h1 {
-                font-size: 22px !important;
+                font-size: 24px !important;
                 margin-bottom: 0.5rem !important;
             }
             
@@ -100,7 +101,7 @@
             }
             
             .text-\[32px\] {
-                font-size: 18px !important;
+                font-size: 20px !important;
             }
             
             .text-\[22px\] {
@@ -141,76 +142,37 @@
                 border-radius: 12px !important;
             }
             
-            .min-w-\[710px\], .max-w-\[710px\], .w-\[70%\], .w-\[30%\] {
+            .w-\[606px\] {
                 width: 100% !important;
                 max-width: 100% !important;
-                min-width: 0 !important;
             }
             
-            .flex.flex-row.gap-5 {
-                flex-direction: column !important;
-                gap: 0.75rem !important;
+            .w-\[182px\] {
+                width: 150px !important;
+                height: 150px !important;
             }
             
-            .h-\[50px\], .h-\[40px\] {
-                min-height: 44px !important;
+            .grid-cols-12 {
+                grid-template-columns: repeat(1, 1fr) !important;
             }
             
-            .text-\[16px\] {
-                font-size: 14px !important;
+            .col-span-6 {
+                grid-column: span 1 !important;
             }
             
-            .text-xl {
-                font-size: 18px !important;
+            .overflow-x-auto {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
-            .space-y-4 > * + * {
-                margin-top: 1rem !important;
+            table {
+                min-width: 600px;
+                font-size: 12px !important;
             }
             
-            .mt-6 {
-                margin-top: 1.5rem !important;
-            }
-            
-            .mt-2\.5 {
-                margin-top: 0.75rem !important;
-            }
-            
-            .mt-2 {
-                margin-top: 0.5rem !important;
-            }
-            
-            .mb-4 {
-                margin-bottom: 1rem !important;
-            }
-            
-            .p-6 {
-                padding: 1rem !important;
-            }
-            
-            .max-w-md {
-                max-width: 90vw !important;
-            }
-            
-            .mx-4 {
-                margin-left: 0.5rem !important;
-                margin-right: 0.5rem !important;
-            }
-            
-            .w-full {
-                width: 100% !important;
-            }
-            
-            .flex-1 {
-                flex: 1 1 0% !important;
-            }
-            
-            .flex.gap-3 {
-                gap: 0.75rem !important;
-            }
-            
-            .text-sm {
-                font-size: 13px !important;
+            th, td {
+                padding: 0.5rem 0.25rem !important;
+                white-space: nowrap;
             }
             
             .text-secondary {
@@ -221,77 +183,33 @@
                 width: 20px !important;
                 height: 20px !important;
             }
-            
-            .notification-block {
-                display: none !important;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                font-size: 13px;
             }
             
-            /* Modal improvements for mobile */
-            #emailModal, #passwordModal {
-                padding: 1rem !important;
+            header h1 {
+                font-size: 20px !important;
             }
             
-            #emailModal > div, #passwordModal > div {
-                width: 100% !important;
-                max-width: 90vw !important;
-                margin: 0 auto !important;
+            .text-\[32px\] {
+                font-size: 18px !important;
             }
             
-            /* Form improvements */
-            .neumorphism-border-1 {
-                border-radius: 8px !important;
-            }
-            
-            .neumorphism-border-2 {
-                border-radius: 7px !important;
-            }
-            
-            .rounded-\[8px\] {
-                border-radius: 6px !important;
-            }
-            
-            .py-\[3px\] {
-                padding-top: 0.5rem !important;
-                padding-bottom: 0.5rem !important;
-            }
-            
-            .px-4 {
-                padding-left: 0.75rem !important;
-                padding-right: 0.75rem !important;
-            }
-            
-            .pr-1 {
-                padding-right: 0.25rem !important;
-            }
-            
-            .pr-4 {
-                padding-right: 0.75rem !important;
-            }
-            
-            .ml-3 {
-                margin-left: 0.5rem !important;
-            }
-            
-            .ml-auto {
-                margin-left: auto !important;
-            }
-            
-            /* Invite code section */
-            .!p-3 {
+            .p-5 {
                 padding: 0.75rem !important;
             }
             
-            .!pr-4 {
-                padding-right: 0.75rem !important;
+            aside nav button {
+                width: 50px !important;
+                height: 50px !important;
             }
             
-            .!rounded-\[7px\] {
-                border-radius: 6px !important;
-            }
-            
-            .h-\[11px\], .w-\[13px\] {
-                width: 16px !important;
-                height: 16px !important;
+            .w-\[182px\] {
+                width: 120px !important;
+                height: 120px !important;
             }
         }
         
@@ -308,6 +226,55 @@
                 display: none !important;
             }
         }
+    </style>
+</head>
+
+<body class="antialiased">
+    <button id="burger">☰</button>
+    <style>
+      aside {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px;
+        height: 100vh;
+        background: #111;
+        z-index: 998;
+        padding: 1rem;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+      }
+      aside.open {
+        transform: translateX(0);
+      }
+      #burger {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 999;
+        padding: 10px;
+        background: black;
+        color: white;
+        border: none;
+        display: none;
+      }
+      @media (max-width: 768px) {
+        #burger {
+          display: block;
+        }
+      }
+      @media (min-width: 769px) {
+        aside {
+          transform: none !important;
+          position: static !important;
+          width: 200px !important;
+          height: auto !important;
+          z-index: auto !important;
+        }
+        #burger {
+          display: none !important;
+        }
+      }
     </style>
 </head>
 
@@ -382,7 +349,8 @@
                                     xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none"
                                     viewbox="0 0 24 26" class="min-h-6 min-w-6 opacity-55">
                                     <path fill="#fff"
-                                        d="M22.61 10.78v4.439a.41.41 0 0 1-.408.407.41.41 0 0 1-.417-.407V10.78c0-.225.183-.408.408-.408.246 0 .416.191.416.408M2.215 10.78v4.439a.41.41 0 0 1-.408.407.41.41 0 0 1-.416-.407V10.78c0-.225.182-.408.407-.408.246 0 .417.191.417.408M9.333 4.294 4.85 6.627a.407.407 0 0 1-.566-.21.407.407 0 0 1 .186-.521l4.485-2.333a.407.407 0 0 1 .566.21.407.407 0 0 1-.187.52M9.523 22.22a.407.407 0 0 1-.57.218L4.47 20.105a.407.407 0 0 1-.19-.515.407.407 0 0 1 .57-.217l4.484 2.333c.187.097.269.32.19.514M19.72 6.41a.407.407 0 0 1-.569.217l-4.484-2.333a.407.407 0 0 1-.19-.514.407.407 0 0 1 .57-.217l4.484 2.333c.186.097.268.32.19.514M19.53 20.105l-4.484 2.332a.407.407 0 0 1-.566-.209.407.407 0 0 1 .187-.522l4.484-2.333a.407.407 0 0 1 .566.21.407.407 0 0 1-.186.522M12.004 5.068c.225 0 .408.183.408.408v.365c0 .545-.824.545-.824 0v-.365c0-.215.17-.408.416-.408M12.412 20.159v.365a.41.41 0 0 1-.408.407.41.41 0 0 1-.416-.407v-.365c0-.545.824-.545.824 0M5.371 10.069l-.902-.473a.407.407 0 0 1-.189-.513.407.407 0 0 1 .57-.217l.903.473c.485.253.1.983-.382.73M19.72 9.083a.407.407 0 0 1-.19.513l-.901.473c-.48.252-.87-.476-.382-.73l.902-.473a.407.407 0 0 1 .57.217M5.753 16.662l-.902.472a.407.407 0 0 1-.568-.21.407.407 0 0 1 .186-.52l.902-.473c.483-.253.866.478.382.73M19.72 16.917a.407.407 0 0 1-.57.217l-.903-.472c-.483-.252-.102-.984.382-.73l.902.472a.407.407 0 0 1 .189.513M12.567 21.756h-1.134c-.681 0-1.236.554-1.236 1.236v1.133c0 .681.555 1.236 1.236 1.236h1.133c.682 0 1.236-.555 1.236-1.236v-1.133c0-.682-.554-1.236-1.235-1.236M12.567.64h-1.134c-.681 0-1.236.554-1.236 1.236v1.133c0 .681.555 1.236 1.236 1.236h1.133c.682 0 1.236-.555 1.236-1.236V1.876c0-.682-.554-1.236-1.235-1.236M2.37 16.451H1.235c-.682 0-1.236.555-1.236 1.236v1.133c0 .682.554 1.236 1.236 1.236h1.133c.682 0 1.236-.554 1.236-1.236v-1.133c0-.681-.554-1.236-1.236-1.236M22.764 5.944H21.63c-.682 0-1.236.555-1.236 1.236v1.133c0 .682.554 1.236 1.236 1.236h1.133c.681 0 1.236-.554 1.236-1.236V7.18c0-.681-.555-1.236-1.236-1.236M22.764 16.451H21.63c-.682 0-1.236.555-1.236 1.236v1.133c0 .682.554 1.236 1.236 1.236h1.133c.681 0 1.236-.554 1.236-1.236v-1.133c0-.681-.555-1.236-1.236-1.236M2.37 5.944H1.235C.554 5.944 0 6.5 0 7.18v1.133C0 8.995.554 9.55 1.236 9.55h1.133c.682 0 1.236-.554 1.236-1.236V7.18c0-.681-.554-1.236-1.236-1.236M11.48 12.98l-4.223-2.298a.206.206 0 0 0-.304.18v4.92c0 .15.082.29.215.362l4.116 2.24a.206.206 0 0 0 .304-.18v-5.042a.21.21 0 0 0-.107-.181M12.099 12.271l4.204-2.289a.206.206 0 0 0 0-.361l-4.106-2.236a.41.41 0 0 0-.394 0L7.697 9.621a.206.206 0 0 0 0 .361l4.205 2.29a.2.2 0 0 0 .197 0M12.412 13.162v5.041c0 .157.167.256.304.181l4.116-2.24a.41.41 0 0 0 .215-.362v-4.92a.206.206 0 0 0-.304-.18L12.52 12.98a.21.21 0 0 0-.108.18"></path>
+                                        d="M22.61 10.78v4.439a.41.41 0 0 1-.408.407.41.41 0 0 1-.417-.407V10.78c0-.225.183-.408.408-.408.246 0 .416.191.416.408M2.215 10.78v4.439a.41.41 0 0 1-.408.407.41.41 0 0 1-.416-.407V10.78c0-.225.182-.408.407-.408.246 0 .417.191.417.408M9.333 4.294 4.85 6.627a.407.407 0 0 1-.566-.21.407.407 0 0 1 .186-.521l4.485-2.333a.407.407 0 0 1 .566.21.407.407 0 0 1-.187.52M9.523 22.22a.407.407 0 0 1-.57.218L4.47 20.105a.407.407 0 0 1-.19-.515.407.407 0 0 1 .57-.217l4.484 2.333c.187.097.269.32.19.514M19.72 6.41a.407.407 0 0 1-.569.217l-4.484-2.333a.407.407 0 0 1-.19-.514.407.407 0 0 1 .57-.217l4.484 2.333c.186.097.268.32.19.514M19.53 20.105l-4.484 2.332a.407.407 0 0 1-.566-.209.407.407 0 0 1 .187-.522l4.484-2.333a.407.407 0 0 1 .566.21.407.407 0 0 1-.186.522M12.004 5.068c.225 0 .408.183.408.408v.365c0 .545-.824.545-.824 0v-.365c0-.215.17-.408.416-.408M12.412 20.159v.365a.41.41 0 0 1-.408.407.41.41 0 0 1-.416-.407v-.365c0-.545.824-.545.824 0M5.371 10.069l-.902-.473a.407.407 0 0 1-.189-.513.407.407 0 0 1 .57-.217l.903.473c.485.253.1.983-.382.73M19.72 9.083a.407.407 0 0 1-.19.513l-.901.473c-.48.252-.87-.476-.382-.73l.902-.473a.407.407 0 0 1 .57.217M5.753 16.662l-.902.472a.407.407 0 0 1-.568-.21.407.407 0 0 1 .186-.52l.902-.473c.483-.253.866.478.382.73M19.72 16.917a.407.407 0 0 1-.57.217l-.903-.472c-.483-.252-.102-.984.382-.73l.902.472a.407.407 0 0 1 .189.513M12.567 21.756h-1.134c-.681 0-1.236.554-1.236 1.236v1.133c0 .681.555 1.236 1.236 1.236h1.133c.682 0 1.236-.555 1.236-1.236v-1.133c0-.682-.554-1.236-1.235-1.236M12.567.64h-1.134c-.681 0-1.236.554-1.236 1.236v1.133c0 .681.555 1.236 1.236 1.236h1.133c.682 0 1.236-.555 1.236-1.236V1.876c0-.682-.554-1.236-1.235-1.236M2.37 16.451H1.235c-.682 0-1.236.555-1.236 1.236v1.133c0 .682.554 1.236 1.236 1.236h1.133c.682 0 1.236-.554 1.236-1.236v-1.133c0-.681-.554-1.236-1.236-1.236M22.764 5.944H21.63c-.682 0-1.236.555-1.236 1.236v1.133c0 .682.554 1.236 1.236 1.236h1.133c.681 0 1.236-.554 1.236-1.236V7.18c0-.681-.555-1.236-1.236-1.236M22.764 16.451H21.63c-.682 0-1.236.555-1.236 1.236v1.133c0 .682.554 1.236 1.236 1.236h1.133c.681 0 1.236-.554 1.236-1.236v-1.133c0-.681-.555-1.236-1.236-1.236M2.37 5.944H1.235C.554 5.944 0 6.5 0 7.18v1.133C0 8.995.554 9.55 1.236 9.55h1.133c.682 0 1.236-.554 1.236-1.236V7.18c0-.681-.554-1.236-1.236-1.236M11.48 12.98l-4.223-2.298a.206.206 0 0 0-.304.18v4.92c0 .15.082.29.215.362l4.116 2.24a.206.206 0 0 0 .304-.18v-5.042a.21.21 0 0 0-.107-.181M12.099 12.271l4.204-2.289a.206.206 0 0 0 0-.361l-4.106-2.236a.41.41 0 0 0-.394 0L7.697 9.621a.206.206 0 0 0 0 .361l4.205 2.29a.2.2 0 0 0 .197 0M12.412 13.162v5.041c0 .157.167.256.304.181l4.116-2.24a.41.41 0 0 0 .215-.362v-4.92a.206.206 0 0 0-.304-.18L12.52 12.98a.21.21 0 0 0-.108.18">
+                                    </path>
                                 </svg></span></div>
                     </button>
                     <p class="text-center text-[11px] leading-none tracking-wider text-[#ffffff51]">Network</p>

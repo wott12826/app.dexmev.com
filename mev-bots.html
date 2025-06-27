@@ -364,6 +364,25 @@
           .rdc-status-block { flex-direction: column; gap: 18px; padding: 18px 8px; }
           .rdc-right-values { margin-left: 0; min-width: 120px; }
         }
+        @media (max-width: 768px) {
+          .notification-block {
+            max-width: 320px;
+            width: 90vw;
+            margin: 0.5rem auto 0.5rem 0.5rem;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 14px !important;
+            background: #232428;
+            box-shadow: 0 2px 8px #0002;
+            border: 1px solid #35363a;
+          }
+          .notification-block svg {
+            min-width: 28px;
+            min-height: 28px;
+            margin-right: 0.5rem;
+          }
+        }
     </style>
 </head>
 

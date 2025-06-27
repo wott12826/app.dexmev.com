@@ -70,10 +70,10 @@
                     rel: "icon",
                     href: "/favicon-logo.svg",
                   }),
-                  (0, s.jsx)("title", { children: "DM Dashboard" }),
+                  (0, s.jsx)("title", { children: "SM Dashboard" }),
                   (0, s.jsx)("meta", {
                     name: "description",
-                    content: "DM Dashboard description",
+                    content: "SM Dashboard description",
                   }),
                   (0, s.jsx)("meta", {
                     name: "viewport",

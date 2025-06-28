@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate One-Time Codes</title>
+    <title>Generate One-Time Codes (Local)</title>
     <style>
         * {
             margin: 0;
@@ -26,7 +26,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             padding: 40px;
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
         }
 
@@ -103,6 +103,14 @@
             transform: none;
         }
 
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 20px rgba(108, 117, 125, 0.3);
+        }
+
         .status {
             margin: 20px 0;
             padding: 15px;
@@ -130,7 +138,7 @@
         }
 
         .codes-display {
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             border: 2px solid #e1e5e9;
             border-radius: 10px;
@@ -138,38 +146,27 @@
             background: #f8f9fa;
         }
 
+        .codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
         .code-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px;
-            margin-bottom: 8px;
             background: white;
             border-radius: 8px;
             border: 1px solid #e1e5e9;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
         }
 
         .code-text {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
             color: #333;
-        }
-
-        .code-status {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-unused {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-used {
-            background: #f8d7da;
-            color: #721c24;
         }
 
         .copy-btn {
@@ -185,6 +182,20 @@
 
         .copy-btn:hover {
             background: #5a6268;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         @media (max-width: 768px) {
@@ -203,14 +214,18 @@
             .input-group {
                 min-width: auto;
             }
+
+            .codes-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔑 Generate Codes</h1>
-            <p>Generate one-time codes for your application</p>
+            <h1>🔑 Generate Codes (Local)</h1>
+            <p>Generate one-time codes locally without Firebase</p>
         </div>
 
         <div class="controls">
@@ -232,28 +247,21 @@
 
         <div id="codesDisplay" class="codes-display" style="display: none;">
             <h3>Generated Codes:</h3>
-            <div id="codesList"></div>
+            <div id="codesList" class="codes-grid"></div>
+            
+            <div class="export-section">
+                <h4>Export Options:</h4>
+                <div class="export-buttons">
+                    <button class="btn btn-secondary" onclick="exportToText()">📄 Export as Text</button>
+                    <button class="btn btn-secondary" onclick="exportToCSV()">📊 Export as CSV</button>
+                    <button class="btn btn-secondary" onclick="copyAllCodes()">📋 Copy All</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
-        // Firebase configuration - Updated with correct project settings
-        const firebaseConfig = {
-            apiKey: "AIzaSyCuL4tpaSsw1ylXf2VZrQ1b_2t_Kxd97cI",
-            authDomain: "post-ad037.firebaseapp.com",
-            projectId: "post-ad037",
-            storageBucket: "post-ad037.firebasestorage.app",
-            messagingSenderId: "377312187432",
-            appId: "1:377312187432:web:565f47c145e0e73ac0911d",
-            measurementId: "G-T48NR3B9VW"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    <script>
+        let generatedCodes = [];
 
         // Generate random code
         function generateCode(length) {
@@ -292,6 +300,48 @@
             });
         }
 
+        // Copy all codes to clipboard
+        function copyAllCodes() {
+            const allCodes = generatedCodes.join('\n');
+            navigator.clipboard.writeText(allCodes).then(() => {
+                showStatus('All codes copied to clipboard!', 'success');
+                setTimeout(() => {
+                    document.getElementById('status').style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        // Export to text file
+        function exportToText() {
+            const content = generatedCodes.join('\n');
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `codes-${new Date().toISOString().slice(0, 10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showStatus('Codes exported as text file!', 'success');
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            const csvContent = 'Code,Generated At\n' + 
+                generatedCodes.map(code => `${code},${new Date().toISOString()}`).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `codes-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showStatus('Codes exported as CSV file!', 'success');
+        }
+
         // Display codes
         function displayCodes(codes) {
             const codesDisplay = document.getElementById('codesDisplay');
@@ -304,10 +354,7 @@
                 codeItem.className = 'code-item';
                 codeItem.innerHTML = `
                     <span class="code-text">${code}</span>
-                    <div>
-                        <span class="code-status status-unused">Unused</span>
-                        <button class="copy-btn" onclick="copyToClipboard('${code}')">Copy</button>
-                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('${code}')">Copy</button>
                 `;
                 codesList.appendChild(codeItem);
             });
@@ -315,8 +362,8 @@
             codesDisplay.style.display = 'block';
         }
 
-        // Generate and save codes
-        window.generateCodes = async function() {
+        // Generate codes
+        function generateCodes() {
             const count = parseInt(document.getElementById('codeCount').value);
             const length = parseInt(document.getElementById('codeLength').value);
             const generateBtn = document.getElementById('generateBtn');
@@ -337,31 +384,10 @@
             try {
                 showStatus('Generating codes...', 'info');
                 
-                const codes = generateUniqueCodes(count, length);
+                generatedCodes = generateUniqueCodes(count, length);
                 
-                showStatus('Saving codes to Firebase...', 'info');
-                
-                // Save codes to Firebase
-                for (let i = 0; i < codes.length; i++) {
-                    const code = codes[i];
-                    const codeData = {
-                        code: code,
-                        used: false,
-                        createdAt: new Date(),
-                        usedAt: null,
-                        usedBy: null
-                    };
-                    
-                    await addDoc(collection(db, 'codes'), codeData);
-                    
-                    // Update progress
-                    if ((i + 1) % 10 === 0) {
-                        showStatus(`Saved ${i + 1}/${codes.length} codes...`, 'info');
-                    }
-                }
-                
-                showStatus(`✅ Successfully generated and saved ${count} codes!`, 'success');
-                displayCodes(codes);
+                showStatus(`✅ Successfully generated ${count} codes!`, 'success');
+                displayCodes(generatedCodes);
                 
             } catch (error) {
                 console.error('Error generating codes:', error);
@@ -370,26 +396,7 @@
                 generateBtn.disabled = false;
                 generateBtn.textContent = '🚀 Generate Codes';
             }
-        };
-
-        // Load existing codes on page load
-        window.addEventListener('load', async () => {
-            try {
-                const codesSnapshot = await getDocs(collection(db, 'codes'));
-                const codes = [];
-                codesSnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    codes.push(data.code);
-                });
-                
-                if (codes.length > 0) {
-                    showStatus(`Found ${codes.length} existing codes in database`, 'info');
-                    displayCodes(codes.slice(-20)); // Show last 20 codes
-                }
-            } catch (error) {
-                console.error('Error loading existing codes:', error);
-            }
-        });
+        }
     </script>
 </body>
 </html> 

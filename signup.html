@@ -52,13 +52,13 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="text-sm text-secondary">Invite code<!-- --> <span
+                        <span class="text-sm text-secondary">Registration code<!-- --> <span
                                 class="text-red-500">*</span></span>
                         <div class="mt-2.5 mb-3 h-[50px] neumorphism-border-1 rounded-md p-px overflow-hidden">
                             <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                 <div
                                     class="py-[3px] px-4 pr-1 flex justify-between items-center h-full w-full rounded-[8px] bg-dark">
-                                    <input type="text" id="inviteCode" data-firebase-input="true" placeholder="Enter invite code" class="w-full" required></div>
+                                    <input type="text" id="registrationCode" data-firebase-input="true" placeholder="Enter registration code" class="w-full" required></div>
                             </div>
                         </div>
                         <div id="errorMessage" data-firebase-error="true" class="text-pink-500 text-sm mt-2 hidden"></div>
@@ -99,31 +99,31 @@
             
             const signupForm = getProtectedElement('#signupForm');
             const errorMessage = getProtectedElement('#errorMessage');
-            const inviteCodeInput = getProtectedElement('#inviteCode');
+            const registrationCodeInput = getProtectedElement('#registrationCode');
             
-            // Real-time invite code validation
+            // Real-time registration code validation
             let validationTimeout;
-            if (inviteCodeInput) {
-                inviteCodeInput.addEventListener('input', function() {
+            if (registrationCodeInput) {
+                registrationCodeInput.addEventListener('input', function() {
                     clearTimeout(validationTimeout);
-                    const inviteCode = this.value.trim();
+                    const registrationCode = this.value.trim();
                     
                     // Clear previous validation messages
-                    const existingValidation = document.getElementById('inviteCodeValidation');
+                    const existingValidation = document.getElementById('registrationCodeValidation');
                     if (existingValidation) {
                         existingValidation.remove();
                     }
                     
-                    if (inviteCode.length === 0) {
+                    if (registrationCode.length === 0) {
                         return;
                     }
                     
                     // Add loading indicator
                     const loadingDiv = document.createElement('div');
-                    loadingDiv.id = 'inviteCodeValidation';
+                    loadingDiv.id = 'registrationCodeValidation';
                     loadingDiv.className = 'text-blue-500 text-sm mt-1';
-                    loadingDiv.textContent = 'Checking invite code...';
-                    inviteCodeInput.parentElement.parentElement.parentElement.appendChild(loadingDiv);
+                    loadingDiv.textContent = 'Checking registration code...';
+                    registrationCodeInput.parentElement.parentElement.parentElement.appendChild(loadingDiv);
                     
                     // Debounce validation
                     validationTimeout = setTimeout(async () => {
@@ -133,25 +133,25 @@
                                 await new Promise(resolve => setTimeout(resolve, 100));
                             }
                             
-                            const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
+                            const isValid = await window.firebaseAuth.checkRegistrationCode(registrationCode);
                             
                             // Update validation message
-                            const validationDiv = document.getElementById('inviteCodeValidation');
+                            const validationDiv = document.getElementById('registrationCodeValidation');
                             if (validationDiv) {
                                 if (isValid) {
                                     validationDiv.className = 'text-green-500 text-sm mt-1';
-                                    validationDiv.textContent = '✓ Valid invite code';
+                                    validationDiv.textContent = '✓ Valid registration code';
                                 } else {
                                     validationDiv.className = 'text-red-500 text-sm mt-1';
-                                    validationDiv.textContent = '✗ Invalid or already used invite code';
+                                    validationDiv.textContent = '✗ Invalid or already used registration code';
                                 }
                             }
                         } catch (error) {
-                            console.error('Error validating invite code:', error);
-                            const validationDiv = document.getElementById('inviteCodeValidation');
+                            console.error('Error validating registration code:', error);
+                            const validationDiv = document.getElementById('registrationCodeValidation');
                             if (validationDiv) {
                                 validationDiv.className = 'text-yellow-500 text-sm mt-1';
-                                validationDiv.textContent = 'Unable to verify invite code';
+                                validationDiv.textContent = 'Unable to verify registration code';
                             }
                         }
                     }, 500);
@@ -166,9 +166,9 @@
                     const email = getProtectedElement('#email').value;
                     const password = getProtectedElement('#password').value;
                     const confirmPassword = getProtectedElement('#confirmPassword').value;
-                    const inviteCode = getProtectedElement('#inviteCode').value;
+                    const registrationCode = getProtectedElement('#registrationCode').value;
                     
-                    console.log('[DEBUG] Form values:', { email, password: password ? '***' : 'empty', confirmPassword: confirmPassword ? '***' : 'empty', inviteCode });
+                    console.log('[DEBUG] Form values:', { email, password: password ? '***' : 'empty', confirmPassword: confirmPassword ? '***' : 'empty', registrationCode });
                     
                     // Validation
                     if (password !== confirmPassword) {
@@ -189,10 +189,10 @@
                         return;
                     }
                     
-                    if (!inviteCode.trim()) {
-                        console.log('[DEBUG] Invite code validation failed');
+                    if (!registrationCode.trim()) {
+                        console.log('[DEBUG] Registration code validation failed');
                         if (errorMessage) {
-                            errorMessage.textContent = 'Invite code is required';
+                            errorMessage.textContent = 'Registration code is required';
                             errorMessage.classList.remove('hidden');
                         }
                         return;
@@ -219,18 +219,18 @@
                         }
                         
                         console.log('[DEBUG] Firebase loaded, calling signUp...');
-                        const result = await window.firebaseAuth.signUp(email, password, inviteCode);
+                        const result = await window.firebaseAuth.signUp(email, password, registrationCode);
                         console.log('[DEBUG] SignUp result:', result);
                         
                         if (result.success) {
                             // Success - redirect will be handled by auth state listener
                             console.log('Sign up successful:', result.user.email);
-                            // You can also store the invite code in Firebase Firestore here if needed
+                            // You can also store the registration code in Firebase Firestore here if needed
                         } else {
                             // Show error message
                             if (errorMessage) {
-                                if(result.error === 'Invalid or already used invite code') {
-                                    errorMessage.textContent = 'Invite code not found or has already been used';
+                                if(result.error === 'Invalid or already used registration code') {
+                                    errorMessage.textContent = 'Registration code not found or has already been used';
                                 } else {
                                     errorMessage.textContent = result.error;
                                 }

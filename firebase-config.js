@@ -38,6 +38,37 @@ const ensureAuthenticated = () => {
 
 // Authentication functions
 window.firebaseAuth = {
+  // Check if registration code exists and is available for use
+  checkRegistrationCode: async (registrationCode) => {
+    try {
+      console.log('Checking registration code:', registrationCode);
+      
+      if (!registrationCode || registrationCode.trim() === '') {
+        console.log('No registration code provided');
+        return false;
+      }
+      
+      const q = query(
+        collection(db, "registrationCodes"),
+        where("code", "==", registrationCode.trim()),
+        where("used", "==", false),
+        limit(1)
+      );
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        console.log('Registration code not found or already used');
+        return false;
+      }
+      
+      console.log('Registration code is valid and available');
+      return true;
+    } catch (error) {
+      console.error('Error checking registration code:', error);
+      return false;
+    }
+  },
+
   // Check if invite code exists in Firestore and is available for use (no auth required)
   checkInviteCode: async (inviteCode) => {
     try {
@@ -76,11 +107,11 @@ window.firebaseAuth = {
     }
   },
 
-  // Sign up with email and password
-  signUp: async (email, password, inviteCode) => {
+  // Sign up with email and password using registration codes
+  signUp: async (email, password, registrationCode) => {
     try {
       console.log('Starting sign up process for:', email);
-      console.log('Invite code provided:', inviteCode);
+      console.log('Registration code provided:', registrationCode);
       
       // Check if this is the first user by trying to query users collection
       let isFirstUser = false;
@@ -94,57 +125,55 @@ window.firebaseAuth = {
         isFirstUser = false;
       }
       
-      // If not the first user, invite code is required
+      // If not the first user, registration code is required
       if (!isFirstUser) {
-        if (!inviteCode || inviteCode.trim() === '') {
-          return { success: false, error: "Invite code is required" };
+        if (!registrationCode || registrationCode.trim() === '') {
+          return { success: false, error: "Registration code is required" };
         }
-        // Проверка и пометка inviteCode как использованного — атомарно через транзакцию
-        const usersRef = collection(db, "users");
-        const codeToFind = inviteCode.trim().toUpperCase();
-        const q = query(usersRef, where("inviteCode", "==", codeToFind), limit(1));
+        
+        // Check if registration code exists and is unused
+        const registrationCodesRef = collection(db, "registrationCodes");
+        const codeToFind = registrationCode.trim().toUpperCase();
+        const q = query(registrationCodesRef, where("code", "==", codeToFind), where("used", "==", false), limit(1));
         const querySnapshot = await getDocs(q);
-        console.log('Поиск инвайт-кода:', codeToFind, 'Результат:', querySnapshot.empty ? 'не найден' : 'найден');
+        
         if (querySnapshot.empty) {
-          return { success: false, error: "Invalid or already used invite code" };
+          return { success: false, error: "Invalid or already used registration code" };
         }
-        const inviterDoc = querySnapshot.docs[0];
-        const inviterRef = doc(db, "users", inviterDoc.id);
-        let inviteCodeUsed = false;
-        // Создаём пользователя, но не пишем профиль до транзакции
+        
+        const codeDoc = querySnapshot.docs[0];
+        const codeRef = doc(db, "registrationCodes", codeDoc.id);
+        
+        // Create user account
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+        
         try {
-          console.log('[DEBUG] inviterRef.id:', inviterRef.id);
+          // Mark registration code as used
           await runTransaction(db, async (transaction) => {
-            const inviterSnap = await transaction.get(inviterRef);
-            const inviterData = inviterSnap.data();
-            console.log('[DEBUG] inviterData:', inviterData);
-            const usedBy = inviterData.usedBy || [];
-            console.log('[DEBUG] usedBy до:', usedBy);
-            if (usedBy.length > 0) {
-              inviteCodeUsed = true;
-              throw new Error("Invite code already used");
+            const codeSnap = await transaction.get(codeRef);
+            const codeData = codeSnap.data();
+            
+            if (codeData.used) {
+              throw new Error("Registration code already used");
             }
-            // Добавляем нового пользователя в usedBy
-            usedBy.push({
-              userId: user.uid,
-              email: user.email,
-              usedAt: new Date().toISOString()
+            
+            // Mark code as used
+            transaction.update(codeRef, {
+              used: true,
+              usedAt: new Date().toISOString(),
+              usedBy: user.email
             });
-            transaction.update(inviterRef, { usedBy });
-            console.log('[DEBUG] usedBy после:', usedBy);
           });
-          console.log('[DEBUG] Транзакция по inviteCode успешно завершена');
+          
+          console.log('Registration code marked as used successfully');
         } catch (err) {
-          console.error('[DEBUG] Ошибка транзакции по inviteCode:', err);
+          console.error('Error marking registration code as used:', err);
           await user.delete();
-          return { success: false, error: "Invalid or already used invite code" };
+          return { success: false, error: "Invalid or already used registration code" };
         }
-        if (inviteCodeUsed) {
-          return { success: false, error: "Invalid or already used invite code" };
-        }
-        // Теперь создаём профиль пользователя
+        
+        // Create user profile
         const newInviteCode = generateInviteCode();
         const userProfile = {
           email: user.email,
@@ -153,12 +182,12 @@ window.firebaseAuth = {
           balance: 0,
           solanaWallet: '',
           usedBy: [],
-          invitedBy: inviteCode.trim()
+          registeredWith: registrationCode.trim()
         };
         await setDoc(doc(db, "users", user.uid), userProfile);
         return { success: true, user: user };
       } else {
-        // Первый пользователь (без inviteCode)
+        // First user (without registration code)
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         const newInviteCode = generateInviteCode();

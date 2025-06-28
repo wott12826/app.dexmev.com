@@ -1,14 +1,15 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, addDoc, doc, setDoc } = require('firebase/firestore');
 
-// Firebase configuration
+// Firebase configuration - Updated with correct project settings
 const firebaseConfig = {
-  apiKey: "AIzaSyBxQhqQhqQhqQhqQhqQhqQhqQhqQhqQhqQ",
-  authDomain: "dexmev-app.firebaseapp.com",
-  projectId: "dexmev-app",
-  storageBucket: "dexmev-app.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdefghijklmnop"
+  apiKey: "AIzaSyCuL4tpaSsw1ylXf2VZrQ1b_2t_Kxd97cI",
+  authDomain: "post-ad037.firebaseapp.com",
+  projectId: "post-ad037",
+  storageBucket: "post-ad037.firebasestorage.app",
+  messagingSenderId: "377312187432",
+  appId: "1:377312187432:web:565f47c145e0e73ac0911d",
+  measurementId: "G-T48NR3B9VW"
 };
 
 // Initialize Firebase

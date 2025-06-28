@@ -618,7 +618,7 @@
                             </div>
                         </div>
                         <span class="text-sm text-secondary">Invite code (Single-use)</span>
-                        <div class="flex flex-row gap-5"><button class="mt-2.5 w-full inline">
+                        <div class="flex flex-row gap-5"><button id="inviteCodeBtn" class="mt-2.5 w-full inline">
                                 <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
                                         <div
@@ -757,7 +757,7 @@
     <!-- Page-specific script -->
     <script type="module">
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         document.addEventListener('DOMContentLoaded', function() {
             const auth = getAuth();
@@ -967,9 +967,15 @@
                     if (inviteCodeElement) {
                         // Используем Firestore onSnapshot для динамического обновления
                         const userDocRef = doc(window.firebaseAuth._db || window.firebaseAuth.db || window.db, "users", user.uid);
-                        onSnapshot(userDocRef, (docSnap) => {
+                        onSnapshot(userDocRef, async (docSnap) => {
                             if (docSnap.exists()) {
                                 const userData = docSnap.data();
+                                // Если inviteCode отсутствует — сгенерировать и сохранить
+                                if (!userData.inviteCode) {
+                                    const newInviteCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+                                    await setDoc(userDocRef, { inviteCode: newInviteCode }, { merge: true });
+                                    userData.inviteCode = newInviteCode;
+                                }
                                 inviteCodeElement.textContent = userData.inviteCode || '';
                                 // ... invite code usage statistics ...
                                 const inviteStatus = document.getElementById('inviteStatus');
@@ -1001,8 +1007,8 @@
                                 } else {
                                     inviteUsageList.classList.add('hidden');
                                 }
-                                // Навешиваем обработчик копирования после подстановки кода
-                                const inviteCodeBtn = document.querySelector('button.mt-2.5.w-full.inline');
+                                // Навешиваем обработчик копирования
+                                const inviteCodeBtn = document.getElementById('inviteCodeBtn');
                                 const inviteCodeElem = document.getElementById('inviteCode');
                                 if (inviteCodeBtn && inviteCodeElem) {
                                     inviteCodeBtn.onclick = function(e) {

@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateEmail, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, limit, updateDoc, increment, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -91,8 +91,6 @@ window.firebaseAuth = {
         console.log('Is first user:', isFirstUser);
       } catch (error) {
         console.log('Error checking if first user, assuming not first:', error);
-        // If we can't query users collection, we'll assume it's not the first user
-        // and require an invite code
         isFirstUser = false;
       }
       
@@ -101,76 +99,74 @@ window.firebaseAuth = {
         if (!inviteCode || inviteCode.trim() === '') {
           return { success: false, error: "Invite code is required" };
         }
-        
-        // Check if invite code exists and is available in Firestore
-        try {
-          const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
-          if (!isValid) {
-            return { success: false, error: "Invalid or already used invite code" };
-          }
-        } catch (error) {
-          console.error('Error checking invite code:', error);
-          return { success: false, error: "Unable to verify invite code. Please try again." };
+        // Проверка и пометка inviteCode как использованного — атомарно через транзакцию
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("inviteCode", "==", inviteCode.trim()), limit(1));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+          return { success: false, error: "Invalid or already used invite code" };
         }
-      }
-      
-      // Create user account
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      console.log('User account created:', user.uid);
-      
-      // Create user profile in Firestore
-      const newInviteCode = generateInviteCode();
-      const userProfile = {
-        email: user.email,
-        inviteCode: newInviteCode,
-        createdAt: new Date().toISOString(),
-        balance: 0, // Initial balance
-        solanaWallet: '', // Will be set when user connects wallet
-        usedBy: [], // Track who used this invite code
-        ...(isFirstUser ? {} : { invitedBy: inviteCode.trim() })
-      };
-      
-      console.log('Creating user profile:', userProfile);
-      await setDoc(doc(db, "users", user.uid), userProfile);
-      console.log('User profile created successfully');
-      
-      // Mark the invite code as used by this user (single-use implementation)
-      if (!isFirstUser && inviteCode) {
+        const inviterDoc = querySnapshot.docs[0];
+        const inviterRef = doc(db, "users", inviterDoc.id);
+        let inviteCodeUsed = false;
+        // Создаём пользователя, но не пишем профиль до транзакции
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
         try {
-          const q = query(
-            collection(db, "users"),
-            where("inviteCode", "==", inviteCode.trim()),
-            limit(1)
-          );
-          const querySnapshot = await getDocs(q);
-          
-          if (!querySnapshot.empty) {
-            const inviterDoc = querySnapshot.docs[0];
-            const inviterData = inviterDoc.data();
+          await runTransaction(db, async (transaction) => {
+            const inviterSnap = await transaction.get(inviterRef);
+            const inviterData = inviterSnap.data();
             const usedBy = inviterData.usedBy || [];
-            
-            // Add current user to the usedBy array
+            if (usedBy.length > 0) {
+              inviteCodeUsed = true;
+              throw new Error("Invite code already used");
+            }
+            // Добавляем нового пользователя в usedBy
             usedBy.push({
               userId: user.uid,
               email: user.email,
               usedAt: new Date().toISOString()
             });
-            
-            // Update the inviter's document
-            await updateDoc(doc(db, "users", inviterDoc.id), {
-              usedBy: usedBy
-            });
-            
-            console.log('Invite code marked as used by:', user.email);
-          }
-        } catch (error) {
-          console.error('Error marking invite code as used:', error);
-          // Don't fail the registration if marking as used fails
+            transaction.update(inviterRef, { usedBy });
+          });
+        } catch (err) {
+          // Если inviteCode уже использован — удаляем только что созданного пользователя
+          await user.delete();
+          return { success: false, error: "Invalid or already used invite code" };
         }
+        if (inviteCodeUsed) {
+          return { success: false, error: "Invalid or already used invite code" };
+        }
+        // Теперь создаём профиль пользователя
+        const newInviteCode = generateInviteCode();
+        const userProfile = {
+          email: user.email,
+          inviteCode: newInviteCode,
+          createdAt: new Date().toISOString(),
+          balance: 0,
+          solanaWallet: '',
+          usedBy: [],
+          invitedBy: inviteCode.trim()
+        };
+        await setDoc(doc(db, "users", user.uid), userProfile);
+        return { success: true, user: user };
+      } else {
+        // Первый пользователь (без inviteCode)
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const newInviteCode = generateInviteCode();
+        const userProfile = {
+          email: user.email,
+          inviteCode: newInviteCode,
+          createdAt: new Date().toISOString(),
+          balance: 0,
+          solanaWallet: '',
+          usedBy: [],
+          isFirstUser: true
+        };
+        await setDoc(doc(db, "users", user.uid), userProfile);
+        return { success: true, user: user };
       }
-      
-      return { success: true, user: user };
     } catch (error) {
       console.error('Sign up error:', error);
       return { success: false, error: error.message };

@@ -2,10 +2,20 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Временные правила для тестирования invite code
+    // Доступ к своему профилю, если залогинен
     match /users/{userId} {
-      // Разрешить любому залогиненному пользователю читать и обновлять документы пользователей
-      allow read, write: if request.auth != null;
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Разрешить любому залогиненному пользователю читать документы пользователей
+      // (нужно для транзакций с invite code)
+      allow read: if request.auth != null;
+
+      // Разрешить любому залогиненному пользователю обновлять только поле usedBy,
+      // если добавляется ровно один новый элемент, и остальные поля не меняются
+      allow update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['usedBy'])
+        && request.resource.data.usedBy.size() == resource.data.usedBy.size() + 1
+        && request.resource.data.usedBy.slice(0, resource.data.usedBy.size()) == resource.data.usedBy;
     }
 
     // Доступ на чтение inviteCode (анонимный, только с фильтром и лимитом)

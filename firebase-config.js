@@ -38,7 +38,7 @@ const ensureAuthenticated = () => {
 
 // Authentication functions
 window.firebaseAuth = {
-  // Check if invite code exists in Firestore (no auth required)
+  // Check if invite code exists in Firestore and is available for use (no auth required)
   checkInviteCode: async (inviteCode) => {
     try {
       console.log('Checking invite code:', inviteCode);
@@ -54,9 +54,22 @@ window.firebaseAuth = {
         limit(1)
       );
       const querySnapshot = await getDocs(q);
-      const exists = !querySnapshot.empty;
-      console.log('Invite code exists:', exists);
-      return exists;
+      
+      if (querySnapshot.empty) {
+        console.log('Invite code not found');
+        return false;
+      }
+      
+      const userData = querySnapshot.docs[0].data();
+      
+      // Check if code has been used (single-use implementation)
+      if (userData.usedBy && userData.usedBy.length > 0) {
+        console.log('Invite code has already been used');
+        return false;
+      }
+      
+      console.log('Invite code is valid and available');
+      return true;
     } catch (error) {
       console.error('Error checking invite code:', error);
       return false;
@@ -89,11 +102,11 @@ window.firebaseAuth = {
           return { success: false, error: "Invite code is required" };
         }
         
-        // Check if invite code exists in Firestore
+        // Check if invite code exists and is available in Firestore
         try {
           const isValid = await window.firebaseAuth.checkInviteCode(inviteCode);
           if (!isValid) {
-            return { success: false, error: "Invalid invite code" };
+            return { success: false, error: "Invalid or already used invite code" };
           }
         } catch (error) {
           console.error('Error checking invite code:', error);
@@ -114,12 +127,48 @@ window.firebaseAuth = {
         createdAt: new Date().toISOString(),
         balance: 0, // Initial balance
         solanaWallet: '', // Will be set when user connects wallet
+        usedBy: [], // Track who used this invite code
         ...(isFirstUser ? {} : { invitedBy: inviteCode.trim() })
       };
       
       console.log('Creating user profile:', userProfile);
       await setDoc(doc(db, "users", user.uid), userProfile);
       console.log('User profile created successfully');
+      
+      // Mark the invite code as used by this user (single-use implementation)
+      if (!isFirstUser && inviteCode) {
+        try {
+          const q = query(
+            collection(db, "users"),
+            where("inviteCode", "==", inviteCode.trim()),
+            limit(1)
+          );
+          const querySnapshot = await getDocs(q);
+          
+          if (!querySnapshot.empty) {
+            const inviterDoc = querySnapshot.docs[0];
+            const inviterData = inviterDoc.data();
+            const usedBy = inviterData.usedBy || [];
+            
+            // Add current user to the usedBy array
+            usedBy.push({
+              userId: user.uid,
+              email: user.email,
+              usedAt: new Date().toISOString()
+            });
+            
+            // Update the inviter's document
+            await updateDoc(doc(db, "users", inviterDoc.id), {
+              usedBy: usedBy
+            });
+            
+            console.log('Invite code marked as used by:', user.email);
+          }
+        } catch (error) {
+          console.error('Error marking invite code as used:', error);
+          // Don't fail the registration if marking as used fails
+        }
+      }
       
       return { success: true, user: user };
     } catch (error) {
@@ -146,6 +195,7 @@ window.firebaseAuth = {
         createdAt: new Date().toISOString(),
         balance: 0, // Initial balance
         solanaWallet: '', // Will be set when user connects wallet
+        usedBy: [], // Track who used this invite code
         isFirstUser: true
       };
       
@@ -239,12 +289,21 @@ window.firebaseAuth = {
         let userData = userDoc.data();
         console.log('User profile found:', userData);
         
+        // Ensure inviteCode exists
         if (!userData.inviteCode) {
           const newInviteCode = generateInviteCode();
           await setDoc(userDocRef, { inviteCode: newInviteCode }, { merge: true });
           userData.inviteCode = newInviteCode;
           console.log('Generated new invite code:', newInviteCode);
         }
+        
+        // Ensure usedBy field exists for single-use tracking
+        if (!userData.usedBy) {
+          await setDoc(userDocRef, { usedBy: [] }, { merge: true });
+          userData.usedBy = [];
+          console.log('Added usedBy field to user profile');
+        }
+        
         return { success: true, data: userData };
       } else {
         console.log('User profile not found, creating new one');
@@ -254,7 +313,8 @@ window.firebaseAuth = {
           inviteCode: newInviteCode,
           createdAt: new Date().toISOString(),
           balance: 0, // Initial balance
-          solanaWallet: '' // Will be set when user connects wallet
+          solanaWallet: '', // Will be set when user connects wallet
+          usedBy: [] // Track who used this invite code
         };
         await setDoc(userDocRef, newUserProfile);
         console.log('New user profile created:', newUserProfile);

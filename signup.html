@@ -143,7 +143,7 @@
                                     validationDiv.textContent = '✓ Valid invite code';
                                 } else {
                                     validationDiv.className = 'text-red-500 text-sm mt-1';
-                                    validationDiv.textContent = '✗ Invalid invite code';
+                                    validationDiv.textContent = '✗ Invalid or already used invite code';
                                 }
                             }
                         } catch (error) {
@@ -218,8 +218,8 @@
                         } else {
                             // Show error message
                             if (errorMessage) {
-                                if(result.error === 'Invalid invite code') {
-                                    errorMessage.textContent = 'Invite code not found or invalid';
+                                if(result.error === 'Invalid or already used invite code') {
+                                    errorMessage.textContent = 'Invite code not found or has already been used';
                                 } else {
                                     errorMessage.textContent = result.error;
                                 }

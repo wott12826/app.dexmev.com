@@ -555,7 +555,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="text-sm text-secondary">Invite code</span>
+                        <span class="text-sm text-secondary">Invite code (Single-use)</span>
                         <div class="flex flex-row gap-5"><button class="mt-2.5 w-full inline">
                                 <div class="!rounded-sm neumorphism-border-1 rounded-md p-px overflow-hidden">
                                     <div class="neumorphism-border-2 h-full w-full rounded-[9px] p-px">
@@ -572,8 +572,18 @@
                                     </div>
                                 </div>
                             </button></div>
-                       
-
+                        
+                        <!-- Invite code usage statistics -->
+                        <div class="mt-4">
+                            <span class="text-sm text-secondary">Invite code usage</span>
+                            <div class="mt-2 p-3 bg-dark rounded-[8px]">
+                                <p class="text-sm text-secondary mb-2">Status: <span id="inviteStatus" class="text-green">Available</span></p>
+                                <p class="text-sm text-secondary">Used by: <span id="inviteUsageCount" class="text-white">0</span> users</p>
+                                <div id="inviteUsageList" class="mt-2 text-xs text-secondary hidden">
+                                    <!-- List of users who used this invite code will be populated here -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </main>
@@ -889,6 +899,45 @@
                         const profileResult = await window.firebaseAuth.getUserProfile(user.uid);
                         if (profileResult.success && profileResult.data.inviteCode) {
                             inviteCodeElement.textContent = profileResult.data.inviteCode;
+                            
+                            // Display invite code usage statistics
+                            const inviteStatus = document.getElementById('inviteStatus');
+                            const inviteUsageCount = document.getElementById('inviteUsageCount');
+                            const inviteUsageList = document.getElementById('inviteUsageList');
+                            
+                            const usedBy = profileResult.data.usedBy || [];
+                            const usageCount = usedBy.length;
+                            
+                            // Update status
+                            if (usageCount > 0) {
+                                inviteStatus.textContent = 'Used';
+                                inviteStatus.className = 'text-red';
+                            } else {
+                                inviteStatus.textContent = 'Available';
+                                inviteStatus.className = 'text-green';
+                            }
+                            
+                            // Update usage count
+                            inviteUsageCount.textContent = usageCount;
+                            
+                            // Show usage list if there are users
+                            if (usageCount > 0) {
+                                inviteUsageList.classList.remove('hidden');
+                                inviteUsageList.innerHTML = '<p class="mb-1 font-semibold">Users who used this code:</p>';
+                                
+                                usedBy.forEach((usage, index) => {
+                                    const usageDate = new Date(usage.usedAt).toLocaleDateString();
+                                    const usageItem = document.createElement('div');
+                                    usageItem.className = 'mb-1 pl-2 border-l-2 border-gray-600';
+                                    usageItem.innerHTML = `
+                                        <span class="text-blue">${usage.email}</span>
+                                        <span class="text-gray-500 ml-2">(${usageDate})</span>
+                                    `;
+                                    inviteUsageList.appendChild(usageItem);
+                                });
+                            } else {
+                                inviteUsageList.classList.add('hidden');
+                            }
                         } else {
                             inviteCodeElement.textContent = 'Error loading code';
                             console.error('Failed to get invite code:', profileResult.error);

@@ -1258,6 +1258,49 @@
             console.log('Initializing wallet state...');
             updateWalletBtn();
             console.log('Wallet initialization complete');
+
+            // Копирование inviteCode по клику на кнопку
+            const inviteCodeBtn = document.querySelector('button.mt-2.5.w-full.inline');
+            const inviteCodeElem = document.getElementById('inviteCode');
+
+            if (inviteCodeBtn && inviteCodeElem) {
+                inviteCodeBtn.addEventListener('click', function(e) {
+                    // Копируем код
+                    const code = inviteCodeElem.textContent.trim();
+                    if (code) {
+                        navigator.clipboard.writeText(code).then(() => {
+                            // Показываем уведомление
+                            showCopiedTooltip(inviteCodeBtn);
+                        });
+                    }
+                });
+            }
+
+            // Функция для показа уведомления
+            function showCopiedTooltip(targetBtn) {
+                let tooltip = document.createElement('div');
+                tooltip.textContent = 'Copied!';
+                tooltip.style.position = 'absolute';
+                tooltip.style.right = '20px';
+                tooltip.style.top = '10px';
+                tooltip.style.background = '#23242a';
+                tooltip.style.color = '#14F195';
+                tooltip.style.padding = '4px 12px';
+                tooltip.style.borderRadius = '8px';
+                tooltip.style.fontSize = '13px';
+                tooltip.style.zIndex = 1000;
+                tooltip.style.boxShadow = '0 2px 8px #0004';
+                tooltip.style.opacity = '0.95';
+
+                // Находим ближайший .flex (внутри кнопки)
+                const flexDiv = targetBtn.querySelector('.flex');
+                if (flexDiv) {
+                    flexDiv.appendChild(tooltip);
+                    setTimeout(() => {
+                        tooltip.remove();
+                    }, 1200);
+                }
+            }
         });
     </script>
     <script>

@@ -161,14 +161,18 @@
             if (signupForm) {
                 signupForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
+                    console.log('[DEBUG] Form submit event triggered');
                     
                     const email = getProtectedElement('#email').value;
                     const password = getProtectedElement('#password').value;
                     const confirmPassword = getProtectedElement('#confirmPassword').value;
                     const inviteCode = getProtectedElement('#inviteCode').value;
                     
+                    console.log('[DEBUG] Form values:', { email, password: password ? '***' : 'empty', confirmPassword: confirmPassword ? '***' : 'empty', inviteCode });
+                    
                     // Validation
                     if (password !== confirmPassword) {
+                        console.log('[DEBUG] Password validation failed');
                         if (errorMessage) {
                             errorMessage.textContent = 'Passwords do not match';
                             errorMessage.classList.remove('hidden');
@@ -177,6 +181,7 @@
                     }
                     
                     if (password.length < 6) {
+                        console.log('[DEBUG] Password length validation failed');
                         if (errorMessage) {
                             errorMessage.textContent = 'Password must be at least 6 characters long';
                             errorMessage.classList.remove('hidden');
@@ -185,12 +190,15 @@
                     }
                     
                     if (!inviteCode.trim()) {
+                        console.log('[DEBUG] Invite code validation failed');
                         if (errorMessage) {
                             errorMessage.textContent = 'Invite code is required';
                             errorMessage.classList.remove('hidden');
                         }
                         return;
                     }
+                    
+                    console.log('[DEBUG] All validations passed, proceeding with signup');
                     
                     // Show loading state
                     const submitButton = signupForm.querySelector('button[type="submit"]');
@@ -204,12 +212,15 @@
                     }
                     
                     try {
+                        console.log('[DEBUG] Waiting for Firebase to be loaded...');
                         // Wait for Firebase to be loaded
                         while (!window.firebaseAuth) {
                             await new Promise(resolve => setTimeout(resolve, 100));
                         }
                         
+                        console.log('[DEBUG] Firebase loaded, calling signUp...');
                         const result = await window.firebaseAuth.signUp(email, password, inviteCode);
+                        console.log('[DEBUG] SignUp result:', result);
                         
                         if (result.success) {
                             // Success - redirect will be handled by auth state listener
@@ -227,6 +238,7 @@
                             }
                         }
                     } catch (error) {
+                        console.error('[DEBUG] Sign up error:', error);
                         if (errorMessage) {
                             errorMessage.textContent = 'An unexpected error occurred. Please try again.';
                             errorMessage.classList.remove('hidden');

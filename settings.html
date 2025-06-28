@@ -227,6 +227,68 @@
                 display: none !important;
             }
         }
+        .invite-usage-block {
+          background: linear-gradient(135deg, #23242a 60%, #1a1a1a 100%);
+          border: 1px solid #333;
+          border-radius: 12px;
+          padding: 18px 20px 12px 20px;
+          margin-top: 18px;
+          box-shadow: 0 2px 8px #0002;
+          max-width: 400px;
+        }
+        .invite-usage-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        }
+        .invite-usage-title {
+          font-size: 15px;
+          color: #aaa;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+        }
+        .invite-status-icon {
+          font-size: 20px;
+          margin-left: 8px;
+        }
+        .invite-usage-status-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 6px;
+          font-size: 14px;
+        }
+        .invite-status-value {
+          font-weight: 600;
+          color: #14F195;
+        }
+        .invite-status-value.text-red {
+          color: #ff4d4f;
+        }
+        .invite-usage-value {
+          font-weight: 600;
+          color: #fff;
+        }
+        .invite-usage-list {
+          margin-top: 10px;
+          padding-left: 8px;
+          border-left: 2px solid #333;
+        }
+        .invite-usage-list .usage-item {
+          margin-bottom: 4px;
+          font-size: 13px;
+          color: #aaa;
+        }
+        .invite-usage-list .usage-item .usage-email {
+          color: #14F195;
+          font-weight: 500;
+        }
+        .invite-usage-list .usage-item .usage-date {
+          color: #888;
+          margin-left: 6px;
+          font-size: 12px;
+        }
     </style>
 </head>
 
@@ -573,16 +635,22 @@
                                 </div>
                             </button></div>
                         
-                        <!-- Invite code usage statistics -->
-                        <div class="mt-4">
-                            <span class="text-sm text-secondary">Invite code usage</span>
-                            <div class="mt-2 p-3 bg-dark rounded-[8px]">
-                                <p class="text-sm text-secondary mb-2">Status: <span id="inviteStatus" class="text-green">Available</span></p>
-                                <p class="text-sm text-secondary">Used by: <span id="inviteUsageCount" class="text-white">0</span> users</p>
-                                <div id="inviteUsageList" class="mt-2 text-xs text-secondary hidden">
-                                    <!-- List of users who used this invite code will be populated here -->
-                                </div>
-                            </div>
+                        <!-- Invite code usage statistics (NEW DESIGN) -->
+                        <div class="invite-usage-block">
+                          <div class="invite-usage-header">
+                            <span class="invite-usage-title">Invite code usage</span>
+                            <span id="inviteStatusIcon" class="invite-status-icon"></span>
+                          </div>
+                          <div class="invite-usage-status-row">
+                            <span>Status:</span>
+                            <span id="inviteStatus" class="invite-status-value">Available</span>
+                          </div>
+                          <div class="invite-usage-status-row">
+                            <span>Used by:</span>
+                            <span id="inviteUsageCount" class="invite-usage-value">0</span>
+                            <span>user(s)</span>
+                          </div>
+                          <div id="inviteUsageList" class="invite-usage-list hidden"></div>
                         </div>
                     </div>
                 </section>
@@ -899,9 +967,9 @@
                         const profileResult = await window.firebaseAuth.getUserProfile(user.uid);
                         if (profileResult.success && profileResult.data.inviteCode) {
                             inviteCodeElement.textContent = profileResult.data.inviteCode;
-                            
-                            // Display invite code usage statistics
+                            // Display invite code usage statistics (NEW DESIGN)
                             const inviteStatus = document.getElementById('inviteStatus');
+                            const inviteStatusIcon = document.getElementById('inviteStatusIcon');
                             const inviteUsageCount = document.getElementById('inviteUsageCount');
                             const inviteUsageList = document.getElementById('inviteUsageList');
                             

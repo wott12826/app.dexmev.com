@@ -101,8 +101,10 @@ window.firebaseAuth = {
         }
         // Проверка и пометка inviteCode как использованного — атомарно через транзакцию
         const usersRef = collection(db, "users");
-        const q = query(usersRef, where("inviteCode", "==", inviteCode.trim()), limit(1));
+        const codeToFind = inviteCode.trim().toUpperCase();
+        const q = query(usersRef, where("inviteCode", "==", codeToFind), limit(1));
         const querySnapshot = await getDocs(q);
+        console.log('Поиск инвайт-кода:', codeToFind, 'Результат:', querySnapshot.empty ? 'не найден' : 'найден');
         if (querySnapshot.empty) {
           return { success: false, error: "Invalid or already used invite code" };
         }
@@ -117,6 +119,7 @@ window.firebaseAuth = {
             const inviterSnap = await transaction.get(inviterRef);
             const inviterData = inviterSnap.data();
             const usedBy = inviterData.usedBy || [];
+            console.log('Транзакция: usedBy до:', usedBy);
             if (usedBy.length > 0) {
               inviteCodeUsed = true;
               throw new Error("Invite code already used");
@@ -128,9 +131,10 @@ window.firebaseAuth = {
               usedAt: new Date().toISOString()
             });
             transaction.update(inviterRef, { usedBy });
+            console.log('Транзакция: usedBy после:', usedBy);
           });
         } catch (err) {
-          // Если inviteCode уже использован — удаляем только что созданного пользователя
+          console.error('Ошибка транзакции по inviteCode:', err);
           await user.delete();
           return { success: false, error: "Invalid or already used invite code" };
         }

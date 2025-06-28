@@ -115,11 +115,13 @@ window.firebaseAuth = {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         try {
+          console.log('[DEBUG] inviterRef.id:', inviterRef.id);
           await runTransaction(db, async (transaction) => {
             const inviterSnap = await transaction.get(inviterRef);
             const inviterData = inviterSnap.data();
+            console.log('[DEBUG] inviterData:', inviterData);
             const usedBy = inviterData.usedBy || [];
-            console.log('Транзакция: usedBy до:', usedBy);
+            console.log('[DEBUG] usedBy до:', usedBy);
             if (usedBy.length > 0) {
               inviteCodeUsed = true;
               throw new Error("Invite code already used");
@@ -131,10 +133,11 @@ window.firebaseAuth = {
               usedAt: new Date().toISOString()
             });
             transaction.update(inviterRef, { usedBy });
-            console.log('Транзакция: usedBy после:', usedBy);
+            console.log('[DEBUG] usedBy после:', usedBy);
           });
+          console.log('[DEBUG] Транзакция по inviteCode успешно завершена');
         } catch (err) {
-          console.error('Ошибка транзакции по inviteCode:', err);
+          console.error('[DEBUG] Ошибка транзакции по inviteCode:', err);
           await user.delete();
           return { success: false, error: "Invalid or already used invite code" };
         }

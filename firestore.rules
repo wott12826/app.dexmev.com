@@ -5,6 +5,13 @@ service cloud.firestore {
     // Доступ к своему профилю, если залогинен
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Разрешить любому залогиненному пользователю добавлять себя в usedBy,
+      // если добавляется ровно один новый элемент, и остальные поля не меняются
+      allow update: if request.auth != null
+        && request.resource.data.keys().hasOnly(['usedBy'])
+        && request.resource.data.usedBy.size() == resource.data.usedBy.size() + 1
+        && request.resource.data.usedBy.slice(0, resource.data.usedBy.size()) == resource.data.usedBy;
     }
 
     // Доступ на чтение inviteCode (анонимный, только с фильтром и лимитом)

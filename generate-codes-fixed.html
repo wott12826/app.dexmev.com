@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Registration Codes (Simple)</title>
+    <title>Generate Registration Codes (Fixed)</title>
     <style>
         * {
             margin: 0;
@@ -198,6 +198,18 @@
             flex-wrap: wrap;
         }
 
+        .codes-textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -247,14 +259,21 @@
 
         <div id="codesDisplay" class="codes-display" style="display: none;">
             <h3>Generated Codes:</h3>
+            
+            <!-- Text area for easy copying -->
+            <div style="margin: 15px 0;">
+                <label for="codesTextarea">All codes (select and copy):</label>
+                <textarea id="codesTextarea" class="codes-textarea" readonly></textarea>
+            </div>
+            
             <div id="codesList" class="codes-grid"></div>
             
             <div class="export-section">
                 <h4>Export Options:</h4>
                 <div class="export-buttons">
-                    <button class="btn btn-secondary" onclick="exportToText()">📄 Export as Text</button>
-                    <button class="btn btn-secondary" onclick="exportToCSV()">📊 Export as CSV</button>
-                    <button class="btn btn-secondary" onclick="copyAllCodes()">📋 Copy All</button>
+                    <button class="btn btn-secondary" onclick="downloadTextFile()">📄 Download as Text</button>
+                    <button class="btn btn-secondary" onclick="downloadCSVFile()">📊 Download as CSV</button>
+                    <button class="btn btn-secondary" onclick="selectAllCodes()">📋 Select All</button>
                 </div>
             </div>
         </div>
@@ -292,37 +311,15 @@
 
         // Copy code to clipboard
         function copyToClipboard(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showStatus('Code copied to clipboard!', 'success');
-                    setTimeout(() => {
-                        document.getElementById('status').style.display = 'none';
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Clipboard API failed:', err);
-                    fallbackCopyToClipboard(text);
-                });
-            } else {
-                fallbackCopyToClipboard(text);
-            }
-        }
-
-        // Fallback copy method for older browsers
-        function fallbackCopyToClipboard(text) {
             const textArea = document.createElement('textarea');
             textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
             document.body.appendChild(textArea);
-            textArea.focus();
             textArea.select();
             
             try {
                 document.execCommand('copy');
                 showStatus('Code copied to clipboard!', 'success');
             } catch (err) {
-                console.error('Fallback copy failed:', err);
                 showStatus('Failed to copy to clipboard', 'error');
             }
             
@@ -332,40 +329,36 @@
             }, 2000);
         }
 
-        // Copy all codes to clipboard
-        function copyAllCodes() {
-            if (generatedCodes.length === 0) {
-                showStatus('No codes to copy!', 'error');
-                return;
-            }
-            
-            const allCodesText = generatedCodes.join('\n');
-            copyToClipboard(allCodesText);
-            showStatus('All codes copied to clipboard!', 'success');
+        // Select all codes in textarea
+        function selectAllCodes() {
+            const textarea = document.getElementById('codesTextarea');
+            textarea.select();
+            showStatus('All codes selected! Copy with Ctrl+C', 'success');
         }
 
-        // Export to text file
-        function exportToText() {
+        // Download as text file
+        function downloadTextFile() {
             if (generatedCodes.length === 0) {
                 showStatus('No codes to export!', 'error');
                 return;
             }
             
             const content = generatedCodes.join('\n');
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
+            a.style.display = 'none';
             a.href = url;
             a.download = `registration-codes-${new Date().toISOString().slice(0, 10)}.txt`;
             document.body.appendChild(a);
             a.click();
+            window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showStatus('Codes exported as text file!', 'success');
+            showStatus('Codes downloaded as text file!', 'success');
         }
 
-        // Export to CSV
-        function exportToCSV() {
+        // Download as CSV file
+        function downloadCSVFile() {
             if (generatedCodes.length === 0) {
                 showStatus('No codes to export!', 'error');
                 return;
@@ -373,23 +366,29 @@
             
             const csvContent = 'Code,Generated At\n' + 
                 generatedCodes.map(code => `"${code}","${new Date().toISOString()}"`).join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
+            a.style.display = 'none';
             a.href = url;
             a.download = `registration-codes-${new Date().toISOString().slice(0, 10)}.csv`;
             document.body.appendChild(a);
             a.click();
+            window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showStatus('Codes exported as CSV file!', 'success');
+            showStatus('Codes downloaded as CSV file!', 'success');
         }
 
         // Display codes
         function displayCodes(codes) {
             const codesDisplay = document.getElementById('codesDisplay');
             const codesList = document.getElementById('codesList');
+            const codesTextarea = document.getElementById('codesTextarea');
             
+            // Update textarea
+            codesTextarea.value = codes.join('\n');
+            
+            // Update grid
             codesList.innerHTML = '';
             
             codes.forEach((code, index) => {
@@ -440,12 +439,6 @@
                 generateBtn.textContent = '🚀 Generate Codes';
             }
         }
-
-        // Make functions globally accessible
-        window.copyToClipboard = copyToClipboard;
-        window.copyAllCodes = copyAllCodes;
-        window.exportToText = exportToText;
-        window.exportToCSV = exportToCSV;
     </script>
 </body>
 </html> 

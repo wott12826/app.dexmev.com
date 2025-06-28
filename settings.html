@@ -1006,6 +1006,32 @@
                             } else {
                                 inviteUsageList.classList.add('hidden');
                             }
+
+                            // Навешиваем обработчик копирования после подстановки кода
+                            const inviteCodeBtn = document.querySelector('button.mt-2.5.w-full.inline');
+                            const inviteCodeElem = document.getElementById('inviteCode');
+                            if (inviteCodeBtn && inviteCodeElem) {
+                                inviteCodeBtn.onclick = function(e) {
+                                    e.preventDefault();
+                                    const code = inviteCodeElem.textContent.trim();
+                                    if (code) {
+                                        navigator.clipboard.writeText(code).then(() => {
+                                            showCopiedTooltip(inviteCodeElem);
+                                        });
+                                    }
+                                };
+                                inviteCodeElem.style.cursor = 'pointer';
+                                inviteCodeElem.title = 'Click to copy';
+                                inviteCodeElem.onclick = function(e) {
+                                    e.stopPropagation();
+                                    const code = inviteCodeElem.textContent.trim();
+                                    if (code) {
+                                        navigator.clipboard.writeText(code).then(() => {
+                                            showCopiedTooltip(inviteCodeElem);
+                                        });
+                                    }
+                                };
+                            }
                         } else {
                             inviteCodeElement.textContent = 'Error loading code';
                             console.error('Failed to get invite code:', profileResult.error);

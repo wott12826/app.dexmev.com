@@ -10,7 +10,7 @@ service cloud.firestore {
       // (нужно для транзакций с invite code)
       allow read: if request.auth != null;
 
-      // Разрешить любому залогиненному пользователю добавлять себя в usedBy,
+      // Разрешить любому залогиненному пользователю обновлять поле usedBy,
       // если добавляется ровно один новый элемент, и остальные поля не меняются
       allow update: if request.auth != null
         && request.resource.data.keys().hasOnly(['usedBy'])

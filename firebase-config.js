@@ -436,7 +436,10 @@ firebaseAuth.onAuthStateChanged((user) => {
   if (user) {
     // User is signed in, redirect to dashboard
     if (window.location.pathname.includes('signin.html') || window.location.pathname.includes('signup.html')) {
-      window.location.href = 'dashboard.html';
+      console.log('[DEBUG] User authenticated, will redirect to dashboard in 3 seconds...');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 3000);
     }
   } else {
     // User is signed out, redirect to signin if на защищённых страницах, кроме deploy.html

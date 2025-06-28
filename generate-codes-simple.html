@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Registration Codes (Simple)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            min-width: 120px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 10px 20px rgba(108, 117, 125, 0.3);
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .codes-display {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .codes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .code-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e1e5e9;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .code-text {
+            color: #333;
+        }
+
+        .copy-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #5a6268;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .input-group {
+                min-width: auto;
+            }
+
+            .codes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔑 Generate Registration Codes</h1>
+            <p>Generate one-time codes for user registration</p>
+        </div>
+
+        <div class="controls">
+            <div class="input-group">
+                <label for="codeCount">Number of Codes:</label>
+                <input type="number" id="codeCount" value="50" min="1" max="1000">
+            </div>
+            <div class="input-group">
+                <label for="codeLength">Code Length:</label>
+                <input type="number" id="codeLength" value="8" min="6" max="12">
+            </div>
+        </div>
+
+        <button class="btn" onclick="generateCodes()" id="generateBtn">
+            🚀 Generate Codes
+        </button>
+
+        <div id="status" class="status" style="display: none;"></div>
+
+        <div id="codesDisplay" class="codes-display" style="display: none;">
+            <h3>Generated Codes:</h3>
+            <div id="codesList" class="codes-grid"></div>
+            
+            <div class="export-section">
+                <h4>Export Options:</h4>
+                <div class="export-buttons">
+                    <button class="btn btn-secondary" onclick="exportToText()">📄 Export as Text</button>
+                    <button class="btn btn-secondary" onclick="exportToCSV()">📊 Export as CSV</button>
+                    <button class="btn btn-secondary" onclick="copyAllCodes()">📋 Copy All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let generatedCodes = [];
+
+        // Generate random code
+        function generateCode(length) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Generate unique codes
+        function generateUniqueCodes(count, length) {
+            const codes = new Set();
+            while (codes.size < count) {
+                codes.add(generateCode(length));
+            }
+            return Array.from(codes);
+        }
+
+        // Show status message
+        function showStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+
+        // Copy code to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('Code copied to clipboard!', 'success');
+                setTimeout(() => {
+                    document.getElementById('status').style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        // Copy all codes to clipboard
+        function copyAllCodes() {
+            const allCodesText = generatedCodes.join('\n');
+            navigator.clipboard.writeText(allCodesText).then(() => {
+                showStatus('All codes copied to clipboard!', 'success');
+                setTimeout(() => {
+                    document.getElementById('status').style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        // Export to text file
+        function exportToText() {
+            const content = generatedCodes.join('\n');
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `registration-codes-${new Date().toISOString().slice(0, 10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showStatus('Codes exported as text file!', 'success');
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            const csvContent = 'Code,Generated At\n' + 
+                generatedCodes.map(code => `${code},${new Date().toISOString()}`).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `registration-codes-${new Date().toISOString().slice(0, 10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showStatus('Codes exported as CSV file!', 'success');
+        }
+
+        // Display codes
+        function displayCodes(codes) {
+            const codesDisplay = document.getElementById('codesDisplay');
+            const codesList = document.getElementById('codesList');
+            
+            codesList.innerHTML = '';
+            
+            codes.forEach((code, index) => {
+                const codeItem = document.createElement('div');
+                codeItem.className = 'code-item';
+                codeItem.innerHTML = `
+                    <span class="code-text">${code}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('${code}')">Copy</button>
+                `;
+                codesList.appendChild(codeItem);
+            });
+            
+            codesDisplay.style.display = 'block';
+        }
+
+        // Generate codes
+        function generateCodes() {
+            const count = parseInt(document.getElementById('codeCount').value);
+            const length = parseInt(document.getElementById('codeLength').value);
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (count < 1 || count > 1000) {
+                showStatus('Please enter a valid number of codes (1-1000)', 'error');
+                return;
+            }
+            
+            if (length < 6 || length > 12) {
+                showStatus('Please enter a valid code length (6-12)', 'error');
+                return;
+            }
+            
+            generateBtn.disabled = true;
+            generateBtn.textContent = '⏳ Generating...';
+            
+            try {
+                showStatus('Generating codes...', 'info');
+                
+                generatedCodes = generateUniqueCodes(count, length);
+                
+                showStatus(`✅ Successfully generated ${count} codes!`, 'success');
+                displayCodes(generatedCodes);
+                
+            } catch (error) {
+                console.error('Error generating codes:', error);
+                showStatus('❌ Error generating codes: ' + error.message, 'error');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.textContent = '🚀 Generate Codes';
+            }
+        }
+    </script>
+</body>
+</html> 

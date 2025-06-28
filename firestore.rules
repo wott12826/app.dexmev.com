@@ -1,10 +1,15 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Allow read/write access to registrationCodes collection
+    match /registrationCodes/{document} {
+      allow read, write: if true;
+    }
     
-    // Доступ к своему профилю, если залогинен
+    // Allow read/write access to users collection
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if true; // Temporary for development
 
       // Разрешить любому залогиненному пользователю читать документы пользователей
       // (нужно для транзакций с invite code)
@@ -26,6 +31,11 @@ service cloud.firestore {
                    request.query.filters[0].fieldPath == "inviteCode" &&
                    request.query.filters[0].op == "==" &&
                    request.query.limit <= 10;
+    }
+
+    // Default rule - deny all
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
